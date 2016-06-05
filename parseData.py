@@ -50,6 +50,11 @@ def saveYearMatrix():
 
 def saveFreqYear():
      with open(dir_path_result + "freq_data_15.csv", "w") as f:
+        total = 0.0 
+        for data in freq_vel:
+            total += data[1]
+        for data in freq_vel:
+            data[1] = round(data[1] / total, 2)   
         for data in freq_vel:
             data = [str(d) for d in data]
             line = ','.join(data)
