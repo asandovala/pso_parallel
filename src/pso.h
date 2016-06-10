@@ -20,16 +20,15 @@ struct swarm {
 /*
  * Instance a swarm, create her particles and set the parameters for
  * the movement's function.
- *
  * total_particles: number of particles for the swarm.
  * w: Inertia factor.
  * c1: Cognitive factor.
  * c2: Social factor.
  * lenSol: Lenght of the solution (or dimension).
- *
+ * 
  * @return: A pointer to the swarm struct created. 
  */
-struct swarm * initializeSwarm(int particles, int w, int c1, int c2, int lenSol);
+struct swarm * initializeSwarm(int particles, int w, int c1, int c2);
 
 /*
  * Update the particles in the swarm accordly to her params in the

@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "pso.h"
+#include "freq/freq.h"
+#include "math.h"
 
 struct swarm * initializeSwarm(int particles, int w, int c1, int c2, int lenSol) {
     int i;
@@ -19,6 +21,8 @@ struct swarm * initializeSwarm(int particles, int w, int c1, int c2, int lenSol)
         initializeParticle(p);
         s->particles[i] = p;        
     }
+
+    loadFreqData();
 
     return s;
 }
@@ -101,10 +105,34 @@ void saveParticleBest(struct particle *p) {
     }
 } 
 
+float fWeibull(float *position, float velocity) {
+    float k = position[0];
+    float c = position[1];
+    float e = exp(1.0);
+    float v = velocity;
+
+    float factor1 = (k/c);
+    float factor2 = pow((v/c), k-1);
+    float factor3 = pow(e, -pow((v/c), k));
+
+    return factor1 * factor2 * factor3; 
+}
+
 /*
  * Edit this accordly to the objective function.
  * Note: All comparison between values are thouht as minimization.
  */
 float objectiveFunction(float *position) {
-  
+    float sum = 0;
+    float rReal;
+    float rWeibull;
+    float vel;
+    int i;
+
+    for (i = 0; i < vel_freq.lenght; i++) {
+        vel = vel_freq.data[i][0];
+        sum += pow(vel_freq.data[i][1] - fWeibull(position, vel), 2);
+    }
+
+    return 0.5 * sum;
 }
