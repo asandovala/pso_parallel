@@ -1,9 +1,8 @@
-CC = gcc
-CFLAGS = -I -W
-DEPS = src/freq/freq.h src/pso.h
+FLAGS = -W
+OBJS  = src/main.c src/pso.c src/freq/freq.c 
+HEAD = src/freq/freq.h src/pso.h
+NAME = pso 
 
-%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+$(NAME): $(OBJS) $(HEAD)
+	gcc $(FLAGS) -o $(NAME) $(OBJS) -lm
 
-main: maon.o pso.o freq.o
-	gcc -o main main.o pso.o freq.o -I.

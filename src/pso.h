@@ -9,7 +9,7 @@ struct particle {
 };
 
 struct swarm {
-    struct particle *particles;     //All of the swarm's particles.
+    struct particle **particles;     //All of the swarm's particles.
     int total_particles;            //Number of the aprticles in the swarm.
     float *global_best;             //Best solution of all particles.
     float w_inertia;                //Inertia factor.
@@ -29,6 +29,8 @@ struct swarm {
  * @return: A pointer to the swarm struct created. 
  */
 struct swarm * initializeSwarm(int particles, int w, int c1, int c2);
+
+void initializeParticle(struct particle *p);
 
 /*
  * Update the particles in the swarm accordly to her params in the
