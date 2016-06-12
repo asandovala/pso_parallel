@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include "freq.h"
 
-char file_path[] = "../../data/2015/parse/freq_data_15.csv";
+char file_path[] = "data/2015/parse/freq_data_15.csv";
 
 void loadFreqData() {
     FILE *fp;
@@ -35,13 +35,7 @@ void loadFreqData() {
         vel_freq.data[i][1] = d2;
         i++; 
     }
-
-    /*
-    for (j = 0; j < i; j++) {
-        printf("%.2f , %.2f \n", vel_freq[j][0], vel_freq[j][1]);
-    }
-    */
-    
+       
     fclose(fp);    
 }
 
@@ -57,11 +51,13 @@ float getRelFreq(float vel) {
     return 0.0;
 }
 
-/*int main() {
+/*
+int main() {
     loadFreqData();
     printf("value 9.0: %.2f \n", getRelFreq(9.0));
     printf("value 12.0: %.2f \n", getRelFreq(12.0));
     printf("value 3.0: %.2f \n", getRelFreq(3.0));
   
     return 0;
-}*/
+}
+*/

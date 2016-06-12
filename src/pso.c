@@ -5,15 +5,15 @@
 #include "freq/freq.h"
 
 #define LEN_SOL 2
-int sol_max[] = {20, 20};
-int sol_min[] = {0, 0};
+float sol_max[] = {20.0, 20.0};
+float sol_min[] = {1.0, 1.0};
 
 struct swarm * initializeSwarm(int particles, int w, int c1, int c2) {
-    int i;
+    int i, j;
     struct swarm *s;
     struct particle *p;
 
-    s = malloc(sizeof(struct swarm));
+    s = (struct swarm *) malloc(sizeof(struct swarm));
     s->particles = malloc(sizeof(struct particle) * particles);
     s->total_particles = particles;
     s->w_inertia = w;
@@ -25,6 +25,23 @@ struct swarm * initializeSwarm(int particles, int w, int c1, int c2) {
         initializeParticle(p);
         s->particles[i] = p;        
     }
+
+    //init global best
+    float best_result = 1000.0;
+    float fitness;
+    float value;
+    s->global_best = malloc(sizeof(float) * LEN_SOL);
+    for (i = 0; i < particles; i++) {
+        p = s->particles[i];
+        fitness = objectiveFunction(p->position);
+        if (fitness < best_result) { 
+            best_result = fitness;
+            for (j = 0; j < LEN_SOL; j++) {
+                value = p->position[j];
+                s->global_best[j] = value;
+            }     
+        }
+    }   
 
     loadFreqData();
 
@@ -41,7 +58,7 @@ void initializeParticle(struct particle *p) {
     p->particle_best = p_best;
     for (i = 0; i < LEN_SOL; i++) {
         p->velocity[i] = 0.0;
-        p->position[i] = rand() % sol_max[i]; 
+        p->position[i] = fmodf(rand(), sol_max[i]) + 1.0; 
         p->particle_best[i] = p->position[i];
     }
     p->lenSol = LEN_SOL;
@@ -66,25 +83,30 @@ void saveGlobalBest(struct swarm *s) {
     float best_result = objectiveFunction(s->global_best);
     float fitness;
     int particles = s->total_particles;
-    int i;
+    int i, j;
     struct particle *p;
 
     for (i = 0; i < particles; i++) {
         p = s->particles[i];
         fitness = objectiveFunction(p->position);
+        //printf("fitness: %.2f\n", fitness);
         if (fitness < best_result) { 
             best_result = fitness;
-            s->global_best = p->position;         
+            for (j = 0; j < LEN_SOL; j++) {
+                s->global_best[i] = p->position[i];
+            }     
         }
     }
+
+    //printf("best: %.2f\n", best_result);
 }
 
 void updateParticleVelocity(struct swarm *s, struct particle *p) {
     float w = s->w_inertia;
     float c1 = s->c1_cognitive;
     float c2 = s->c2_social;
-    float rnd1 = (rand() % 101)/100.0; //0 to 1
-    float rnd2 = (rand() % 101)/100.0;
+    float rnd1 = fmodf(rand(), 101)/100.0; //0 to 1
+    float rnd2 = fmodf(rand(), 101)/100.0;
     float vel;
     float diff_p_best;
     float diff_g_best;
@@ -102,7 +124,10 @@ void updateParticlePosition(struct particle *p) {
     int i;
     for (i = 0; i < p->lenSol; i++) {
         p->position[i] += p->velocity[i]; 
+        p->position[i] = fmodf(p->position[i], sol_max[i]) + 1.0;
     }
+
+    //printf("Pos: %.2f, %.2f\n", p->position[0], p->position[1]);
 }
 
 void saveParticleBest(struct particle *p) {
