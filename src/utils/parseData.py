@@ -1,7 +1,7 @@
 import os
 
-dir_path = "data/2015/csv/"
-dir_path_result = "data/2015/parse/"
+dir_path = "../../data/2015/csv/"
+dir_path_result = "../../data/2015/parse/"
 
 year_mtx = [[],[],[],[],[],[],[],[],[],[],[],[]]
 freq_vel = []

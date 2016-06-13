@@ -89,16 +89,13 @@ void saveGlobalBest(struct swarm *s) {
     for (i = 0; i < particles; i++) {
         p = s->particles[i];
         fitness = objectiveFunction(p->position);
-        //printf("fitness: %.2f\n", fitness);
         if (fitness < best_result) { 
             best_result = fitness;
             for (j = 0; j < LEN_SOL; j++) {
-                s->global_best[i] = p->position[i];
+                s->global_best[j] = p->position[j];
             }     
         }
     }
-
-    //printf("best: %.2f\n", best_result);
 }
 
 void updateParticleVelocity(struct swarm *s, struct particle *p) {
