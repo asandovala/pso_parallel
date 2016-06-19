@@ -1,0 +1,76 @@
+\documentclass[12pt, letterpaper, oneside]{book}
+%\documentclass[12pt, letterpaper]{book}
+
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{microtype}
+\usepackage{emptypage}
+\usepackage{usmtesis}
+\usepackage{url}
+\usepackage{caption}
+\usepackage{amsmath}
+\usepackage{listings}
+%\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{cite}
+\usepackage{rotating}
+\usepackage{amsfonts}
+\usepackage{hyperref}
+
+\usepackage{tikz}
+\usetikzlibrary{babel,arrows.meta,shapes,arrows}
+
+%\usepackage{layout} %debug only
+
+\RequirePackage{fancyhdr}
+\newcommand{\hsp}[1][20]{\hspace{#1pt}}
+\fancyhf{}
+\fancypagestyle{plain}{%
+	\fancyhf{} 
+	\fancyhead[L]{\scriptsize \rightmark}
+	\fancyhead[R]{\scriptsize \leftmark}
+	\fancyfoot[R]{\bfseries \thepage}
+	\fancyfoot[L]{Departamento de Informática. UTFSM.}
+	\renewcommand{\headrulewidth}{0.1pt}
+	\renewcommand{\footrulewidth}{0.1pt}
+}
+%\setlength{\footheight}{110pt} 
+
+%macros
+\renewcommand{\tt}[1]{\texttt{#1}}
+\renewcommand{\bf}[1]{\textbf{#1}}
+\newcommand{\etal}{\emph{et al.}}
+
+\begin{document}
+\frontmatter
+\thispagestyle{empty}
+\input{0_Portada}
+\newpage
+
+%debug
+%\layout
+%\newpage
+
+%% Hack para el abstract corregir si se puede.
+%\chapter*{ }
+%\vspace{-3cm}
+%\section*{Abstact} \chaptermark{Abstract}
+%\section*{Resumen}
+
+\begin{spacing}{1}
+\tableofcontents \chaptermark{Tabla de contenidos}
+\listoffigures
+\listoftables
+\end{spacing}
+
+\mainmatter
+
+\input{1_Introduccion}
+\input{2_Preeliminares}
+\input{3_Desarrollo}
+\input{4_Analisis}
+
+\bibliographystyle{ieeetr}
+\bibliography{bibliography/bibliography}
+
+\end{document}
