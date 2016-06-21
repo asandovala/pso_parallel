@@ -3,8 +3,8 @@ import math as m
 import numpy as np
 import matplotlib.pyplot as plt
 
-k = 1.60
-c = 4.87
+k = 1.81
+c = 4.66
 
 
 def weibull(v):

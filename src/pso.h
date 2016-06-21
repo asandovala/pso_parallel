@@ -1,6 +1,8 @@
 #ifndef PSO_
 #define PSO_
 
+#define MAX_ITER 10000
+
 struct particle {
     float *position;        //solution of the particle.    
     float *velocity;        //vector of movement.    
@@ -37,6 +39,11 @@ void initializeParticle(struct particle *p);
  * struct and the movement's function.
  */
 void updateSwarm(struct swarm *s);
+
+/*
+ * Make parameters dynamic to avoid fast convergence
+ */
+void updateParameters(struct swarm *s, int time);
 
 /*
  * Search for the best result between all particles and set it 

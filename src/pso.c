@@ -5,8 +5,17 @@
 #include "freq/freq.h"
 
 #define LEN_SOL 2
+//#define MAX_ITER 100
+
 float sol_max[] = {20.0, 20.0};
-float sol_min[] = {1.0, 1.0};
+float sol_min[] = {0.0, 0.0};
+
+#define W_A 0.5 //Alpha weight for inertia param
+#define W_B 1.5 //Beta weight for cognitive param
+#define W_G 1.0 //Gamma weight for social param
+float w_range[] = {0.4, 0.9};
+float c1_range[] = {0.0, 2.5};
+float c2_range[] = {0.0, 2.5};
 
 struct swarm * initializeSwarm(int particles, int w, int c1, int c2) {
     int i, j;
@@ -78,6 +87,14 @@ void updateSwarm(struct swarm *s) {
 
     saveGlobalBest(s);
 }
+
+void updateParameters(struct swarm *s, int time) {
+    s->w_inertia = pow((1.0 - (float)time/MAX_ITER), W_A) * (w_range[1] - w_range[0]) + w_range[0];
+    //printf("Inertia: %f , time: %d \n", s->w_inertia, time);
+    s->c1_cognitive = pow((1.0 - (float)time/MAX_ITER), W_B) * (c1_range[1] - c1_range[0]) + c1_range[0];
+    s->c2_social = pow((1.0 - (float)time/MAX_ITER), W_G) * (c2_range[1] - c2_range[0]) + c2_range[1];
+}
+
 
 void saveGlobalBest(struct swarm *s) {
     float best_result = objectiveFunction(s->global_best);
