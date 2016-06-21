@@ -1,7 +1,7 @@
 #ifndef PSO_
 #define PSO_
 
-#define MAX_ITER 10000
+#define MAX_ITER 100
 
 struct particle {
     float *position;        //solution of the particle.    

@@ -3,6 +3,7 @@
 #include <math.h>
 #include "pso.h"
 #include "freq/freq.h"
+#include "utils/tools.h"
 
 #define LEN_SOL 2
 //#define MAX_ITER 100
@@ -16,6 +17,8 @@ float sol_min[] = {0.0, 0.0};
 float w_range[] = {0.4, 0.9};
 float c1_range[] = {0.0, 2.5};
 float c2_range[] = {0.0, 2.5};
+
+#define SEED 6
 
 struct swarm * initializeSwarm(int particles, int w, int c1, int c2) {
     int i, j;
@@ -113,14 +116,15 @@ void saveGlobalBest(struct swarm *s) {
             }     
         }
     }
+    printf("Partial fitness: %f \n", fitness);
 }
 
 void updateParticleVelocity(struct swarm *s, struct particle *p) {
     float w = s->w_inertia;
     float c1 = s->c1_cognitive;
     float c2 = s->c2_social;
-    float rnd1 = fmodf(rand(), 101)/100.0; //0 to 1
-    float rnd2 = fmodf(rand(), 101)/100.0;
+    float rnd1 = fmodf(rand(SEED), 101)/100.0; //0 to 1
+    float rnd2 = fmodf(rand(SEED), 101)/100.0;
     float vel;
     float diff_p_best;
     float diff_g_best;
