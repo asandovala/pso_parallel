@@ -1,5 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "tools.h"
+#include <assert.h>
 
 /* Returns an integer in the range [0, n).
  * 
@@ -11,7 +13,7 @@ int randint(int n) {
     } else {
         /* Chop off all of the values that would cause skew...*/
         long end = RAND_MAX / n; /* truncate skew */
-        /* assert (end > 0L); */
+        assert (end > 0L);
         end *= n;
 
         /* ... and ignore results from rand() that fall above that limit.
@@ -24,3 +26,18 @@ int randint(int n) {
     }
 }
 
+double rand01() {
+    return (double)rand() / (double)RAND_MAX;
+}
+
+double rangeDoubleInRange(double min, double max) {
+    assert(max > min);
+    return rand01() * (max - min) + min;
+}
+
+/*int main() {
+    for (int i = 0; i < 20; i++) {
+        printf("Random 1-20: %f \n", rangeDoubleInRange(1.0, 20.0));
+    }
+    return 0;        
+}*/

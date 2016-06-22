@@ -3,10 +3,19 @@
 \chapter{Introducción}
 
 \section{Identificación del problema}
+El viento es uno de los fenómenos metereológicos más comunes de las zonas costeras de Valparaíso. Sus características influyen en distintos aspectos que influyen en nuestras vidas, como el clima, la sensación térmica, los desastres naturales, etc., lo que lleva al interés de los especialistas el controlar las distintas variables que condicionan su comportamiento, de manera de poder predecir los fenómenos subyacentes a este. Además, el viento es ampliamente conocido por ser una fuente renovable y poco contaminante de energía, comunmente llamada energía eólica, lo que hace aún más interesante y necesario el estudio de este fenómeno metereológico.\\
+En los últimos años, tanto el gobierno de Chile como la ciudadanía, han mostrado un creciente interés en las fuentes de energías renovables y con mínimo impacto ambiental, por lo que distintos proyectos en la matería han sido llevados a cabo, desde estudios de factibilidad y recopilación de datos, hasta el emplazamiento de las primeras centrales de fuentes de energía límpia. Un extenso reporte acerca de la situación actual del país en materias de energías renovables, fué realizado el año 2014 por el ministerio de energía, en donde se demuestra el serio interés en integrar estas a la matriz energética de Chile. \cite{minenergia14}\\
+Con respecto al estudio de las condiciones climáticas del viento para su potencial aprovechamiento energético, se identifican dos variables fundamentales para las predicciones de capacidad de generación: la velocidad y dirección. Estos datos del viento son obtenidos por diversos centros metereológicos a lo largo del país, en partícular, el servicio metereológico de la Armada de Chile, cuenta con el equipo necesario para registrar el comportamiento del viento al lo largo de las distintas épocas del año.\\
+Para poder obtener información o conocimiento sobre estos datos, es necesario generar modelos para la velocidad y dirección del viento. En la literatura, son ampliamente aceptadas la distribución de \emph{Weibull} para modelar la velocidad y la distribución de Von Mises para el modelo de la dirección. Ambas distribuciones probabilísticas requieren de la determinación de parámetros para que el modelo se ajuste a los datos obtenidos del viento. Comunmente, se utilizan métodos númericos para la determinación de estos parámetros, sin embargo, estudios recientes han demostrado que la utilización de algorítmos basados en la metaheurística \emph{Particle Swarm Optimization} mejoran los parámetros obtenidos por los métodos tradicionales y por ende la aproximación del modelo al comportamiento real.
 
-ASD \cite{minenergia14}
 
 \section{Objetivos}
+Aplicar métodos actuales de optimización basados en la metaheurística \emph{Particle Swarm Optimization} para el ajuste de modelos probabilísticos de dirección y velocidad del viento a los datos recopilados del viento en Valparaíso, con el fin de presentar resultados que permitan inferir información precisa acerca de las condiciones de la región para la generación de energía eólica y otras potenciales aplicaciones.
 
 \subsection{Objetivos específicos}
+\begin{enumerate}
+    \item Implementar un algoritmo basado en \emph{Particle Optimization Sworm} para encontrar los parámetros de un modelo probabilístico que se ajusten a los datos de la velocidad del viento en Valparaíso. 
+    \item Implementar un algoritmo basado en \emph{Particle Optimization Sworm} para optimizar los parámetros de un modelo probabilístico que se ajusten a los datos de la dirección del viento en Valparaíso.
+    \item Ajustar los modelos a los datos del viento para comparar y validar la propuesta realizada.
+\end{enumerate}
 

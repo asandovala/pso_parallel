@@ -5,11 +5,11 @@ int main() {
     int i;
     float k, c;
     struct swarm *s;
-    s = initializeSwarm(100, 0.7, 1.5, 2.0);
+    s = initializeSwarm(50, PARAM_W, PARAM_C1, PARAM_C2);
 
     for (i = 0; i < MAX_ITER; i++) {
         updateSwarm(s);
-	updateParameters(s,i);
+	    updateParameters(s,i);
         //printf("Resultado: k: %.2f , c: %.2f \n", s->global_best[0], s->global_best[1]);
     }
 

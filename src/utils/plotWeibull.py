@@ -3,9 +3,15 @@ import math as m
 import numpy as np
 import matplotlib.pyplot as plt
 
-k = 1.81
-c = 4.66
+#Normal
+#k = 1.81
+#c = 4.66
 
+#k = 1.75
+#c = 4.99
+
+k = 2.59
+c = 6.05
 
 def weibull(v):
     factor1 = k/c
@@ -51,6 +57,11 @@ plt.plot(axisX1, axisY1, 'ro', axisX2, axisY2, 'g^')
 plt.axis([0, 20, 0, 1])
 plt.show()
 
+#error
+suma = 0
+for i in range(0, len(axisY1)):
+    suma = m.pow(axisY1[i] - axisY2[i], 2)
+print m.sqrt(suma / i) 
 
 
 

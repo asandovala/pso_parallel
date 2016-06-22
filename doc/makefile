@@ -1,7 +1,7 @@
 TEX = pdflatex -file-line-error
 BIB = bibtex
 caps = 0_Portada.tex 2_Preeliminares.tex 1_Introduccion.tex
-bibs = bibliography/bibliography.bib
+bibs = bibliography/bibliography.bib bibliography/images.bib
 filename = memoria
 
 all: $(filename).aux $(filename).pdf

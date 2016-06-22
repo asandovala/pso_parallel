@@ -19,16 +19,22 @@ def getData(text, month):
     index_h = 0
     for line in text[5:]:   #for each line
         line = line.split(",")
-        if is_number(line[1]):  #if no more data
+        if is_number(line[1]):  #if more data
+            dailyMean = 0
             for i in range(3, 19, 2): #append data per hour
-                d_hours[index_h].append(int(line[i]))
+                d_hours[index_h].append(float(line[i]))
                 index_h += 1
-            index_h = 0    
-        else:
+                dailyMean += float(line[i])
+            index_h = 0
+            addDataFreqList(round(dailyMean / 8.0))
+        else:       #final process
             for data in d_hours:
                 mean = round(sum(data) / float(len(data)))
+                print "wtf ?: " + str(mean)
                 m_hours.append(mean)
-                addDataFreqList(mean)
+                #addDataFreqList(mean) #opt 1
+                #for d in data:
+                    #addDataFreqList(d) #opt2
             year_mtx[month - 1] = m_hours
             return
 
@@ -54,7 +60,7 @@ def saveFreqYear():
         for data in freq_vel:
             total += data[1]
         for data in freq_vel:
-            data[1] = round(data[1] / total, 2)   
+            data[1] = round(data[1] / total, 3)   
         for data in freq_vel:
             data = [str(d) for d in data]
             line = ','.join(data)

@@ -5,20 +5,12 @@
 #include "freq/freq.h"
 #include "utils/tools.h"
 
-#define LEN_SOL 2
-//#define MAX_ITER 100
-
 float sol_max[] = {20.0, 20.0};
-float sol_min[] = {0.0, 0.0};
+float sol_min[] = {1.0, 1.0};
 
-#define W_A 0.5 //Alpha weight for inertia param
-#define W_B 1.5 //Beta weight for cognitive param
-#define W_G 1.0 //Gamma weight for social param
 float w_range[] = {0.4, 0.9};
-float c1_range[] = {0.0, 2.5};
+float c1_range[] = {1.0, 3.5};
 float c2_range[] = {0.0, 2.5};
-
-#define SEED 6
 
 struct swarm * initializeSwarm(int particles, int w, int c1, int c2) {
     int i, j;
@@ -70,7 +62,7 @@ void initializeParticle(struct particle *p) {
     p->particle_best = p_best;
     for (i = 0; i < LEN_SOL; i++) {
         p->velocity[i] = 0.0;
-        p->position[i] = fmodf(rand(), sol_max[i]) + 1.0; 
+        p->position[i] = rangeDoubleInRange(sol_min[i], sol_max[i]); 
         p->particle_best[i] = p->position[i];
     }
     p->lenSol = LEN_SOL;
@@ -93,7 +85,6 @@ void updateSwarm(struct swarm *s) {
 
 void updateParameters(struct swarm *s, int time) {
     s->w_inertia = pow((1.0 - (float)time/MAX_ITER), W_A) * (w_range[1] - w_range[0]) + w_range[0];
-    //printf("Inertia: %f , time: %d \n", s->w_inertia, time);
     s->c1_cognitive = pow((1.0 - (float)time/MAX_ITER), W_B) * (c1_range[1] - c1_range[0]) + c1_range[0];
     s->c2_social = pow((1.0 - (float)time/MAX_ITER), W_G) * (c2_range[1] - c2_range[0]) + c2_range[1];
 }
@@ -110,21 +101,22 @@ void saveGlobalBest(struct swarm *s) {
         p = s->particles[i];
         fitness = objectiveFunction(p->position);
         if (fitness < best_result) { 
+            printf("Replace!: %f -> %f | k: %f , c: %f \n", best_result, fitness, p->position[0], p->position[1]);
             best_result = fitness;
+            //printf("Replace!: %f -> %f \n", best_result, fitness);
             for (j = 0; j < LEN_SOL; j++) {
                 s->global_best[j] = p->position[j];
             }     
         }
     }
-    printf("Partial fitness: %f \n", fitness);
 }
 
 void updateParticleVelocity(struct swarm *s, struct particle *p) {
     float w = s->w_inertia;
     float c1 = s->c1_cognitive;
     float c2 = s->c2_social;
-    float rnd1 = fmodf(rand(SEED), 101)/100.0; //0 to 1
-    float rnd2 = fmodf(rand(SEED), 101)/100.0;
+    float rnd1 = rand01(); //0 to 1
+    float rnd2 = rand01();
     float vel;
     float diff_p_best;
     float diff_g_best;
@@ -142,7 +134,7 @@ void updateParticlePosition(struct particle *p) {
     int i;
     for (i = 0; i < p->lenSol; i++) {
         p->position[i] += p->velocity[i]; 
-        p->position[i] = fmodf(p->position[i], sol_max[i]) + 1.0;
+        checkLimitPosition(p->position);
     }
 
     //printf("Pos: %.2f, %.2f\n", p->position[0], p->position[1]);
@@ -158,6 +150,17 @@ void saveParticleBest(struct particle *p) {
         }   
     }
 } 
+
+void checkLimitPosition(float *pos) {
+    int i;
+    for (i = 0; i < LEN_SOL; i++) {
+        if (pos[i] > sol_max[i]) {
+            pos[i] = sol_min[i];
+        } else if (pos[i] < sol_min[i]) {
+            pos[i] = sol_max[i];
+        }
+    }
+}
 
 float fWeibull(float *position, float velocity) {
     float k = position[0];

@@ -1,7 +1,17 @@
 #ifndef PSO_
 #define PSO_
 
-#define MAX_ITER 100
+#define MAX_ITER 10000
+#define LEN_SOL 2
+
+#define PARAM_W 9.0
+#define PARAM_C1 3.5
+#define PARAM_C2 2.5
+
+#define W_A 0.5 //Alpha weight for inertia param
+#define W_B 1.5 //Beta weight for cognitive param
+#define W_G 1.0 //Gamma weight for social param
+
 
 struct particle {
     float *position;        //solution of the particle.    
@@ -66,6 +76,12 @@ void updateParticlePosition(struct particle *p);
  * Update the best own result for all particles
  */
 void saveParticleBest(struct particle *p); 
+
+/*
+ * Check position to avoid go out of the search space
+ */
+void checkLimitPosition(float *pos);
+
 
 /*
  * The objective function.
