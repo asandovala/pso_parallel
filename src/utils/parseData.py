@@ -1,7 +1,10 @@
 import os
+import math as m
 
 dir_path = "../../data/2015/csv/"
 dir_path_result = "../../data/2015/parse/"
+TD_file_name = "3D_data_15.csv"
+freq_file_name = "freq_data_15.csv"
 
 year_mtx = [[],[],[],[],[],[],[],[],[],[],[],[]]
 freq_vel = []
@@ -22,15 +25,18 @@ def getData(text, month):
         if is_number(line[1]):  #if more data
             dailyMean = 0
             for i in range(3, 19, 2): #append data per hour
-                d_hours[index_h].append(float(line[i]))
+
+                vel = 0.5 * float(line[i]) #from knots to m/s
+
+                d_hours[index_h].append(vel)
+                dailyMean += vel
+                #addDataFreqList(vel)
                 index_h += 1
-                dailyMean += float(line[i])
             index_h = 0
             addDataFreqList(round(dailyMean / 8.0))
         else:       #final process
             for data in d_hours:
                 mean = round(sum(data) / float(len(data)))
-                print "wtf ?: " + str(mean)
                 m_hours.append(mean)
                 #addDataFreqList(mean) #opt 1
                 #for d in data:
@@ -48,17 +54,35 @@ def addDataFreqList(vel):
 
 
 def saveYearMatrix():
-    with open(dir_path_result + "3D_data_15.csv", "w") as f:
+    with open(dir_path_result + TD_file_name, "w") as f:
         for data in year_mtx:
             data = [str(d) for d in data]
             line = ','.join(data)
             f.write(line + '\n')
 
+def sortFreqYear():
+    freq_vel_sort = []
+    global freq_vel
+    lenList = len(freq_vel)
+    for i in range(lenList - 1, -1, -1):
+        candidate = freq_vel[i]
+        for f in freq_vel:
+            if candidate[0] > f[0]:
+                print candidate
+                candidate = f
+        freq_vel_sort.append([candidate[0], candidate[1]])
+        freq_vel.remove(candidate)
+    freq_vel = freq_vel_sort
+
+
+
 def saveFreqYear():
-     with open(dir_path_result + "freq_data_15.csv", "w") as f:
+     with open(dir_path_result + freq_file_name, "w") as f:
         total = 0.0 
+        sortFreqYear()
         for data in freq_vel:
             total += data[1]
+        f.write(str(total) + '\n')
         for data in freq_vel:
             data[1] = round(data[1] / total, 3)   
         for data in freq_vel:
