@@ -39,7 +39,7 @@ with open("../../data/2015/parse/freq_data_15.csv", "r") as f:
     dataFreq = []
     dataWeibull = []
     TOTAL_DATA = float(text[0])
-    for i in range(1, len(text)):
+    for i in range(0, len(text)):
         parValue = text[i].split(",")
         if len(parValue) != 2:
             continue

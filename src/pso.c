@@ -17,12 +17,16 @@ struct swarm * initializeSwarm(int particles, int w, int c1, int c2) {
     struct swarm *s;
     struct particle *p;
 
+    loadFreqData();
+
     s = (struct swarm *) malloc(sizeof(struct swarm));
     s->particles = malloc(sizeof(struct particle) * particles);
+
     s->total_particles = particles;
     s->w_inertia = w;
     s->c1_cognitive = c1;
     s->c2_social = c2;
+
     //set initial global_best
     for (i = 0; i < particles; i++) {
         p = malloc(sizeof(struct particle));
@@ -34,7 +38,9 @@ struct swarm * initializeSwarm(int particles, int w, int c1, int c2) {
     float best_result = 1000.0;
     float fitness;
     float value;
+
     s->global_best = malloc(sizeof(float) * LEN_SOL);
+    
     for (i = 0; i < particles; i++) {
         p = s->particles[i];
         fitness = objectiveFunction(p->position);
@@ -46,8 +52,6 @@ struct swarm * initializeSwarm(int particles, int w, int c1, int c2) {
             }     
         }
     }   
-
-    loadFreqData();
 
     return s;
 }
@@ -101,7 +105,7 @@ void saveGlobalBest(struct swarm *s) {
         p = s->particles[i];
         fitness = objectiveFunction(p->position);
         if (fitness < best_result) { 
-            printf("Replace!: %f -> %f | k: %f , c: %f \n", best_result, fitness, p->position[0], p->position[1]);
+            //printf("Replace!: %f -> %f | k: %f , c: %f \n", best_result, fitness, p->position[0], p->position[1]);
             best_result = fitness;
             //printf("Replace!: %f -> %f \n", best_result, fitness);
             for (j = 0; j < LEN_SOL; j++) {
@@ -188,7 +192,9 @@ float objectiveFunction(float *position) {
 
     for (i = 0; i < vel_freq.len; i++) {
         vel = vel_freq.data[i][0];
-        sum += pow(vel_freq.data[i][1] - fWeibull(position, vel), 2);
+        rReal = vel_freq.data[i][1];
+        rWeibull = fWeibull(position, vel);
+        sum += pow(rReal - rWeibull, 2);
     }
 
     return 0.5 * sum;

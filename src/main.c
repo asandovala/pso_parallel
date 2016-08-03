@@ -10,7 +10,6 @@ int main() {
     for (i = 0; i < MAX_ITER; i++) {
         updateSwarm(s);
 	    updateParameters(s,i);
-        //printf("Resultado: k: %.2f , c: %.2f \n", s->global_best[0], s->global_best[1]);
     }
 
     k = s->global_best[0];

@@ -1,7 +1,7 @@
 #ifndef PSO_
 #define PSO_
 
-#define MAX_ITER 20000
+#define MAX_ITER 1000
 #define LEN_SOL 2
 
 #define PARAM_W 9.0
