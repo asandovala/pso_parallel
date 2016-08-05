@@ -1,8 +1,8 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "freq.h"
 
-char file_path[] = "data/2015/parse/freq_data_15.csv";
+char file_path[] = "../data/2015/parse/freq_data_2015_all.csv";
 
 void loadFreqData() {
     FILE *fp;
@@ -11,6 +11,9 @@ void loadFreqData() {
     float d1, d2;
 
     fp = fopen(file_path, "r");
+    if (!fp) {
+        printf("Error file path.");
+    }
 
     //coun lines in file
     while(!feof(fp)) {

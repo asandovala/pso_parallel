@@ -3,7 +3,7 @@ import math as m
 
 PATH_RES = "../data/2015/csv/"
 PATH_OUT = "../data/2015/parse/"
-NAME_OUT = "freq_data_15.csv"
+NAME_OUT = "freq_data_2015_all.csv"
 
 frequencySpeed = []
 
@@ -19,7 +19,9 @@ def getData(text, month):
     line = line.split(",")
     if isNumber(line[1]):  #if more data
       speeds = [0.5 * float(line[i]) for i in range(3,19,2)]
-      addDataFreqList(round(sum(speeds) / len(speeds)))
+      #addDataFreqList(round(sum(speeds) / len(speeds))) #Save the mean of the day.
+      for s in speeds:
+        addDataFreqList(s)
     else:  #No more data
       return
 
@@ -67,5 +69,5 @@ for fileName in os.listdir(PATH_RES):
     month = int(fileName.split("_")[0])
     getData(text, month)
 
-#saveFreqYear()
+saveFreqYear()
 

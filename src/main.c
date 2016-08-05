@@ -5,7 +5,7 @@ int main() {
     int i;
     float k, c;
     struct swarm *s;
-    s = initializeSwarm(50, PARAM_W, PARAM_C1, PARAM_C2);
+    s = initializeSwarm(200, PARAM_W, PARAM_C1, PARAM_C2);
 
     for (i = 0; i < MAX_ITER; i++) {
         updateSwarm(s);
