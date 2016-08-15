@@ -2,4 +2,80 @@
 
 \chapter{Desarrollo de la solución}
 
+\section{Velocidad del viento}
+\subsection{Modelo Matemático} \label{ss:Modelo_Mat}
+Como se adelanta anteriormente, para encontrar los parámetros de la distribución de Weibull que se ajusten a los datos de prueba se utilizará el \emph{Particle Swarm Optimization}. La función de distribución de Weibull está definida en la ecuación \ref{eq:weibull}. El PSO a utilizar está representado por la ecuación \ref{eq:PSO}. La función objetivo se describe con la fórmula \ref{eq:PSO_FO} y es aquella con la que se busca minimizar el error cuadrático entre la frecuencia real de los datos y la estimada por la distribución de Weibull. Los parámetros a encontrar $k$ y $c$ deben ser $\geq 0$ . Por último, a modo de favorecer la exploración al comienzo y la explotación al final de las iteraciones del PSO, se utilizará la recomendación de \cite{Carneiro15} para la variación de parámetros del enjambre:
+\begin{align}
+    w(j) &= (1 - \frac{j}{iter_{max}})^{\alpha}(w_{max} - w_{min} + w_{min})\\
+    c_{1}(j) &= (1 - \frac{j}{iter_{max}})^{\beta}(c_{1max} - c_{1min}) + c_{1min}\\
+    c_{2}(j) &= (1 - \frac{j}{iter_{max}})^{\gamma}(c_{2min} - c_{2max}) + c_{2max}
+\end{align}    
+Donde $w_{max} = 0.9$ y $w_{min} = 0.4$, $c_{1max}$, $c_{2max}$ y $c_{1min}$, $c_{2min}$ son 2.5 y 0 respectivamente. Los parámetros $\alpha, \beta, \gamma$ son definidos como 0.5, 1.5 y 1.0 respectivamente. $iter_{max}$ es el máximo número de iteraciones.
 
+\subsection{Representación}
+Cada vector posición de las partículas del enjambre representa una solución candidata la cual varía dentro de cierto espacio de búsqueda definido por los límites de las componentes. Así, para el caso de los parámetros de la distribución de Weibull, la posición de las partículas está representada por los parámetros $k$ y $c$ quedando de la forma:
+\begin{align}
+    x = (k, c)
+\end{align}    
+Para ambos parámetros, se establecen los límites entre $0 \leq (k,c) \leq 20$, criterio que se basa en el trabajo de Carneiro et al. \cite{Carneiro15}. De esta forma, las partículas se moverán dentro de ese rango, manteniéndose en los lugares que minimizan la función objetivo, la cual representa el error de la predicción de Weibull versus los datos reales.\\
+Así, para cada partícula se define una estructura que posee las siguientes propiedades: 
+\begin{enumerate}
+    \item Posición: vector de números flotantes de largo dos, los cuales representan la ubicación de la partícula dentro del espacio de búsqueda y sus componentes a los parámetros $k$ y $c$.
+    \item Velocidad: vector de números flotantes que representan el cambio de valor de cada componente de la posición de la partícula en determinada iteración. Se actualiza en base a la ecuación de velocidad del PSO.
+    \item Mejor resultado personal: vector flotante que guarda la mejor posición conseguida por la partícula durante las iteraciones transcurridas.    
+\end{enumerate}        
+Mientras que el enjambre, siendo esencialmente una estructura que posee referencia a todas las partículas, queda representado de la siguiente forma:
+\begin{enumerate}
+    \item Partículas: Arreglo de referencias a las estructuras de partículas creadas.
+    \item Mejor posición global: De todos los mejores resultados particulares a cada partícula, se almacena la mejor posición de todas. La que persiste al final del ciclo de iteraciones, es la solución final.
+    \item W, C1 y C2: Son los parámetros de inercia, cognitivo y social respectivamente.    
+\end{enumerate} 
+
+\subsection{Descripción del algoritmo}
+La lógica del algoritmo \ref{alg:pso} se basa en mover las partículas dentro del rango definido para los componentes de la solución hasta que todas las partículas se concentren en alguna zona que represente una buena solución al problema, no necesariamente el óptimo. Lo importante en cada iteración es actualizar o mover el enjambre, revisar y guardar las mejores soluciones y actualizar los parámetros de inercia, cognitivo y social que definen las velocidades.
+\input{code/pso_code}
+Las iteraciones fueron probadas hasta un máximo de 1000. Los parámetros de $w$, $c1$ y $c2$ fueron definidos tal y como explica en el modelo matemático, en la sección \ref{ss:Modelo_Mat}.\\
+
+\subsection{Experimentos}
+Los experimentos fueron realizados con datos del viento obtenidos por la Armada de Chile para la región de Valparaíso en los años 2013, 2014 y 2015. Estos fueron tratados mediante \emph{scripts} desarrollados en python para obtener las frecuencias de las distintas velocidades del viento registradas a lo largo del año. Los datos se organizaban de la siguiente forma: Por cada año, se tiene una tabla en un archivo exel de cada mes, en donde se registra por cada fila los resultados de la medición de cada día. Las mediciones son registradas en un intervalo de tres horas, es decir, se tienen registros diarios para las 3:00, 6:00, 9:00, 12:00, 15:00, 18:00, 21:00 y 00:00 horas.\\
+Un ejemplo es la tabla mostrada en la figura \ref{fig:example_data}.
+ \begin{figure}[h!]
+    \centering
+    \includegraphics[height=100mm]{figures/example_data.png}
+    \caption{Ejemplo colección de datos Enero Valparaíso 2015}
+    \vspace{-.25cm}
+    \caption*{Obtenido desde el Instituto Meteorológico de la Armada de Chile.}
+    \label{fig:example_data}
+ \end{figure}
+El ajuste de la distribución de Weibull a estos datos de velocidad del viento se hizo considerando las siguientes configuraciones para el cálculo del
+histograma de frecuencias:
+\begin{enumerate}
+	\item \textbf{Todos los años}. Se considera el promedio diario de velocidad del viento como dato unitario para el cálculo de las frecuencias, considerando
+	todos los días en el intervalo de Enero del 2013 hasta Diciembre del 2015.
+	\item \textbf{Anual}. Se considera el promedio diario de velocidad del viento como dato unitario para el cálculo de las frecuencias en
+	un lapso anual (2013, 2014 y 2015).
+	\item \textbf{Por temporada}. Se considera el promedio diario de velocidad del viento como dato unitario para el cálculo de las frecuencias en
+	un lapso de tres meses (Enero - Marzo ; Abril - Junio; Julio - Septiembre; Octubre - Diciembre).
+	\item \textbf{Datos brutos}. Se considera cada medición realizada (8 por día) como dato unitario, en un lapso de un año.
+\end{enumerate}
+
+Una vez obtenido los datos de frecuencias, se procede a aplicar el algoritmo PSO obteniendo los parámetros de ajuste $k$ y $c$. De esta manera, se evalúa la calidad del modelo generado (distribución de Weibull), para las distintas configuraciones mediante gráficos y los siguientes test estadísticos (utilizados en el trabajo de Carneiro et al. \cite{Carneiro15}):
+\begin{enumerate}
+    \item \emph{Root Mean Square Error}
+        \begin{align}
+            RMSE = \sqrt{\frac{\sum_{i=1}^{N}(X_i - Y_i)^2}{N}}
+        \end{align}    
+    \item \emph{Correlation}
+        \begin{align}
+            r = \frac{\sum_{i=1}^{N}(X_i - X_{med})\cdot(Y_i - Y_{med})}{\sqrt{\sum_{i=1}^{N}(X_i - X_{med})^2}\cdot\sqrt{\sum_{i=1}^{N}(Y_i - Y_{med})^2}}
+        \end{align}    
+    \item \emph{Relative Bias}
+        \begin{align}
+            RB = \frac{X_{med} - Y_{med}}{Y_{med}}  
+        \end{align}    
+\end{enumerate}        
+Donde $N$ es el número de datos, $Y_i$ la frecuencia de dichos datos, $X_i$ la frecuencia entregada por la distribución de Weibull, $X_{med}$ la media de $X_i$ e $Y_{med}$ la media de $Y_i$. \\
+
+Las pruebas fueron realizadas en un computador con sistema operativo Ubuntu 16.04 64-bit, 3.8 GB de memoria y procesador doble núcleo Intel Pentium 2.60 GHz. 
+
+\section{Dirección del viento}

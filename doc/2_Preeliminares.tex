@@ -2,14 +2,14 @@
 
 \chapter{Estado del arte}
 \section{Particle Swarm Optimization}
-Como se introduce en el artículo de Kaveh \cite{Psoexplain14}, el algoritmo \emph{Particle Swarm Optimization} es una metaheurística inspirada en las observaciones de la naturaleza acerca del comportamiento social de poblaciones de enjambres. Esta abstracción está basada, por ejemplo, en las gaviotas, las cuales suelen moverse en bandadas cerca del mar en búsqueda de zonas donde hayan alimento (peces). El método simula la conducta de los individuos a través de partículas que se mueven dentro de un espacio (de búsqueda), siendo afectadas por factores individuales (conocimiento propio) y colectivos (conocimiento del enjambre), que direccionan el movimiento a ciertas zonas, las cuales son determinadas por una función objetivo (\emph{fitness function}).\\
+Como se introduce en el artículo de Kaveh \cite{Psoexplain14}, el algoritmo \emph{Particle Swarm Optimization} es una meta-heurística inspirada en las observaciones de la naturaleza acerca del comportamiento social de poblaciones de enjambres. Esta abstracción está basada, por ejemplo, en las gaviotas, las cuales suelen moverse en grupos, conocidos como bandadas, cerca del mar en búsqueda de zonas donde hayan alimento (peces). El método simula la conducta de los individuos a través de partículas que se mueven dentro de un espacio (de búsqueda), siendo estas afectadas por factores individuales (conocimiento propio) y colectivos (conocimiento del enjambre), los cuales dirigen el movimiento de estos grupos a ciertas zonas las que son determinadas por una función objetivo (\emph{fitness function}).\\
 Para cada partícula su vector posición  $\vec{x}$ representa una solución candidata, la cual varía dentro del espacio de búsqueda a velocidad $\vec{v}$. Después de varias iteraciones, el enjambre o conjunto de partículas, se irá concentrando en aquellas zonas donde la posición obtenga mejores valores para la función objetivo.
 \\El modelo clásico presentado por Kennedy y Eberhart\cite{Kennedy95}, describe la variación de la velocidad y de la posición de las partículas como se presenta a continuación:
 \begin{align}
     v_{i,j}^{k+1} &= v_{i,j}^{k} + c_{1}r_{1}(xbest_{i,j}^k - x_{i,j}^k) + c_{2}r_{2}(xgbest_{j}^{k} - x_{i,j}^k) \\
     x_{i,j}^{k+1} &= x_{i,j}^{k} + v_{i,j}^{k+1}
 \end{align}    
-Como se explica en Kaveh \cite{Psoexplain14} $x_{i,j}^{k}$ y $v_{i,j}^{k}$ son la $j$-ésima componente de la posición y la velocidad de la partícula $i$ respectivamente en la iteración o tiempo $k$, $r_{1}$ y $r_{2}$ son número aleatorios uniformes que varían de 0 a 1, $xbest_i$ y $xgbest$ representan las mejores soluciones alcanzadas por la partícula y por el enjambre respectivamente, $c_1$ y $c_2$ son parámetros que representan la confianza en la solución indiviual de la partícula (parámetro cognitivo) y la incidencia del aspecto colectivo o solución global (parámetro social), respectivamente. Un esquema de la interacción de estos componentes se aprecia en la figura \ref{fig:move_part}\\
+Como se explica en Kaveh \cite{Psoexplain14} $x_{i,j}^{k}$ y $v_{i,j}^{k}$ son la $j$-ésima componente de la posición y la velocidad de la partícula $i$ respectivamente en la iteración o tiempo $k$, $r_{1}$ y $r_{2}$ son número aleatorios uniformes que varían de 0 a 1, $xbest_i$ y $xgbest$ representan las mejores soluciones alcanzadas por la partícula y por el enjambre respectivamente, $c_1$ y $c_2$ son parámetros que representan la confianza en la solución individual de la partícula (parámetro cognitivo) y la incidencia del aspecto colectivo o solución global (parámetro social), respectivamente. Un esquema de la interacción de estos componentes se aprecia en la figura \ref{fig:move_part}\\
 \begin{figure}[h!]
     \centering    
     \includegraphics[height=50mm]{figures/move_particle.png} 
@@ -18,9 +18,10 @@ Como se explica en Kaveh \cite{Psoexplain14} $x_{i,j}^{k}$ y $v_{i,j}^{k}$ son l
     \caption*{Creado por Kaveh\cite{Psoexplain14}.}
     \label{fig:move_part}
 \end{figure}
-El módelo clásico presentado tiene ciertas complicaciones en la forma en que se actualiza la velocidad, una de ellas es la incidencia de la velocidad previa en una partícula, por lo que a modo de balancear esta variable, se añade un factor que escala esta velocidad, dado que como se explica en Kaveh \cite{Psoexplain14}, si la velocidad previa se elimina, las partículas quedan atrapadas en una región local, pero si se le da demasiado peso, converge rápidamente a un óptimo conocido. Por esto, la forma del PSO base actual, tiene un parámetro $w$, que representa la incidencia de la velocidad previa (factor de inercia). Por lo tanto, ahora se tiene que la partícula actualiza su velocidad de la siguiente forma: 
-\begin{align}
-    v_{i,j}^{k+1} = wv_{i,j}^{k} + c_{1}r_{1}(xbest_{i,j}^k - x_{i,j}^k) + c_{2}r_{2}(xgbest_{j}^{k} - x_{i,j}^k)\\
+El modelo clásico presentado tiene ciertas complicaciones en la forma en que se actualiza la velocidad, una de ellas es la incidencia de la velocidad previa en una partícula, por lo que a modo de balancear esta variable, se añade un factor que escala esta velocidad, dado que como se explica en Kaveh \cite{Psoexplain14}, si la velocidad previa se elimina, las partículas quedan atrapadas en una región local, pero si se le da demasiado peso, converge rápidamente a un óptimo conocido. Por esto, la forma del PSO base actual, tiene un parámetro $w$, que representa la incidencia de la velocidad previa (factor de inercia). Por lo tanto, ahora se tiene que la partícula actualiza su velocidad de la siguiente forma: 
+\begin{align}\label{eq:PSO}
+    v_{i,j}^{k+1} &= wv_{i,j}^{k} + c_{1}r_{1}(xbest_{i,j}^k - x_{i,j}^k) + c_{2}r_{2}(xgbest_{j}^{k} - x_{i,j}^k)\\
+    x_{i,j}^{k+1} &= x_{i,j}^{k} + v_{i,j}^{k+1}
 \end{align}    
 Donde $w$ es el factor conocido como ``inercia'' de la partícula, y regula la incidencia de la velocidad previa en la actual.\\
 Finalmente, en el trabajo inicialmente citado, también se puede ver una revisión completa del estado del arte del método \emph{Particle Swarm Optimization} en términos de diseño, donde se expone las distintas modificaciones y alternativas propuestas por la literatura que pretenden mejorar aspectos como:
@@ -31,10 +32,11 @@ Finalmente, en el trabajo inicialmente citado, también se puede ver una revisi�
     \item  Sesgos en la búsqueda por la forma de la región o por la interacción de las partículas (operadores de combinación como el promedio, que tienden a centrar la búsqueda en determinada región).
     \item  Algoritmos híbridos con PSO.
     \item  Versión discreta del PSO. 
-\end{enumerate}        
+\end{enumerate}  
+
 \section{Velocidad del viento}
 \subsection{Distribución de Weibull}
-Dado un conjunto de datos de velocidad obtenidos de la medición del viento, se puede crear un histograma que represente la frecuencia de estos datos. A partir de esto, es posible generar un modelo probabilístico que explique el comportamiento de las velocidades del viento medido, ajustandose a los datos recolectados. Dicho modelo comunmente se basa en la distribución de Weibull, la cual es ampliamante aceptada por la comunidad dedicada al estudio metereológico, tal y como se menciona en el trabajo de Carneiro et al. \cite{Carneiro15} y Kongnam et al. \cite{Kongnam15}. En particular, en el trabajo realizado por Carneiro et al. \cite{Carneiro15}, se describe la distribución de Weibull como: 
+Dado un conjunto de datos de velocidad obtenidos de la medición del viento, se puede crear un histograma que represente la frecuencia de estos datos. A partir de esto, es posible generar un modelo probabilístico que explique el comportamiento de las velocidades del viento medido, ajustándose a los datos recolectados. Dicho modelo comúnmente se basa en la distribución de Weibull, la cual es ampliamente aceptada por la comunidad dedicada al estudio meteorológico, tal y como se menciona en el trabajo de Carneiro et al. \cite{Carneiro15}, Kongnam et al. \cite{Kongnam15} y Dabbaghiyan et al.\cite{Dabbaghiyan15}. En particular, en el trabajo realizado por Carneiro et al. \cite{Carneiro15}, se describe la distribución de Weibull como: 
  \begin{align}\label{eq:weibull}
      f_{weibull}(v) = \frac{k}{c} \cdot (\frac{v}{c})^{k-1} \cdot e^{-(\frac{v}{c})^ k}
  \end{align}
@@ -48,9 +50,9 @@ Dado un conjunto de datos de velocidad obtenidos de la medición del viento, se 
     \label{fig:weibull_fig}
 \end{figure}
  \subsection{Métodos numéricos}
- Tradicionalmente, se utilizan métodos numéricos para estimar los parámetros de la distribución de Weibull. En el artículo de Chang \cite{Chang10}, se realiza una comparación de seis métodos numéricos comunmente utilizados para la obtención de $k$ y $c$. A continuación, se describen brevemente estos métodos:
+ Tradicionalmente, se utilizan métodos numéricos para estimar los parámetros de la distribución de Weibull. En el artículo de Chang \cite{Chang10}, se realiza una comparación de seis métodos numéricos comúnmente utilizados para la obtención de $k$ y $c$. A continuación, se describen brevemente estos métodos:
  \begin{enumerate}
-     \item \textbf{The Moment}: Se basa en la iteración numérica de las siguientes dos equaciones:
+     \item \textbf{The Moment}: Se basa en la iteración numérica de las siguientes dos ecuaciones:
         \begin{align}
             \bar{v} &= c\Gamma(1 + \frac{1}{k})\\
             \sigma &= c[\Gamma(1 + \frac{2}{k}) - \Gamma^2(1 + \frac{1}{k})]^{\frac{1}{2}}
@@ -61,18 +63,18 @@ Dado un conjunto de datos de velocidad obtenidos de la medición del viento, se 
             k &= (\frac{\sigma}{\bar{v}})^{-1.086}\\
             c &= \frac{\bar{v}}{\Gamma(1 + \frac{1}{k})}
         \end{align}    
-    \item \textbf{Graphical}: Se ajustan rectas a los datos de velocidad del viento usando mínimos cuadrados. Con una doble transformación logaritmica, la función de distribución acumulativa queda:
+    \item \textbf{Graphical}: Se ajustan rectas a los datos de velocidad del viento usando mínimos cuadrados. Con una doble transformación logarítmica, la función de distribución acumulativa queda:
         \begin{align}
             \ln\{-\ln[1- F(v)]\} = k\ln(v) - k\ln(c)
         \end{align}    
-         Graficando $ln(v)$ en vez de $ln(-ln(1-F(v)))$, la pendiente de la recta que se ajusta mejor a los pares de datos es el parámetro de la forma de la distribución de Weibull. El parámetro de escala se obtiene por la intercepción con la coordenada $y$.  
+         Realizando un gráfico para $ln(v)$ en vez de $ln(-ln(1-F(v)))$, la pendiente de la recta que se ajusta mejor a los pares de datos es el parámetro de la forma de la distribución de Weibull. El parámetro de escala se obtiene por la intersección con la coordenada $y$.  
     \item \textbf{Maximum likelihood}: En este métodos, son necesarias muchas iteraciones. Los parámetros de Weibull están dado por:
         \begin{align}
             k &= [\frac{\sum_{i=1}^n v_i^k \ln(v_i)}{\sum_{i=1}^n v_i^k} - \frac{\sum_{i=1}^n \ln(v_i)}{n}]^{(-1)}\\
             c &= (\frac{1}{n}\sum_{i=1}^n v_i^k)^{\frac{1}{k}}
         \end{align}    
          Donde $v_i$ es la velocidad del viento en el paso $i$ y $n$ es el número de puntos de datos distintos de cero. 
-    \item \textbf{Modified maximum likelihood}: Este método es utilizado si es que se tiene disponible los datos de velocidad del viento en una distribución de frequencias. Los parámetros de Weibull son calculados como:
+    \item \textbf{Modified maximum likelihood}: Este método es utilizado si es que se tiene disponible los datos de velocidad del viento en una distribución de frecuencias. Los parámetros de Weibull son calculados como:
         \begin{align}
             k &= [\frac{\sum_{i=1}^n v_i^k \ln(v_i)f(v_i)}{\sum_{i=1}^n v_i^kf(v_I)} - \frac{\sum_{i=1}^n\ln(v_i)f(v_i)}{f(v \geq 0)}]^{-1}\\
             c &= [\frac{1}{f(v \geq 0)}\sum_{i=1}^n v_i^{k}f(v_i)]^{1/k}
@@ -91,7 +93,7 @@ Dado un conjunto de datos de velocidad obtenidos de la medición del viento, se 
  Estos métodos fueron comparados a través de pruebas de desempeño, con una simulación de Monte Carlo para este caso, y el análisis de los datos del viento con criterios tales como el test Kolmogorov-Smirnov, \emph{parameter error}, \emph{root mean square error} y el error de energía del viento. De ello, bajo distintas condiciones ciertos métodos se comportan mejor que otros ajustando la distribución de Weibull a los datos de prueba. Sin embargo, como se verá a continuación, una propuesta realizada para mejorar el ajuste a través del uso de la meta-heurística \emph{Particle Swarm Optimization}, mejora la calidad de los resultados comparado con estos métodos numéricos presentados.  
  \subsection{Particle Swarm Optimization}
  En Carneiro et al. \cite{Carneiro15}, se realiza un caso de estudio de las características del viento en las zonas costeras de Parnaiba y Maracanaú, y en una zona interior, Petrolina, en Brasil. Allí se explica la necesidad de obtener un modelo para el comportamiento estocástico del viento, de manera de poder evaluar el potencial energético de aquellas regiones. Como se menciona anteriormente, el modelo utilizado es la distribución de Weibull. Para ello, es preciso ajustar el modelo a los datos recolectados. Por esto, en el estudio mencionado, se propone un PSO para encontrar los parámetros $k$ y $c$ de la distribución de Weibull y a su vez mejorar la calidad de la solución comparada con los métodos numéricos tradicionales. Así, para lograr el objetivo, la función de aptitud se define como:
-\begin{align}
+\begin{align}\label{eq:PSO_FO}
     \epsilon(v_i) = \frac{1}{2}\sum_{i=0}^{n}(f_{real}(v_i) - f_{weibull}(v_i))^2
 \end{align}
 Donde $\epsilon$, es el error cuadrático a minimizar entre los valores del histograma de datos y la función de distribución de Weibull.\\
@@ -106,18 +108,19 @@ Los resultados que se exponen en el trabajo citado son alentadores, demostrando 
     \caption*{Creado por Carneiro et al.\cite{Carneiro15}.}
     \label{fig:pso_fit}
 \end{figure}
-En Kongnam et al. \cite{Kongnam15}, el PSO es utilizado para el problema del control de la velocidad de las turbinas de viento para maximizar la generación de energía. En este trabajo, se utiliza la distribución de Weibull para el modelado de la velocidad del viento. La construcción del PSO es llevada a cabo considerando el problema de la convergencia prematura, por lo que se desarrollan funciones que varian estos parámetros a lo largo de la ejecución.\\
+En Kongnam et al. \cite{Kongnam15}, el PSO es utilizado para el problema del control de la velocidad de las turbinas de viento para maximizar la generación de energía. En este trabajo, se utiliza la distribución de Weibull para el modelado de la velocidad del viento. La construcción del PSO es llevada a cabo considerando el problema de la convergencia prematura, por lo que se desarrollan funciones que varían estos parámetros a lo largo de la ejecución.\\
+
 \section{Dirección del viento}
-La dirección del viento es información escencial para la investigación acerca de la energía eólica, dado que con esta, por ejemplo, se pueden ubicar de forma estratégica las turbinas que capturan la energía. En el resumen acerca de las energías renovables y sustentables\cite{Winddirelse15}, se explica que para identificar la dirección dominante del viento la función de densidad \emph{finite von Mises-Fisher} (FVMF) es utilizada para ajustarse a los datos. Para las pruebas, estos datos fueron obtenidos de cinco estaciones ubicadas en distintas zonas en la península de Malasia. La FVMF, de forma genérica, está definida de la siguiente forma:
+La dirección del viento es información esencial para la investigación acerca de la energía eólica, dado que con esta, por ejemplo, se pueden ubicar de forma estratégica las turbinas que capturan la energía. En el resumen acerca de las energías renovables y sustentables\cite{Winddirelse15}, se explica que para identificar la dirección dominante del viento la función de densidad \emph{finite von Mises-Fisher} (FVMF) es utilizada para ajustarse a los datos. Para las pruebas, estos datos fueron obtenidos de cinco estaciones ubicadas en distintas zonas en la península de Malasia. La FVMF, de forma genérica, está definida de la siguiente forma:
 \begin{align}
     f(x;\mu_{h}, k_{h}) = \sum_{h=1}^{H}(w_{h})\frac{k^{\frac{d}{2} - 1}}{(2\pi)^{\frac{d}{2}}I_{\frac{d}{2} - 1} (k)}e^{(k_h\mu_{h}^{T}x)}
 \end{align}    
-Donde $x=[cos(\theta_i), sin(\theta_i)]$, $\frac{k^{\frac{d}{2} - 1}}{(2\pi)^{\frac{d}{2}}I_{\frac{d}{2} - 1} (k)}$ es una constante de normalización, $d$ es la dimensión del vector random $x$ ($d = 2$, para este caso), $\mu_{h}$ y $k_h$ son el promedio direccional, parámetro de concentración para cada $h = 1, 2,...,H$ componente del FVFM y $w_h$ es el parámetro de mezcla (\emph{mixture parameter}).\\
+Donde $x=[cos(\theta_i), sin(\theta_i)]$, $\frac{k^{\frac{d}{2} - 1}}{(2\pi)^{\frac{d}{2}}I_{\frac{d}{2} - 1} (k)}$ es una constante de normalización, $d$ es la dimensión del vector aleatorio $x$ ($d = 2$, para este caso), $\mu_{h}$ y $k_h$ son el promedio direccional, parámetro de concentración para cada $h = 1, 2,...,H$ componente del FVFM y $w_h$ es el parámetro de mezcla (\emph{mixture parameter}).\\
 Además, el parámetro de mezcla del FVMF está sujeto a la siguiente restricción:
 \begin{align}
     0 \leq w_h \leq 1 \text{ y } \sum_{h=1}^{H} w_{h} = 1 \text{ para } (h=1,2,...,H) 
 \end{align}
-Para estimar los parámetros del FVMF, se sugiere utilzar el método \emph{expectation maximization}, debido a que los métodos regulares son incapaces de manejar la complejidad del modelo, consideraciones que se mencionan en el trabajo de Banerjee et al.\cite{Banerjee05}.\\
+Para estimar los parámetros del FVMF, se sugiere utilizar el método \emph{expectation maximization}, debido a que los métodos regulares son incapaces de manejar la complejidad del modelo, consideraciones que se mencionan en el trabajo de Banerjee et al.\cite{Banerjee05}.\\
 Por último, los resultados de este trabajo muestran que FVMF provee un razonable ajuste a diferentes conjunto de datos, obteniendo un modelo que explica más del $90\%$ de la variación de los datos, en este caso, obtenidos de estaciones ubicadas en la península de Malasia. En la figura \ref{fig:wind_dir_vonMises} se aprecia el ajuste del modelo a los datos, tanto la comparación con el histograma, como en su versión circular.\\
 \begin{figure}[h!]
     \centering    
@@ -128,7 +131,7 @@ Por último, los resultados de este trabajo muestran que FVMF provee un razonabl
     \label{fig:wind_dir_vonMises}
 \end{figure}
 
-En el trabajo de Heckenbergerova et al.\cite{Heckenbergerova15}, se utiliza una estratégia diferente a la anteriormente mencionada. Basados en la ya mencionada meta-heurística inspirada en la biología, \emph{Particle Swarm Optimization}, proponen una forma distinta para encontrar un modelo de ajuste, utilizando la distribución estadística \emph{finite mixture of circular normal von Mises} (MvM), similar a la mencionada previamente.\\ 
+En el trabajo de Heckenbergerova et al.\cite{Heckenbergerova15}, se utiliza una estrategia diferente a la anteriormente mencionada. Basados en la ya mencionada meta-heurística inspirada en la biología, \emph{Particle Swarm Optimization}, proponen una forma distinta para encontrar un modelo de ajuste, utilizando la distribución estadística \emph{finite mixture of circular normal von Mises} (MvM), similar a la mencionada previamente.\\ 
 En este caso, se define la distribución simple de \emph{von Mises} (SvM) como:
 \begin{align}
     f(\theta; \mu, k) = \frac{1}{2{\pi}I_{0}(k)}e^{k cos(\theta - \mu)}
@@ -137,7 +140,7 @@ Donde $k \geq 0$, $0 \leq \mu \leq 2\pi$, $0 \leq \theta \leq 2\pi$ y $I_0(k)$ r
 \begin{align}
     I_0(k) = \frac{1}{\sqrt{2\pi}}\int_0^{2\pi} e^{k cos(\theta)} d\theta = \sum_{k=0}^{\infty} \frac{1}{(k!)^2}(\frac{k}{2})^{2k}
 \end{align}    
-Para $k=0$, la distribución SvM se vuelve uniforme alrededor de un círculo con todas las direcciones equiprobables. Cuando una colección de datos tiene más de una dirección predominante, es necesario utilizar una mezcla (\emph{mixture}) de distribuciones.
+Para $k=0$, la distribución SvM se vuelve uniforme alrededor de un círculo con todas las direcciones equi-probables. Cuando una colección de datos tiene más de una dirección predominante, es necesario utilizar una mezcla (\emph{mixture}) de distribuciones.
 Así, la función de densidad de probabilidad \emph{finite mixture of simple von Mises} (MvM-pdf) queda como:
 \begin{align}
     \phi(\theta; v) = \sum_{j=1}^{k} w_j \cdot f_j(\theta; \mu_j, k_j)
@@ -146,8 +149,9 @@ Donde $k$ es el número de funciones de la mezcla, $j$ es el índice de una part
  \begin{align}\label{eq:sol_pso}
     v = (\mu, k, w) = (\mu_1, ..., \mu_k,k_1,...,k_k,w_1,...,w_k)
 \end{align}
-Para lograr el objetivo, se obtiene en primer lugar una aproximación numérica de los parámetros del MvM a partir de los datos recolectados de la dirección del viento, estratégia nombrada como estimación análitica en el trabajo de Heckenbergerova et al., para luego optimizarlos mediante el uso de un PSO, en su versión modificada, para evitar la convergencia prematura, en donde la solución está representada por una codificación del vector $\vec{v}$ mencionado anteriormente\ref{eq:sol_pso}.\\ 
-Como test estadístico, es utilizado el \emph{Pearson's chi-squared goodness-off-fit}. Finalmente, los resultados muestran la mejora que se logra a la estimación inicial, logrando además un buen ajuste a los datos, comparandose además con algoritmos genéticos. Los resultados obtenidos para los datos recolectados en el aeropuerto de St John localizado en Newfoundland, Canadá, son apreciables en la figura \ref{fig:dir_pso}.
+Para lograr el objetivo, se obtiene en primer lugar una aproximación numérica de los parámetros del MvM a partir de los datos recolectados de la dirección del viento, estrategia nombrada como estimación analítica en el trabajo de Heckenbergerova et al., para luego optimizarlos mediante el uso de un PSO, en su versión modificada, para evitar la convergencia prematura, en donde la solución está representada por una codificación del vector $\vec{v}$ mencionado anteriormente\ref{eq:sol_pso}.\\ 
+Como test estadístico, es utilizado el \emph{Pearson's chi-squared goodness-off-fit}. Los resultados muestran la mejora que se logra a la estimación inicial, comparándose además con algoritmos genéticos. Sin embargo, estos no consiguen pasar el test estadístico impuesto, por lo que existe trabajo futuro  a realizar para mejorar la propuesta y lograr la precisión deseada.\\
+Los resultados obtenidos para los datos recolectados en el aeropuerto de St John localizado en Newfoundland, Canadá, son apreciables en la figura \ref{fig:dir_pso}.
 \begin{figure}[h!]
     \centering    
     \includegraphics[height=50mm]{figures/dir_pso.png} 
