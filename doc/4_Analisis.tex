@@ -55,14 +55,91 @@ Para confirmar el supuesto relativo a los datos, se calcularon los parámetros d
     \caption*{Fuente: Elaboración Propia.}
     \label{fig:pso_valpo_15}
 \end{figure}
+
+%Desde acá
+
 \begin{figure}[h!]
     \centering
-    \includegraphics[height=75mm]{figures/result_2015_EM.png}
-    \caption{Ajuste con EM a datos Valparaíso 2015}
+    \includegraphics[height=75mm]{figures/result_13-14-15.png}
+    \caption{Ajuste con PSO a datos Valparaíso 2015, 2014 y 2013}
     \vspace{-.25cm}
     \caption*{Fuente: Elaboración Propia.}
-    \label{fig:em_valpo_15}
+    \label{fig:pso_valpo_15_14_13}
 \end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[height=75mm]{figures/result_13-14-15_low_quality.png}
+    \caption{Ajuste con PSO a datos Valparaíso 2015, 2014 y 2013, baja calidad}
+    \vspace{-.25cm}
+    \caption*{Fuente: Elaboración Propia.}
+    \label{fig:pso_valpo_15_14_13_lq}
+\end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[height=75mm]{figures/result_2013_fit_all_data.png}
+    \caption{Ajuste con PSO (Con todos los datos) a datos Valparaíso 2013}
+    \vspace{-.25cm}
+    \caption*{Fuente: Elaboración Propia.}
+    \label{fig:pso_valpo_13_all_data}
+\end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[height=75mm]{figures/result_2014_fit_all_data.png}
+    \caption{Ajuste con PSO (Con todos los datos) a datos Valparaíso 2014}
+    \vspace{-.25cm}
+    \caption*{Fuente: Elaboración Propia.}
+    \label{fig:pso_valpo_14_all_data}
+\end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[height=75mm]{figures/result_2015_fit_all_data.png}
+    \caption{Ajuste con PSO (Con todos los datos) a datos Valparaíso 2015}
+    \vspace{-.25cm}
+    \caption*{Fuente: Elaboración Propia.}
+    \label{fig:pso_valpo_15_all_data}
+\end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[height=75mm]{figures/result_2015_Ene-Mar.png}
+    \caption{Ajuste con PSO a datos Valparaíso 2015, Enero - Marzo}
+    \vspace{-.25cm}
+    \caption*{Fuente: Elaboración Propia.}
+    \label{fig:pso_valpo_15_ene_mar}
+\end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[height=75mm]{figures/result_2015_Abr-Jun.png}
+    \caption{Ajuste con PSO a datos Valparaíso 2015, Abril - Junio}
+    \vspace{-.25cm}
+    \caption*{Fuente: Elaboración Propia.}
+    \label{fig:pso_valpo_15_abr_jun}
+\end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[height=75mm]{figures/result_2015_Jul-Sep.png}
+    \caption{Ajuste con PSO a datos Valparaíso 2015, Julio - Septiembre}
+    \vspace{-.25cm}
+    \caption*{Fuente: Elaboración Propia.}
+    \label{fig:pso_valpo_15_jul_sep}
+\end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[height=75mm]{figures/result_2015_Oct-Dic.png}
+    \caption{Ajuste con PSO a datos Valparaíso 2015, Octubre - Diciembre}
+    \vspace{-.25cm}
+    \caption*{Fuente: Elaboración Propia.}
+    \label{fig:pso_valpo_15_oct_dic}
+\end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[height=75mm]{figures/result_2015_all_data.png}
+    \caption{Ajuste con PSO a datos (cifras puras) Valparaíso 2015, 2014, 2013}
+    \vspace{-.25cm}
+    \caption*{Fuente: Elaboración Propia.}
+    \label{fig:pso_valpo_15_oct_dic}
+\end{figure}
+
+
 \begin{table}[htb!]
     \centering
     \caption{Tabla de tests estadísticos}
@@ -70,14 +147,25 @@ Para confirmar el supuesto relativo a los datos, se calcularon los parámetros d
     %\resizebox{\columnwidth}{!}{
     \begin{tabular}{|c|c|c|c|c|c|c|}
         \hline
-        \textbf{Método} & \textbf{Año} & \textbf{k} & \textbf{c} & \textbf{RMSE} & \textbf{r} & \textbf{RB}\\
+        \textbf{Método} & \textbf{Período} & \textbf{k} & \textbf{c} & \textbf{RMSE} & \textbf{r} & \textbf{RB}\\
         \hline
         PSO & 2013 & 2.78 & 3.12 &0.0226585230791 & 0.984353070415 & 0.00197971468299\\
         PSO & 2014 & 2.91 & 3.37 &0.0232779965263 & 0.982087745069 & 0.000754465101398\\
         PSO & 2015 & 2.65 & 3.10 &0.0164721412159 & 0.992323803649 & 0.00302918178445\\
         \hline
-        EM & 2015 & 2.14 & 3.27 & 0.0341494675275 & 0.971026700325 & 0.0136048439913\\
+        PSO (Intento 1) & 2015-14-13 & 3.47 & 3.07 & 0.0360794587206 & 0.975240385258 & 0.000411212628513\\
+        PSO (Intento 2) & 2015-14-13 & 2.78 & 3.20 & 0.016175531561 & 0.994989105807 & 0.00190916669626\\
         \hline
+        PSO (Intento 2) & 2013 & 2.78 & 3.20 & 0.0240448436122 & 0.981963054492 & 0.00192186034284\\
+        PSO (Intento 2) & 2014 & 2.78 & 3.20 & 0.0301463089474 & 0.970662237238 & 8.89024791609e-05\\
+        PSO (Intento 2) & 2015 & 2.78 & 3.20 & 0.0202342934641 & 0.98662798667 & 0.00192175053173\\
+        \hline
+        PSO & Ene-Mar & 2.85 & 3.15 & 0.0230380400157 & 0.982158006469 & 0.00641888742608\\
+        PSO & Abr-Jun & 2.76 & 2.65 & 0.0204300909755 & 0.993857185938 & 0.00303620481316\\
+        PSO & Jul-Sep & 2.66 & 2.83 & 0.0251002816356 & 0.985858767021 & 0.00443453471038\\
+        PSO & Oct-Dic & 3.40 & 3.75 & 0.0260278634297 & 0.978479679326 & 0.000716653529598\\
+        \hline 
+        PSO (datos brutos) & 2015 & 1.00 & 9.49 & 0.0451794472583 & 0.751732944794 & 0.676094670465\\ 
     \end{tabular}
     %}   
 \end{table}
