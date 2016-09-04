@@ -3,7 +3,7 @@
 #include <math.h>
 #include "pso.h"
 #include "freq/freq.h"
-#include "utils/tools.h"
+#include "../utils/tools.h"
 
 float sol_max[] = {20.0, 20.0};
 float sol_min[] = {1.0, 1.0};

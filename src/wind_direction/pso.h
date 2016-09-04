@@ -2,7 +2,9 @@
 #define PSO_
 
 #define MAX_ITER 5000
-#define LEN_SOL 2
+#define MIXTURE_AMOUNT 3
+#define AMOUNT_VECTORS_SOLUTION 3
+#define LEN_SOL MIXTURE_AMOUNT * AMOUNT_VECTORS_SOLUTION
 
 #define PARAM_W 9.0
 #define PARAM_C1 3.5
@@ -12,21 +14,20 @@
 #define W_B 1.5 //Beta weight for cognitive param
 #define W_G 1.0 //Gamma weight for social param
 
-
 struct particle {
-    float *position;        //solution of the particle.    
-    float *velocity;        //vector of movement.    
-    float *particle_best;   //best historical position.
+    double *position;        //solution of the particle.    
+    double *velocity;        //vector of movement.    
+    double *particle_best;   //best historical position.
     int lenSol;             //lenght of the vector solution.
 };
 
 struct swarm {
     struct particle **particles;     //All of the swarm's particles.
     int total_particles;            //Number of the aprticles in the swarm.
-    float *global_best;             //Best solution of all particles.
-    float w_inertia;                //Inertia factor.
-    float c1_cognitive;             //Cognitive factor.
-    float c2_social;                //Social factor.
+    double *global_best;             //Best solution of all particles.
+    double w_inertia;                //Inertia factor.
+    double c1_cognitive;             //Cognitive factor.
+    double c2_social;                //Social factor.
 };
 
 /*
@@ -80,13 +81,13 @@ void saveParticleBest(struct particle *p);
 /*
  * Check position to avoid go out of the search space
  */
-void checkLimitPosition(float *pos);
+void checkLimitPosition(double *pos);
 
 
 /*
  * The objective function.
  * return the fitnes of the given vector.
  */
-float objectiveFunction(float *position);
+double objectiveFunction(double *position);
 
 #endif 

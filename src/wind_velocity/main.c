@@ -12,9 +12,9 @@ int main() {
 	    updateParameters(s,i);
     }
 
-    k = s->global_best[0];
-    c = s->global_best[1];
-    printf("Mejor Resultado: k: %.2f , c: %.2f \n", k, c);
+    //k = s->global_best[0];
+    //c = s->global_best[1];
+    //printf("Mejor Resultado: k: %.2f , c: %.2f \n", k, c);
 
     return 0;
 }

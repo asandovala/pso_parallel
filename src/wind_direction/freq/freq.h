@@ -1,22 +1,23 @@
 #ifndef FREQ_
 #define FREQ_
 
-//float **vel_freq;
+#define NUMBER_OF_CLASSES 28
 
 struct freq_data {
-    float **data;
+    double *rawData;
+    double *classesFrequencies; 
     int len;
-} vel_freq;
+} DATA_DIRECTION;
 
 /* 
- * Load freq data of some year and save in local memory, vel_freq
+ * Load freq data of some year and save in local memory, DATA_DIRECTION
  */
 void loadFreqData();
 
 
 /*
- * Return the relative frequency of the given velocity, if no exist, return 0.
+ * Return the relative frequency of the given direction, if no exist, return 0.
  */
-float getRelFreq(float vel);
+double getRelFreq(double vel);
 
 #endif

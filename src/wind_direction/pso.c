@@ -3,14 +3,21 @@
 #include <math.h>
 #include "pso.h"
 #include "freq/freq.h"
-#include "utils/tools.h"
+#include "../utils/tools.h"
+#include "params.h"
 
-float sol_max[] = {20.0, 20.0};
-float sol_min[] = {1.0, 1.0};
+#define PI 3.14159265358979323846
 
-float w_range[] = {0.4, 0.9};
-float c1_range[] = {1.0, 3.5};
-float c2_range[] = {0.0, 2.5};
+double range_u[] = {0.0, 2 * PI};
+double range_k[] = {0.0, 700.0};
+
+double limit_u[] = {0.0, 1.0};
+double limit_k[] = {0.0, 1.0};
+double limit_w[] = {0.0, 1.0};
+
+double w_range[] = {0.4, 0.9};
+double c1_range[] = {1.0, 3.5};
+double c2_range[] = {0.0, 2.5};
 
 struct swarm * initializeSwarm(int particles, int w, int c1, int c2) {
     int i, j;
@@ -35,12 +42,15 @@ struct swarm * initializeSwarm(int particles, int w, int c1, int c2) {
     }
 
     //init global best
-    float best_result = 1000.0;
-    float fitness;
-    float value;
+    double best_result = 1000.0;
+    double fitness;
+    double value;
 
-    s->global_best = malloc(sizeof(float) * LEN_SOL);
-    
+    getInitialSolution(s->global_best);
+
+/*
+    s->global_best = malloc(sizeof(double) * LEN_SOL);
+   
     for (i = 0; i < particles; i++) {
         p = s->particles[i];
         fitness = objectiveFunction(p->position);
@@ -52,26 +62,64 @@ struct swarm * initializeSwarm(int particles, int w, int c1, int c2) {
             }     
         }
     }   
-
+*/
     return s;
 }
 
 void initializeParticle(struct particle *p) {
-    float *p_best = malloc(sizeof(float) * LEN_SOL); 
-    float *pos = malloc(sizeof(float) * LEN_SOL); 
-    float *vel = malloc(sizeof(float) * LEN_SOL); 
+    double *p_best = malloc(sizeof(double) * LEN_SOL); 
+    double *pos = malloc(sizeof(double) * LEN_SOL); 
+    double *vel = malloc(sizeof(double) * LEN_SOL); 
+    double *data;
+    int from;
+    int to;
     int i;
+    int sectors = NUMBER_OF_CLASSES/MIXTURE_AMOUNT;
+
     p->position = pos;
     p->velocity = vel;
     p->particle_best = p_best;
-    for (i = 0; i < LEN_SOL; i++) {
+
+    for (i = 0; i < MIXTURE_AMOUNT; i++) {
         p->velocity[i] = 0.0;
-        p->position[i] = rangeDoubleInRange(sol_min[i], sol_max[i]); 
+        p->velocity[i + MIXTURE_AMOUNT] = 0.0;
+        p->velocity[i + 2 * MIXTURE_AMOUNT] = 0.0;
+
+        from = i * MIXTURE_AMOUNT;
+        to = (i + 1) * MIXTURE_AMOUNT;
+        data = getRangeOfData(DATA_DIRECTION.rawData, from, to);  
+
+        p->position[i] = rand01(); 
+        p->position[i + MIXTURE_AMOUNT] = rand01();
+        p->position[i + MIXTURE_AMOUNT * 2] = rand01();
+
         p->particle_best[i] = p->position[i];
+        p->particle_best[i + MIXTURE_AMOUNT] = p->position[i + MIXTURE_AMOUNT];
+        p->particle_best[i + MIXTURE_AMOUNT * 2] = p->position[i + MIXTURE_AMOUNT * 2];
     }
+
     p->lenSol = LEN_SOL;
 }
 
+void getInitialSolution(double *global_best) {
+    double *data;
+    int from;
+    int to;
+    int i;
+    int sectors = NUMBER_OF_CLASSES/MIXTURE_AMOUNT;
+
+    for (i = 0; i < MIXTURE_AMOUNT; i++) {
+        from = i * MIXTURE_AMOUNT;
+        to = (i + 1) * MIXTURE_AMOUNT;
+        data = getRangeOfData(DATA_DIRECTION.rawData, from, to);  
+
+        global_best[i] = getPrevailingDirection(data) / range_u[1]; 
+        global_best[i + MIXTURE_AMOUNT] = getConcentration(data) / range_k[1]; 
+        global_best[i + MIXTURE_AMOUNT * 2] = getWeightAproximation(DATA_DIRECTION.classesFrequencies, from * sectors, to * sectors); //TODO acá ...
+    }
+
+}
+/*
 void updateSwarm(struct swarm *s) {
     int i;
     int particles = s->total_particles;
@@ -92,7 +140,6 @@ void updateParameters(struct swarm *s, int time) {
     s->c1_cognitive = pow((1.0 - (float)time/MAX_ITER), W_B) * (c1_range[1] - c1_range[0]) + c1_range[0];
     s->c2_social = pow((1.0 - (float)time/MAX_ITER), W_G) * (c2_range[1] - c2_range[0]) + c2_range[1];
 }
-
 
 void saveGlobalBest(struct swarm *s) {
     float best_result = objectiveFunction(s->global_best);
@@ -155,7 +202,7 @@ void saveParticleBest(struct particle *p) {
     }
 } 
 
-void checkLimitPosition(float *pos) {
+void checkLimitPosition(double *pos) {
     int i;
     for (i = 0; i < LEN_SOL; i++) {
         if (pos[i] > sol_max[i]) {
@@ -166,7 +213,7 @@ void checkLimitPosition(float *pos) {
     }
 }
 
-float fWeibull(float *position, float velocity) {
+double fWeibull(double *position, double velocity) {
     float k = position[0];
     float c = position[1];
     float e = exp(1.0);
@@ -179,16 +226,14 @@ float fWeibull(float *position, float velocity) {
     return factor1 * factor2 * factor3; 
 }
 
-/*
- * Edit this accordly to the objective function.
- * Note: All comparison between values are thouht as minimization.
- */
-float objectiveFunction(float *position) {
+double objectiveFunction(double *position) {
     float sum = 0;
     float rReal;
     float rWeibull;
     float vel;
     int i;
+
+    //TODO Programar la Xi 2
 
     for (i = 0; i < vel_freq.len; i++) {
         vel = vel_freq.data[i][0];
@@ -199,3 +244,4 @@ float objectiveFunction(float *position) {
 
     return 0.5 * sum;
 }
+*/

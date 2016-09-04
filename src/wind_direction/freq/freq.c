@@ -2,13 +2,13 @@
 #include <stdlib.h>
 #include "freq.h"
 
-char file_path[] = "../../data/2015/parse/freq_data_15_oct-dic.csv";
+char file_path[] = "../../../data/2015/parse/direction_freq_data_15.csv";
 
 void loadFreqData() {
     FILE *fp;
     char ch;    
     int lines = 0, i = 0, j;
-    float d1, d2;
+    double value;
 
     fp = fopen(file_path, "r");
     if (!fp) {
@@ -24,43 +24,48 @@ void loadFreqData() {
     }
     
     //set memory to data
-    vel_freq.data = (float **) malloc(sizeof(float *) * lines);
-    for (j = 0; j < lines; j++) {
-        vel_freq.data[j] = (float*) malloc(sizeof(float *) * 2); 
-    }
-    vel_freq.len = lines;
+    DATA_DIRECTION.rawData = (double *) malloc(sizeof(double *) * lines);
+    DATA_DIRECTION.classesFrequencies = (double *) malloc(sizeof(double *) * lines);
+    DATA_DIRECTION.len = lines;
 
     rewind(fp);
 
     //get data line by line
-    while (fscanf(fp, "%f,%f", &d1, &d2) != EOF) {
-        vel_freq.data[i][0] = d1; 
-        vel_freq.data[i][1] = d2;
+    while (fscanf(fp, "%f", &value) != EOF) {
+        DATA_DIRECTION.rawData[i] = value;
         i++; 
     }
+
+    for (i = 0; i < lines;i++) {
+        DATA_DIRECTION.classesFrequencies[i] = getRelFreq(DATA_DIRECTION.rawData[i]);
+    }
        
-    fclose(fp);    
+    fclose(fp);
 }
 
-float getRelFreq(float vel) {
-    int lenData = vel_freq.len;
-    int i;
-    for (i = 0; i < lenData; i++) {
-        if (vel_freq.data[i][0] == vel) {
-            return vel_freq.data[i][1];
-        }
+double getRelFreq(double direction) {
+    int lenData = DATA_DIRECTION.len;
+    int i,j;
+    int *classes = (int *) malloc(sizeof(int *) * NUMBER_OF_CLASSES);
+    double count = 0.0;
+    double PI = 3.14159265358979323846;
+
+    for (i = 0; i < NUMBER_OF_CLASSES; i++) {
+        classes[i] = i * (2/NUMBER_OF_CLASSES);
     }
 
-    return 0.0;
-}
+    for (i = 0; i < lenData; i++) {
 
-/*
-int main() {
-    loadFreqData();
-    printf("value 9.0: %.2f \n", getRelFreq(9.0));
-    printf("value 12.0: %.2f \n", getRelFreq(12.0));
-    printf("value 3.0: %.2f \n", getRelFreq(3.0));
-  
-    return 0;
+        for (j = 0; j < NUMBER_OF_CLASSES; j++) {
+
+            if (DATA_DIRECTION.rawData[i] <= classes[i] * PI) {
+                count += 1.0;
+            }
+
+            break;
+        }
+
+    }
+
+    return count / lenData;
 }
-*/
