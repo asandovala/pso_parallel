@@ -40,6 +40,9 @@ def getData(text):
 
 def saveFreqYear():
   with open(PATH_OUT + NAME_OUT, "w") as f:
+    global allDirections 
+    allDirections = sorted(allDirections)
+
     for i in range(0, len(allDirections)):
       data = allDirections[i]		
       line = str(data)

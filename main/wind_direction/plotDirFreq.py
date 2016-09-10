@@ -9,7 +9,7 @@ bisDirection = []
 
 def initBins():
     global bisDirection
-    for i in range(1, 29):
+    for i in range(0, 29):
         bisDirection.append(0.07 * i) #each 12.6 degrees app
 
 with open(PATH_DATA, "r") as f:
@@ -24,7 +24,7 @@ with open(PATH_DATA, "r") as f:
 initBins()
 
 weights = [100.0/len(allData) for i in range(0, len(allData))]
-plt.hist(allData, bisDirection, align = 'mid',  weights = weights, histtype='bar', rwidth=1)
+plt.hist(allData, 28, align = 'mid',  weights = weights, histtype='bar', rwidth=1)
 
 #plt.axis([0, 15, 0, 50])
 plt.legend(bbox_to_anchor=(0.6, 0.8), loc=2, borderaxespad=0)
