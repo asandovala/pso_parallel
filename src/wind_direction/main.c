@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "pso.h"
+#include "freq/freq.h"
 
 int main() {
     int i;
@@ -19,7 +20,7 @@ int main() {
  */   
 
     for ( i = 0; i < LEN_SOL; i++) {
-        printf("Value: %.5f \n", s->global_best[i]);        
+       printf("Value: %.5f \n", s->global_best[i]);        
     } //TODO revisar segmentation fault ...
 
     return 0;

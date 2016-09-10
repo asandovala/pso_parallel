@@ -18,6 +18,6 @@ void loadFreqData();
 /*
  * Return the relative frequency of the given direction, if no exist, return 0.
  */
-double getRelFreq(double vel);
+void getRelFreq(double *vel);
 
 #endif

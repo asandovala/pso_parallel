@@ -46,10 +46,10 @@ struct swarm * initializeSwarm(int particles, int w, int c1, int c2) {
     double fitness;
     double value;
 
+    s->global_best = malloc(sizeof(double) * LEN_SOL);
     getInitialSolution(s->global_best);
 
-/*
-    s->global_best = malloc(sizeof(double) * LEN_SOL);
+/*    s->global_best = malloc(sizeof(double) * LEN_SOL);
    
     for (i = 0; i < particles; i++) {
         p = s->particles[i];
@@ -87,7 +87,8 @@ void initializeParticle(struct particle *p) {
 
         from = i * MIXTURE_AMOUNT;
         to = (i + 1) * MIXTURE_AMOUNT;
-        data = getRangeOfData(DATA_DIRECTION.rawData, from, to);  
+        
+        //data = getRangeOfData(DATA_DIRECTION.rawData, from, to);  
 
         p->position[i] = rand01(); 
         p->position[i + MIXTURE_AMOUNT] = rand01();
@@ -96,6 +97,7 @@ void initializeParticle(struct particle *p) {
         p->particle_best[i] = p->position[i];
         p->particle_best[i + MIXTURE_AMOUNT] = p->position[i + MIXTURE_AMOUNT];
         p->particle_best[i + MIXTURE_AMOUNT * 2] = p->position[i + MIXTURE_AMOUNT * 2];
+    
     }
 
     p->lenSol = LEN_SOL;
@@ -107,15 +109,30 @@ void getInitialSolution(double *global_best) {
     int to;
     int i;
     int sectors = NUMBER_OF_CLASSES/MIXTURE_AMOUNT;
+    int allData = DATA_DIRECTION.len;
+    int sectorData = (allData / MIXTURE_AMOUNT);
 
     for (i = 0; i < MIXTURE_AMOUNT; i++) {
-        from = i * MIXTURE_AMOUNT;
-        to = (i + 1) * MIXTURE_AMOUNT;
+
+        from = i * sectorData;
+        to = (i + 1) * sectorData;
+        if (i == MIXTURE_AMOUNT - 1) {
+            to = (i + 1) * sectorData + allData % MIXTURE_AMOUNT;
+        }
+         
+        printf("From: %d To: %d \n", from, to); 
         data = getRangeOfData(DATA_DIRECTION.rawData, from, to);  
 
         global_best[i] = getPrevailingDirection(data) / range_u[1]; 
         global_best[i + MIXTURE_AMOUNT] = getConcentration(data) / range_k[1]; 
-        global_best[i + MIXTURE_AMOUNT * 2] = getWeightAproximation(DATA_DIRECTION.classesFrequencies, from * sectors, to * sectors); //TODO acá ...
+
+        from = i * sectors;
+        to = (i + 1) * sectors;
+        if (i == MIXTURE_AMOUNT - 1) {
+            to = (i + 1) * sectors + NUMBER_OF_CLASSES % MIXTURE_AMOUNT;
+        }
+
+        global_best[i + MIXTURE_AMOUNT * 2] = getWeightAproximation(DATA_DIRECTION.classesFrequencies, from, to);
     }
 
 }

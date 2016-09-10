@@ -1,6 +1,8 @@
 #ifndef PARAMS_CALCULATOR 
 #define PARAMS_CALCULATOR
 
+double * getRangeOfData(double *data, int from, int to);
+
 double getAverageSine(double *data);
 
 double getAverageCosine(double *data);
