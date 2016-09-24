@@ -1,14 +1,14 @@
 #ifndef PSO_
 #define PSO_
 
-#define MAX_ITER 5000
-#define MIXTURE_AMOUNT 3
+#define MAX_ITER 500
+#define MIXTURE_AMOUNT 18
 #define AMOUNT_VECTORS_SOLUTION 3
 #define LEN_SOL MIXTURE_AMOUNT * AMOUNT_VECTORS_SOLUTION
 
-#define PARAM_W 9.0
-#define PARAM_C1 3.5
-#define PARAM_C2 2.5
+#define PARAM_W 0.89//9.0
+#define PARAM_C1 0.5//3.5
+#define PARAM_C2 0.7//2.5
 
 #define W_A 0.5 //Alpha weight for inertia param
 #define W_B 1.5 //Beta weight for cognitive param
@@ -43,7 +43,7 @@ struct swarm {
  */
 struct swarm * initializeSwarm(int particles, int w, int c1, int c2);
 
-void initializeParticle(struct particle *p);
+void initializeParticle(struct particle *p, struct swarm *s);
 
 /*
  * Update the particles in the swarm accordly to her params in the
@@ -83,11 +83,18 @@ void saveParticleBest(struct particle *p);
  */
 void checkLimitPosition(double *pos);
 
-
 /*
  * The objective function.
  * return the fitnes of the given vector.
  */
 double objectiveFunction(double *position);
+
+double vonMises(double angle, double u, double k);
+
+double mixtureVonMises(double angle, double *solution);
+
+double probabilityWindDirection(double *position, int sector);
+
+void getInitialSolution(double *global_best);
 
 #endif 

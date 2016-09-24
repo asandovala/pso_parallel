@@ -5,6 +5,7 @@
 #include "freq/freq.h"
 #include "../utils/tools.h"
 #include "params.h"
+#include <gsl/gsl_sf_bessel.h>
 
 #define PI 3.14159265358979323846
 
@@ -15,9 +16,12 @@ double limit_u[] = {0.0, 1.0};
 double limit_k[] = {0.0, 1.0};
 double limit_w[] = {0.0, 1.0};
 
-double w_range[] = {0.4, 0.9};
-double c1_range[] = {1.0, 3.5};
-double c2_range[] = {0.0, 2.5};
+double w_range[] = {0.5, 0.5};
+//double w_range[] = {0.4, 0.9};
+double c1_range[] = {0.5, 0.5};
+//double c1_range[] = {1.0, 3.5};
+double c2_range[] = {0.7, 0.7};
+//double c2_range[] = {0.0, 2.5};
 
 struct swarm * initializeSwarm(int particles, int w, int c1, int c2) {
     int i, j;
@@ -34,43 +38,26 @@ struct swarm * initializeSwarm(int particles, int w, int c1, int c2) {
     s->c1_cognitive = c1;
     s->c2_social = c2;
 
-    //set initial global_best
-    for (i = 0; i < particles; i++) {
-        p = malloc(sizeof(struct particle));
-        initializeParticle(p);
-        s->particles[i] = p;        
-    }
-
     //init global best
-    double best_result = 1000.0;
-    double fitness;
-    double value;
-
     s->global_best = malloc(sizeof(double) * LEN_SOL);
     getInitialSolution(s->global_best);
 
-/*    s->global_best = malloc(sizeof(double) * LEN_SOL);
-   
+    //set initial global_best
     for (i = 0; i < particles; i++) {
-        p = s->particles[i];
-        fitness = objectiveFunction(p->position);
-        if (fitness < best_result) { 
-            best_result = fitness;
-            for (j = 0; j < LEN_SOL; j++) {
-                value = p->position[j];
-                s->global_best[j] = value;
-            }     
-        }
-    }   
-*/
+        p = malloc(sizeof(struct particle));
+        initializeParticle(p, s);
+        s->particles[i] = p;        
+    }
+
+    
     return s;
 }
 
-void initializeParticle(struct particle *p) {
+void initializeParticle(struct particle *p, struct swarm *s) {
     double *p_best = malloc(sizeof(double) * LEN_SOL); 
     double *pos = malloc(sizeof(double) * LEN_SOL); 
     double *vel = malloc(sizeof(double) * LEN_SOL); 
-    double *data;
+    //double *data;
     int from;
     int to;
     int i;
@@ -90,8 +77,11 @@ void initializeParticle(struct particle *p) {
         
         //data = getRangeOfData(DATA_DIRECTION.rawData, from, to);  
 
+        //p->position[i] = s->global_best[i] + rand01() * 0.5; 
         p->position[i] = rand01(); 
+        //p->position[i + MIXTURE_AMOUNT] = s->global_best[i + MIXTURE_AMOUNT] + rand01() * 0.5;
         p->position[i + MIXTURE_AMOUNT] = rand01();
+        //p->position[i + MIXTURE_AMOUNT * 2] = s->global_best[i + MIXTURE_AMOUNT * 2] + rand01() * 0.5;
         p->position[i + MIXTURE_AMOUNT * 2] = rand01();
 
         p->particle_best[i] = p->position[i];
@@ -99,6 +89,9 @@ void initializeParticle(struct particle *p) {
         p->particle_best[i + MIXTURE_AMOUNT * 2] = p->position[i + MIXTURE_AMOUNT * 2];
     
     }
+
+    checkLimitPosition(p->position);
+    checkLimitPosition(p->particle_best);
 
     p->lenSol = LEN_SOL;
 }
@@ -112,6 +105,8 @@ void getInitialSolution(double *global_best) {
     int allData = DATA_DIRECTION.len;
     int sectorData = (allData / MIXTURE_AMOUNT);
 
+    int j;
+
     for (i = 0; i < MIXTURE_AMOUNT; i++) {
 
         from = i * sectorData;
@@ -120,11 +115,11 @@ void getInitialSolution(double *global_best) {
             to = (i + 1) * sectorData + allData % MIXTURE_AMOUNT;
         }
          
-        printf("From: %d To: %d \n", from, to); 
         data = getRangeOfData(DATA_DIRECTION.rawData, from, to);  
 
-        global_best[i] = getPrevailingDirection(data) / range_u[1]; 
-        global_best[i + MIXTURE_AMOUNT] = getConcentration(data) / range_k[1]; 
+        global_best[i] = getPrevailingDirection(data, to - from) / range_u[1]; 
+       
+        global_best[i + MIXTURE_AMOUNT] = getConcentration(data, to - from) / range_k[1]; 
 
         from = i * sectors;
         to = (i + 1) * sectors;
@@ -132,11 +127,10 @@ void getInitialSolution(double *global_best) {
             to = (i + 1) * sectors + NUMBER_OF_CLASSES % MIXTURE_AMOUNT;
         }
 
-        global_best[i + MIXTURE_AMOUNT * 2] = getWeightAproximation(DATA_DIRECTION.classesFrequencies, from, to);
+        global_best[i + MIXTURE_AMOUNT * 2] = getWeightAproximation(from, to);
     }
-
 }
-/*
+
 void updateSwarm(struct swarm *s) {
     int i;
     int particles = s->total_particles;
@@ -153,14 +147,14 @@ void updateSwarm(struct swarm *s) {
 }
 
 void updateParameters(struct swarm *s, int time) {
-    s->w_inertia = pow((1.0 - (float)time/MAX_ITER), W_A) * (w_range[1] - w_range[0]) + w_range[0];
-    s->c1_cognitive = pow((1.0 - (float)time/MAX_ITER), W_B) * (c1_range[1] - c1_range[0]) + c1_range[0];
-    s->c2_social = pow((1.0 - (float)time/MAX_ITER), W_G) * (c2_range[1] - c2_range[0]) + c2_range[1];
+    s->w_inertia = pow((1.0 - (double)time/MAX_ITER), W_A) * (w_range[1] - w_range[0]) + w_range[0];
+    s->c1_cognitive = pow((1.0 - (double)time/MAX_ITER), W_B) * (c1_range[1] - c1_range[0]) + c1_range[0];
+    s->c2_social = pow((1.0 - (double)time/MAX_ITER), W_G) * (c2_range[1] - c2_range[0]) + c2_range[1];
 }
 
 void saveGlobalBest(struct swarm *s) {
-    float best_result = objectiveFunction(s->global_best);
-    float fitness;
+    double best_result = objectiveFunction(s->global_best);
+    double fitness;
     int particles = s->total_particles;
     int i, j;
     struct particle *p;
@@ -180,17 +174,17 @@ void saveGlobalBest(struct swarm *s) {
 }
 
 void updateParticleVelocity(struct swarm *s, struct particle *p) {
-    float w = s->w_inertia;
-    float c1 = s->c1_cognitive;
-    float c2 = s->c2_social;
-    float rnd1 = rand01(); //0 to 1
-    float rnd2 = rand01();
-    float vel;
-    float diff_p_best;
-    float diff_g_best;
+    double w = s->w_inertia;
+    double c1 = s->c1_cognitive;
+    double c2 = s->c2_social;
+    double rnd1 = rand01(); //0 to 1
+    double rnd2 = rand01();
+    double vel;
+    double diff_p_best;
+    double diff_g_best;
     int i;
 
-    for (i = 0; i < p->lenSol; i++) {
+    for (i = 0; i < LEN_SOL; i++) {
         vel = p->velocity[i];
         diff_p_best = p->particle_best[i] - p->position[i];
         diff_g_best = p->particle_best[i] - s->global_best[i];
@@ -200,7 +194,8 @@ void updateParticleVelocity(struct swarm *s, struct particle *p) {
 
 void updateParticlePosition(struct particle *p) {
     int i;
-    for (i = 0; i < p->lenSol; i++) {
+
+    for (i = 0; i < LEN_SOL; i++) {
         p->position[i] += p->velocity[i]; 
         checkLimitPosition(p->position);
     }
@@ -210,55 +205,142 @@ void updateParticlePosition(struct particle *p) {
 
 void saveParticleBest(struct particle *p) {
     int i;
-    float current_best = objectiveFunction(p->particle_best);
-    float current_value = objectiveFunction(p->position);
+    //float current_best = objectiveFunction(p->particle_best);
+    double current_value = objectiveFunction(p->position);
+    double current_best = 0.0;
+
     if (current_value < current_best) {
-        for (i = 0; i < p->lenSol; i++) {
+        for (i = 0; i < LEN_SOL; i++) {
             p->particle_best[i] = p->position[i]; 
         }   
     }
 } 
 
 void checkLimitPosition(double *pos) {
-    int i;
-    for (i = 0; i < LEN_SOL; i++) {
-        if (pos[i] > sol_max[i]) {
-            pos[i] = sol_min[i];
-        } else if (pos[i] < sol_min[i]) {
-            pos[i] = sol_max[i];
+    int i, j;
+    double sum = 0.0;
+
+    for (i = 0; i < MIXTURE_AMOUNT; i++) {
+
+        if (pos[i] > 1) { 
+            pos[i] = 0.0; 
+        } else if (pos[i] < 0) {
+            pos[i] = 1.0;     
+        }
+
+        if (pos[i + MIXTURE_AMOUNT] > 1) { 
+            pos[i + MIXTURE_AMOUNT] = 0.0; 
+        } else if (pos[i + MIXTURE_AMOUNT] < 0) {
+            pos[i + MIXTURE_AMOUNT] = 1.0;     
+        }
+
+
+        if (pos[i + MIXTURE_AMOUNT * 2] > 1) { 
+            pos[i + MIXTURE_AMOUNT * 2] = 0.0; 
+        } else if (pos[i + MIXTURE_AMOUNT * 2] < 0) {
+            pos[i + MIXTURE_AMOUNT * 2] = 1.0;     
+        }
+            
+    }
+
+    for (i = 1; i < MIXTURE_AMOUNT; i++) { //Keep the constraint for the weights
+        for (j = 0; j < i; j++) {
+            sum += pos[j + MIXTURE_AMOUNT * 2];
+        }
+
+        if (i == MIXTURE_AMOUNT - 1) {
+            pos[i + MIXTURE_AMOUNT * 2] = (1.0 - sum);
+        } else {
+            pos[i + MIXTURE_AMOUNT * 2] = pos[(i + 1) + MIXTURE_AMOUNT * 2] * (1.0 - sum);
+            sum = 0.0; 
+        }
+    }
+
+    sum = 0.0;
+    for (i = 0; i < MIXTURE_AMOUNT; i++) {
+        sum += pos[i + MIXTURE_AMOUNT * 2];
+    }
+
+    if (sum > 1.1 || sum < 0.9) {
+        printf("No se cumplió la restricción \n");
+        for (i = 0; i < MIXTURE_AMOUNT; i++) {
+            printf("params: %lf \n", pos[i + MIXTURE_AMOUNT * 2]);
         }
     }
 }
 
-double fWeibull(double *position, double velocity) {
-    float k = position[0];
-    float c = position[1];
-    float e = exp(1.0);
-    float v = velocity;
-
-    float factor1 = (k/c);
-    float factor2 = pow((v/c), k-1);
-    float factor3 = pow(e, -pow((v/c), k));
-
-    return factor1 * factor2 * factor3; 
+//VonMises
+double vonMises(double angle, double u, double k) {
+    u *= range_u[1];
+    k *= range_k[1];
+    return exp(k * cos(angle - u)) / (2.0 * PI * gsl_sf_bessel_I0(k));
 }
 
-double objectiveFunction(double *position) {
-    float sum = 0;
-    float rReal;
-    float rWeibull;
-    float vel;
+double mixtureVonMises(double angle, double *solution) {
     int i;
+    double sum = 0.0;
+    double w, u, k;
 
-    //TODO Programar la Xi 2
-
-    for (i = 0; i < vel_freq.len; i++) {
-        vel = vel_freq.data[i][0];
-        rReal = vel_freq.data[i][1];
-        rWeibull = fWeibull(position, vel);
-        sum += pow(rReal - rWeibull, 2);
+    for (i = 0; i < MIXTURE_AMOUNT; i++) {
+        u = solution[i];
+        k = solution[i + MIXTURE_AMOUNT];
+        w = solution[i + MIXTURE_AMOUNT * 2];
+        sum += w * vonMises(angle, u, k);
     }
 
-    return 0.5 * sum;
+    return sum;
 }
-*/
+
+double probabilityWindDirection(double *position, int class) {
+    double precision = 0.017453292; // ~ 1º
+    double finalAngle;
+    double angle;
+    double sum = 0.0;
+
+    double lenClass = ((2.0 * PI) / NUMBER_OF_CLASSES);
+    double from = class * lenClass;
+    double to = (class + 1) * lenClass;
+
+    angle = from;
+    finalAngle = to;
+
+    while (angle < finalAngle) {
+        sum += mixtureVonMises(angle, position) * precision;
+        angle += precision;
+    }
+
+    /*if (sum == 0.0) {
+        double w,u,k;
+        int i;
+        printf("#####\n");
+        printf("from: %lf, to: %lf \n", from, to);
+        printf("Solution: \n");
+         for (i = 0; i < MIXTURE_AMOUNT; i++) {
+            u = position[i];
+            k = position[i + MIXTURE_AMOUNT];
+            w = position[i + MIXTURE_AMOUNT * 2];
+            printf("w: %lf, u: %lf, k: %lf \n", w,u,k);
+        }
+        printf("#####\n");
+    }*/
+    
+
+    return sum;
+}
+
+//La Xi cuadrado
+double objectiveFunction(double *position) {
+    int i;
+    double Oi;
+    double pi;
+    double sum = 0.0;
+    double n = DATA_DIRECTION.sumAllFreq;
+
+    for (i = 0; i < NUMBER_OF_CLASSES; i++) {
+        Oi = DATA_DIRECTION.classesFrequencies[i];
+        pi = probabilityWindDirection(position, i);
+        sum += pow((Oi - n*pi), 2)/(n*pi);
+    }
+ 
+    return sum; 
+}

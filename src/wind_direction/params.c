@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "freq/freq.h"
 #include "params.h"
 
 #define PI 3.14159265358979323846
@@ -10,47 +11,36 @@ double * getRangeOfData(double *data, int from, int to) {
   double * copyData = (double *) malloc(sizeof(double *) * (to - from));
   for (i = from; i < to; i++) {
     copyData[i - from] = data[i];
-    printf("%lf ", data[i]);    //TODO, QUE WEA...
   }
 
   return copyData;
 }
 
-double getAverageSine(double *data) {
+double getAverageSine(double *data, int lenData) {
   int i;
-  int len = sizeof(data)/sizeof(data[0]);
   double sum = 0.0;
-  for (i = 0; i < len; i++) {
+  for (i = 0; i < lenData; i++) {
     sum += sin(data[i]);    
   }
 
-  return sum/len;
+  return sum/lenData;
 }
 
-double getAverageCosine(double *data) {
+double getAverageCosine(double *data, int lenData) {
   int i;
-  int len = sizeof(data)/sizeof(data[0]);
   double sum = 0.0;
-  for (i = 0; i < len; i++) {
+  for (i = 0; i < lenData; i++) {
     sum += cos(data[i]);    
   }
 
-  return sum/len;
+  return sum/lenData;
 }
 
-double getPrevailingDirection(double *data) {
+double getPrevailingDirection(double *data, int lenData) {
   double uj;
-  double sj = getAverageSine(data);
-  double cj = getAverageCosine(data);
+  double sj = getAverageSine(data, lenData);
+  double cj = getAverageCosine(data, lenData);
   int i;
-
-  printf("Params: %lf %lf \n", sj, cj);
-  printf("Data: \n");   
-  int len = sizeof(data)/sizeof(data[0]);
-  for (i = 0; i < len; i++) {
-    printf("%lf", data[i]);    
-  }
-  printf("\n");
 
   if (sj >= 0 && cj > 0) {
     uj = atan(sj/cj);
@@ -69,17 +59,19 @@ double getPrevailingDirection(double *data) {
   return uj;
 }
 
-double getConcentration(double *data) {
-  double sj = getAverageSine(data);
-  double cj = getAverageCosine(data);
+double getConcentration(double *data, int lenData) {
+  double sj = getAverageSine(data, lenData);
+  double cj = getAverageCosine(data, lenData);
+
   return abs(23.29041409 - 16.8617370 * pow(pow(sj,2) + pow(cj, 2), 0.25) );
 }
 
-double getWeightAproximation(double *frequencies, int from, int to) {
+double getWeightAproximation(int from, int to) {
   double numerator = 0.0;
-  double denominator = 1.0;
+  double denominator = 0.0;
+  double *frequencies = DATA_DIRECTION.classesFrequencies;
+  int len = NUMBER_OF_CLASSES;
   int i;
-  int len = sizeof(frequencies)/sizeof(frequencies[0]);
 
   for (i = 0; i < len; i++) {
     denominator += frequencies[i];

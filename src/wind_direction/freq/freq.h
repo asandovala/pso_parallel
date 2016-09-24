@@ -1,11 +1,12 @@
 #ifndef FREQ_
 #define FREQ_
 
-#define NUMBER_OF_CLASSES 28
+#define NUMBER_OF_CLASSES 36
 
 struct freq_data {
     double *rawData;
     double *classesFrequencies; 
+    double sumAllFreq;
     int len;
 } DATA_DIRECTION;
 

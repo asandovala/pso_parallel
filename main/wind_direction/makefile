@@ -4,5 +4,5 @@ HEAD = ../../src/wind_direction/freq/freq.h ../../src/wind_direction/pso.h ../..
 NAME = pso 
 
 $(NAME): $(OBJS) $(HEAD)
-	gcc $(FLAGS) -o $(NAME) $(OBJS) -lm
+	gcc $(FLAGS) -o $(NAME) $(OBJS) -lm -lgsl -lgslcblas
 

@@ -41,6 +41,13 @@ void loadFreqData() {
     }
 
     getRelFreq(DATA_DIRECTION.classesFrequencies);
+
+    double n = 0.0;
+    for (i = 0; i < NUMBER_OF_CLASSES; i++) {
+        n += DATA_DIRECTION.classesFrequencies[i];
+    }
+    DATA_DIRECTION.sumAllFreq = n;    
+
        
     fclose(fp);
 }
@@ -72,7 +79,7 @@ void getRelFreq(double *classesFrequencies) {
             }
         }
 
-        classesFrequencies[i] = count / lenData;
+        classesFrequencies[i] = count ;// lenData;
         count = 0.0;
     }
 }

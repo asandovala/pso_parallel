@@ -3,14 +3,14 @@
 
 double * getRangeOfData(double *data, int from, int to);
 
-double getAverageSine(double *data);
+double getAverageSine(double *data, int lenData);
 
-double getAverageCosine(double *data);
+double getAverageCosine(double *data, int lenData);
 
-double getPrevailingDirection(double *data);
+double getPrevailingDirection(double *data, int lenData);
 
-double getConcentration(double *data);
+double getConcentration(double *data, int lenData);
 
-double getWeightAproximation(double *data, int from, int to);
+double getWeightAproximation(int from, int to);
 
 #endif 
