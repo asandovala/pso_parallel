@@ -115,9 +115,9 @@ La dirección del viento es información esencial para la investigación acerca 
 \begin{align}
     f(x;\mu_{h}, k_{h}) = \sum_{h=1}^{H}(w_{h})\frac{k^{\frac{d}{2} - 1}}{(2\pi)^{\frac{d}{2}}I_{\frac{d}{2} - 1} (k)}e^{(k_h\mu_{h}^{T}x)}
 \end{align}    
-Donde $x=[cos(\theta_i), sin(\theta_i)]$, $\frac{k^{\frac{d}{2} - 1}}{(2\pi)^{\frac{d}{2}}I_{\frac{d}{2} - 1} (k)}$ es una constante de normalización, $d$ es la dimensión del vector aleatorio $x$ ($d = 2$, para este caso), $\mu_{h}$ y $k_h$ son el promedio direccional, parámetro de concentración para cada $h = 1, 2,...,H$ componente del FVFM y $w_h$ es el parámetro de mezcla (\emph{mixture parameter}).\\
+Donde $x=[cos(\theta_i), sin(\theta_i)]$, $\frac{k^{\frac{d}{2} - 1}}{(2\pi)^{\frac{d}{2}}I_{\frac{d}{2} - 1} (k)}$ es una constante de normalización, $d$ es la dimensión del vector aleatorio $x$ ($d = 2$, para este caso), $\mu_{h}$ es el parámetro de dirección predominante (análogo a la media $\mu$ en la distribución normal), $k_h$ es el parámetro de concentración (análogo al recíproco de la dispersión $\sigma^{2}$), estos dos últimos para cada $h = 1, 2,...,H$ componente del FVFM y $w_h$ es el parámetro de mezcla o peso de las funciones de von Mises (\emph{mixture parameter}).\\
 Además, el parámetro de mezcla del FVMF está sujeto a la siguiente restricción:
-\begin{align}
+\begin{align}\label{eq:WeightConstraint}
     0 \leq w_h \leq 1 \text{ y } \sum_{h=1}^{H} w_{h} = 1 \text{ para } (h=1,2,...,H) 
 \end{align}
 Para estimar los parámetros del FVMF, se sugiere utilizar el método \emph{expectation maximization}, debido a que los métodos regulares son incapaces de manejar la complejidad del modelo, consideraciones que se mencionan en el trabajo de Banerjee et al.\cite{Banerjee05}.\\
@@ -132,8 +132,8 @@ Por último, los resultados de este trabajo muestran que FVMF provee un razonabl
 \end{figure}
 
 En el trabajo de Heckenbergerova et al.\cite{Heckenbergerova15}, se utiliza una estrategia diferente a la anteriormente mencionada. Basados en la ya mencionada meta-heurística inspirada en la biología, \emph{Particle Swarm Optimization}, proponen una forma distinta para encontrar un modelo de ajuste, utilizando la distribución estadística \emph{finite mixture of circular normal von Mises} (MvM), similar a la mencionada previamente.\\ 
-En este caso, se define la distribución simple de \emph{von Mises} (SvM) como:
-\begin{align}
+En este caso, se define la \emph{simple von Mises distribution} (SvM) como:
+\begin{align}\label{eq:simpleVonMises}
     f(\theta; \mu, k) = \frac{1}{2{\pi}I_{0}(k)}e^{k cos(\theta - \mu)}
 \end{align}    
 Donde $k \geq 0$, $0 \leq \mu \leq 2\pi$, $0 \leq \theta \leq 2\pi$ y $I_0(k)$ representa la versión modificada de la función de Bessel de primera clase y orden cero:
@@ -142,7 +142,7 @@ Donde $k \geq 0$, $0 \leq \mu \leq 2\pi$, $0 \leq \theta \leq 2\pi$ y $I_0(k)$ r
 \end{align}    
 Para $k=0$, la distribución SvM se vuelve uniforme alrededor de un círculo con todas las direcciones equi-probables. Cuando una colección de datos tiene más de una dirección predominante, es necesario utilizar una mezcla (\emph{mixture}) de distribuciones.
 Así, la función de densidad de probabilidad \emph{finite mixture of simple von Mises} (MvM-pdf) queda como:
-\begin{align}
+\begin{align}\label{eq:mixtureVonMises}
     \phi(\theta; v) = \sum_{j=1}^{k} w_j \cdot f_j(\theta; \mu_j, k_j)
 \end{align}    
 Donde $k$ es el número de funciones de la mezcla, $j$ es el índice de una particular SvM-pdf con parámetros $\mu_j$ y $k_j$, $\theta$ es una variable angular ($0 \leq \theta \leq 2\pi$), y $v$ es un vector parámetro de la forma:

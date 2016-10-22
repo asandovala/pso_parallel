@@ -5,7 +5,7 @@
 \section{Velocidad del viento}
 \subsection{Modelo Matemático} \label{ss:Modelo_Mat}
 Como se adelanta anteriormente, para encontrar los parámetros de la distribución de Weibull que se ajusten a los datos de prueba se utilizará el \emph{Particle Swarm Optimization}. La función de distribución de Weibull está definida en la ecuación \ref{eq:weibull}. El PSO a utilizar está representado por la ecuación \ref{eq:PSO}. La función objetivo se describe con la fórmula \ref{eq:PSO_FO} y es aquella con la que se busca minimizar el error cuadrático entre la frecuencia real de los datos y la estimada por la distribución de Weibull. Los parámetros a encontrar $k$ y $c$ deben ser $\geq 0$ . Por último, a modo de favorecer la exploración al comienzo y la explotación al final de las iteraciones del PSO, se utilizará la recomendación de \cite{Carneiro15} para la variación de parámetros del enjambre:
-\begin{align}
+\begin{align}\label{eq:VariationParameters}
     w(j) &= (1 - \frac{j}{iter_{max}})^{\alpha}(w_{max} - w_{min} + w_{min})\\
     c_{1}(j) &= (1 - \frac{j}{iter_{max}})^{\beta}(c_{1max} - c_{1min}) + c_{1min}\\
     c_{2}(j) &= (1 - \frac{j}{iter_{max}})^{\gamma}(c_{2min} - c_{2max}) + c_{2max}
@@ -19,13 +19,13 @@ Cada vector posición de las partículas del enjambre representa una solución c
 \end{align}    
 Para ambos parámetros, se establecen los límites entre $0 \leq (k,c) \leq 20$, criterio que se basa en el trabajo de Carneiro et al. \cite{Carneiro15}. De esta forma, las partículas se moverán dentro de ese rango, manteniéndose en los lugares que minimizan la función objetivo, la cual representa el error de la predicción de Weibull versus los datos reales.\\
 Así, para cada partícula se define una estructura que posee las siguientes propiedades: 
-\begin{enumerate}
+\begin{enumerate}\label{rep:Particle}
     \item Posición: vector de números flotantes de largo dos, los cuales representan la ubicación de la partícula dentro del espacio de búsqueda y sus componentes a los parámetros $k$ y $c$.
     \item Velocidad: vector de números flotantes que representan el cambio de valor de cada componente de la posición de la partícula en determinada iteración. Se actualiza en base a la ecuación de velocidad del PSO.
     \item Mejor resultado personal: vector flotante que guarda la mejor posición conseguida por la partícula durante las iteraciones transcurridas.    
 \end{enumerate}        
 Mientras que el enjambre, siendo esencialmente una estructura que posee referencia a todas las partículas, queda representado de la siguiente forma:
-\begin{enumerate}
+\begin{enumerate}\label{rep:Swarm}
     \item Partículas: Arreglo de referencias a las estructuras de partículas creadas.
     \item Mejor posición global: De todos los mejores resultados particulares a cada partícula, se almacena la mejor posición de todas. La que persiste al final del ciclo de iteraciones, es la solución final.
     \item W, C1 y C2: Son los parámetros de inercia, cognitivo y social respectivamente.    
@@ -79,3 +79,76 @@ Donde $N$ es el número de datos, $Y_i$ la frecuencia de dichos datos, $X_i$ la 
 Las pruebas fueron realizadas en un computador con sistema operativo Ubuntu 16.04 64-bit, 3.8 GB de memoria y procesador doble núcleo Intel Pentium 2.60 GHz. 
 
 \section{Dirección del viento}
+\subsection{Modelo Matemático} 
+Como se comenta anteriormente, la distribución de densidad de probabilidad que se utilizará para describir la distribución de datos de dirección del viento
+es la \emph{mixture von mises distribution} descrita en \ref{eq:mixtureVonMises}, la cual consiste básicamente en una combinación lineal de la \emph{simple von Mises distribution} descrita en \ref{eq:simpleVonMises}.\\ 
+De forma preliminar, los datos se ordenan en un histograma de densidad con el cual se obtiene un esqueleto de la distribución de densidad de probabilidad. Posteriormente se requieren encontrar los parámetros de ajuste $\mu_j$, $k_j$ y $w_j$ para cada $j$-ésima \emph{simple von Mises distribution}. La forma en que
+se realiza esto último en este trabajo está basado en Heckenbergerova et al. \cite{Heckenbergerova15} y se describe a continuación.\\
+Para la construcción del histograma se divide el rango de datos que va de 0 a $2\pi$ en $T$ clases con frecuencia $O_i$ la cual representa la suma de las observaciones en el rango de la clase $T$. Posteriormente se definen $k$ sectores del mismo largo desde las $T$ clases, relacionados al número de direcciones de viento predominantes (o con mayor frecuencia). Esto define el número de funciones de von Mises a utilizar. La estimación de $k$ se realiza mediante la observación del histograma generado, un análisis cualitativo de las direcciones predominantes en los datos.\\
+Para la aproximación inicial de los parámetros de la \emph{mixture von mises distribution} se utiliza una estimación numérica basada en los datos recolectados acerca de la dirección del viento.\\
+Sea $j \in \{1 ... k\}$ el subíndice del sector representado por la $j$-ésima función de von Mises.\\
+La dirección del viento predominante $\mu_j$ se estima de la siguiente forma:
+\begin{align}
+    \mu_j &= 
+        \left\{
+            \begin{array}{ll}
+                arctan(\frac{s_j}{c_j})  & s_j \geq 0, c_j > 0\\
+                \frac{\pi}{2} & s_j > 0, c_j = 0\\
+                \pi + arctan(\frac{s_j}{c_j}) & c_j < 0\\
+                \pi & s_j > 0, c_j = -1\\
+                2\pi + arctan(\frac{s_j}{c_j}) & s_j < 0, c_j > 0\\
+                3\frac{\pi}{2} & s_j < 0, c_j = 0\\
+            \end{array}
+        \right.
+\end{align}
+En donde $s_j$ y $c_j$ representan el seno y coseno promedio del sector $j$.\\
+Tradicionalmente, se estima el parámetro de concentración $k_j$ con la ecuación:
+\begin{align}\label{eq:ImplicitK}
+    \frac{I_1(k_j)}{I_0(k_j)} = \sqrt{s_j^2 + c_j^2}
+\end{align}
+Donde $I_1(k_j)$ es la función modificada de Bessel de primera clase y orden 1.
+Para evitar la resolución de la ecuación implícita \ref{eq:ImplicitK} se utiliza la propuesta realizada en el trabajo previamente citado de Heckenbergerova et al. con lo cual el parámetro $k_j$ puede ser aproximado por:\\
+\begin{align}
+    |k_j| = \{23.29041409 - 16.8617370\sqrt[4]{s_j^2 + c_j^2}\} 
+\end{align}
+Los pesos iniciales $w_j$ son aproximados como: \\
+\begin{align}
+    w_j = \frac{\sum_{i=J_l}^{J_u} O_i}{\sum_{i=1}^{T} O_i}
+\end{align}
+
+Donde $J_l$ y $J_u$ son los índices de los bordes del sector $j$.\\
+Esta estimación inicial de los parámetros de la \emph{mixture von mises distribution} es mejorada mediante la meta-heurística \emph{Particle Swarm Optimization}. Para el PSO se utiliza la representación descrita en \ref{eq:PSO} y la modificación a este sugerida en Carneiro et al. \cite{Carneiro15} descrita previamente en \ref{eq:VariationParameters}.\\
+La función objetivo para el PSO es el test estadístico $\chi^2$ descrito en \cite{Heckenbergerova15} como sigue a continuación:
+\begin{align}
+    \chi^2 = \sum_{i=1}^{T}\frac{(O_i - np_{i})^2}{np_i}
+\end{align}
+Donde $T$ es el número de clases de frecuencia definido para construir el histograma, $n$ es la suma de las frecuencias observadas $O_i$ y $p_i$ es la probabilidad teórica de cada clase de frecuencia predicha por el modelo ajustado.\\
+Para el cálculo del $p_i$ se utiliza:
+\begin{align}
+    p_i = \int_{l_i}^{u_i} f(x) dx
+\end{align}
+Donde $u_i$ y $l_i$ son los bordes de la $i$-ésima clase de frecuencia.\\
+La forma de la solución a encontrar es descrita en \ref{eq:sol_pso}. Esta es restringida por la condición para los pesos de la \emph{mixture von mises distribution}, la cual obliga a que se deba cumplir que la suma de los pesos sea igual a 1, como se describe en \ref{eq:WeightConstraint}.
+\subsection{Representación}
+La representación del PSO es similar al utilizado para el ajuste de la distribución de datos de velocidad del viento. Las partículas y el enjambre están representados por \ref{rep:Particle} y \ref{rep:Swarm} respectivamente.\\
+La solución para el PSO que mejora la estimación inicial de los parámetros para la \emph{mixture von Mises distribution} está representado por un vector $v$ en el cual se encuentran los valores para todos los parámetros de cada \emph{simple von Mises distribution}. Estos valores están codificados para que el algoritmo se mueve en el rango desde 0 a 1.\\
+El vector solución tiene la forma:
+\begin{align}
+    v = (\overbrace{v_1,...,v_k}^{\mu},\overbrace{v_{k+1},...,v_{2k}}^{k},\overbrace{v_{2k+1},...,v_{n}}^{w}).
+\end{align}
+En donde $\mu$ está representado en el rango $i \in \{1,...,k\}$ y para ser decodificado debe ser escalado por $2\pi$.
+
+
+*Representación restricción
+
+
+\subsection{Descripción del algoritmo}
+El ajuste de la función de densidad de probabilidad para la dirección del viento se basa en el trabajo propuesto por Heckenbergerova \cite{Heckenbergerova15}.\\ 
+Consiste en dos fases. La primera, una aproximación basada en la estimación numérica de los parámetros requeridos para la \emph{mixture of von Mises distribution} a través de operaciones simples con los datos recolectados, y la segunda, una mejora de la solución inicial obtenida en la fase anterior mediante el uso de la meta-heurística \emph{Particle Swarm Optimization}. \\
+
+* Hablar del ajuste de parámetros. (iteraciones, la partición de clases,  )
+* Hablar de la aproximación inicial
+* Esquema algoritmico.
+* Decodificación y resultado
+\subsection{Experimentos}
+* Test estadisticos y gráficoss

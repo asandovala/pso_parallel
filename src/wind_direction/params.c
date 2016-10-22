@@ -62,8 +62,26 @@ double getPrevailingDirection(double *data, int lenData) {
 double getConcentration(double *data, int lenData) {
   double sj = getAverageSine(data, lenData);
   double cj = getAverageCosine(data, lenData);
+  double f1 = 23.29041409;
+  //double f1 = pow(pow(sj,2) + pow(cj, 2), 0.5);
+  //double f1 = 23.29041409;
+  //double f2 = pow(pow(sj,2) + pow(cj, 2), 1.5);
+  double f2 = 16.8617370*pow(pow(sj,2) + pow(cj, 2), 0.25);
+  //double f3 = 17.4749884 * exp(-(pow(sj,2) + pow(cj, 2)) );
+  //double f3 = pow(sj,2) + pow(cj, 2);
 
-  return abs(23.29041409 - 16.8617370 * pow(pow(sj,2) + pow(cj, 2), 0.25) );
+  //double result = 1.0 / fabs(f1 - f2 - f3);
+
+  //double result = fabs(f1 - f2 );//- f3);
+  //double result = fabs((2*f1 - f2)/(1 - f3));//- f3);
+
+  //if (result > 700.0) { //limit
+    //result = 700.0;
+  //}
+
+  //printf("K stimated %lf f1: %lf f2: %lf f3: %lf \n", result, f1, f2, f3);
+
+  return fabs(f1 - f2);
 }
 
 double getWeightAproximation(int from, int to) {

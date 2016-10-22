@@ -1,8 +1,8 @@
 #ifndef PSO_
 #define PSO_
 
-#define MAX_ITER 500
-#define MIXTURE_AMOUNT 18
+#define MAX_ITER 50000
+#define MIXTURE_AMOUNT 7
 #define AMOUNT_VECTORS_SOLUTION 3
 #define LEN_SOL MIXTURE_AMOUNT * AMOUNT_VECTORS_SOLUTION
 
@@ -96,5 +96,7 @@ double mixtureVonMises(double angle, double *solution);
 double probabilityWindDirection(double *position, int sector);
 
 void getInitialSolution(double *global_best);
+
+double bessi0( double x );
 
 #endif 

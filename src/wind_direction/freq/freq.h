@@ -1,7 +1,7 @@
 #ifndef FREQ_
 #define FREQ_
 
-#define NUMBER_OF_CLASSES 36
+#define NUMBER_OF_CLASSES 14
 
 struct freq_data {
     double *rawData;
@@ -19,6 +19,6 @@ void loadFreqData();
 /*
  * Return the relative frequency of the given direction, if no exist, return 0.
  */
-void getRelFreq(double *vel);
+void setDensity(double *vel);
 
 #endif

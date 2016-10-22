@@ -5,23 +5,25 @@
 #include "freq/freq.h"
 #include "../utils/tools.h"
 #include "params.h"
-#include <gsl/gsl_sf_bessel.h>
+//#include <gsl/gsl_sf_bessel.h>
+//#include "bessel.c"
 
 #define PI 3.14159265358979323846
 
 double range_u[] = {0.0, 2 * PI};
 double range_k[] = {0.0, 700.0};
+//double range_k[] = {0.0, 23.0};
 
 double limit_u[] = {0.0, 1.0};
 double limit_k[] = {0.0, 1.0};
 double limit_w[] = {0.0, 1.0};
 
-double w_range[] = {0.5, 0.5};
-//double w_range[] = {0.4, 0.9};
-double c1_range[] = {0.5, 0.5};
-//double c1_range[] = {1.0, 3.5};
-double c2_range[] = {0.7, 0.7};
-//double c2_range[] = {0.0, 2.5};
+//double w_range[] = {0.5, 0.5};
+double w_range[] = {0.4, 0.9};
+//double c1_range[] = {0.5, 0.5};
+double c1_range[] = {1.0, 3.5};
+//double c2_range[] = {0.7, 0.7};
+double c2_range[] = {0.0, 2.5};
 
 struct swarm * initializeSwarm(int particles, int w, int c1, int c2) {
     int i, j;
@@ -49,7 +51,6 @@ struct swarm * initializeSwarm(int particles, int w, int c1, int c2) {
         s->particles[i] = p;        
     }
 
-    
     return s;
 }
 
@@ -77,12 +78,9 @@ void initializeParticle(struct particle *p, struct swarm *s) {
         
         //data = getRangeOfData(DATA_DIRECTION.rawData, from, to);  
 
-        //p->position[i] = s->global_best[i] + rand01() * 0.5; 
-        p->position[i] = rand01(); 
-        //p->position[i + MIXTURE_AMOUNT] = s->global_best[i + MIXTURE_AMOUNT] + rand01() * 0.5;
-        p->position[i + MIXTURE_AMOUNT] = rand01();
-        //p->position[i + MIXTURE_AMOUNT * 2] = s->global_best[i + MIXTURE_AMOUNT * 2] + rand01() * 0.5;
-        p->position[i + MIXTURE_AMOUNT * 2] = rand01();
+        p->position[i] = s->global_best[i] + rand01() * 0.01; 
+        p->position[i + MIXTURE_AMOUNT] = s->global_best[i + MIXTURE_AMOUNT] + rand01() * 0.01;
+        p->position[i + MIXTURE_AMOUNT * 2] = s->global_best[i + MIXTURE_AMOUNT * 2] + rand01() * 0.01;
 
         p->particle_best[i] = p->position[i];
         p->particle_best[i + MIXTURE_AMOUNT] = p->position[i + MIXTURE_AMOUNT];
@@ -169,6 +167,13 @@ void saveGlobalBest(struct swarm *s) {
             for (j = 0; j < LEN_SOL; j++) {
                 s->global_best[j] = p->position[j];
             }     
+
+            printf("\n New best: %d \n", i);
+            for ( j = 0; j < LEN_SOL; j++) {
+                printf(" %.5f,", s->global_best[j]);        
+            }
+
+            printf("\n");
         }
     }
 }
@@ -219,41 +224,44 @@ void saveParticleBest(struct particle *p) {
 void checkLimitPosition(double *pos) {
     int i, j;
     double sum = 0.0;
+    double diff;
 
     for (i = 0; i < MIXTURE_AMOUNT; i++) {
 
-        if (pos[i] > 1) { 
-            pos[i] = 0.0; 
-        } else if (pos[i] < 0) {
-            pos[i] = 1.0;     
+        if (pos[i] > 1.0) { 
+            pos[i] = 1.0; 
+        } else if (pos[i] < 0.0) {
+            pos[i] = 0.0;     
         }
 
-        if (pos[i + MIXTURE_AMOUNT] > 1) { 
-            pos[i + MIXTURE_AMOUNT] = 0.0; 
-        } else if (pos[i + MIXTURE_AMOUNT] < 0) {
-            pos[i + MIXTURE_AMOUNT] = 1.0;     
+        if (pos[i + MIXTURE_AMOUNT] > 1.0) { 
+            pos[i + MIXTURE_AMOUNT] = 1.0; 
+        } else if (pos[i + MIXTURE_AMOUNT] < 0.0) {
+            pos[i + MIXTURE_AMOUNT] = 0.0;     
         }
-
 
         if (pos[i + MIXTURE_AMOUNT * 2] > 1) { 
-            pos[i + MIXTURE_AMOUNT * 2] = 0.0; 
+            pos[i + MIXTURE_AMOUNT * 2] = 1.0; 
         } else if (pos[i + MIXTURE_AMOUNT * 2] < 0) {
-            pos[i + MIXTURE_AMOUNT * 2] = 1.0;     
+            pos[i + MIXTURE_AMOUNT * 2] = 0.0;     
         }
             
     }
 
-    for (i = 1; i < MIXTURE_AMOUNT; i++) { //Keep the constraint for the weights
-        for (j = 0; j < i; j++) {
-            sum += pos[j + MIXTURE_AMOUNT * 2];
-        }
+    for (i = 0; i < MIXTURE_AMOUNT; i++) { //Keep the constraint for the weights
+        sum += pos[i + MIXTURE_AMOUNT * 2];
+    }
 
-        if (i == MIXTURE_AMOUNT - 1) {
-            pos[i + MIXTURE_AMOUNT * 2] = (1.0 - sum);
-        } else {
-            pos[i + MIXTURE_AMOUNT * 2] = pos[(i + 1) + MIXTURE_AMOUNT * 2] * (1.0 - sum);
-            sum = 0.0; 
-        }
+    if (sum > 1.0) {
+        for (i = 0; i < MIXTURE_AMOUNT; i++) { //Keep the constraint for the weights
+            pos[i + MIXTURE_AMOUNT * 2] = pos[i + MIXTURE_AMOUNT * 2] / sum;
+        }  
+    } else if (sum < 1.0) {
+        diff = 1.0 - sum;
+        diff = diff / MIXTURE_AMOUNT;
+        for (i = 0; i < MIXTURE_AMOUNT; i++) { //Keep the constraint for the weights
+            pos[i + MIXTURE_AMOUNT * 2] += diff;
+        }    
     }
 
     sum = 0.0;
@@ -273,7 +281,12 @@ void checkLimitPosition(double *pos) {
 double vonMises(double angle, double u, double k) {
     u *= range_u[1];
     k *= range_k[1];
-    return exp(k * cos(angle - u)) / (2.0 * PI * gsl_sf_bessel_I0(k));
+    //return exp(k * cos(angle - u)) / (2.0 * PI * gsl_sf_bessel_I0(k));
+    double result = exp(k * cos(angle - u)) / (2.0 * PI * bessi0(k));
+    if (result < 0) {
+        printf("Error, negative probability %lf \n", result);
+    }
+    return result;
 }
 
 double mixtureVonMises(double angle, double *solution) {
@@ -292,40 +305,33 @@ double mixtureVonMises(double angle, double *solution) {
 }
 
 double probabilityWindDirection(double *position, int class) {
-    double precision = 0.017453292; // ~ 1º
+    //double precision = 0.017453292; // ~ 1º
+    //double precision = 0.17453292; // ~ 1º
     double finalAngle;
     double angle;
     double sum = 0.0;
 
     double lenClass = ((2.0 * PI) / NUMBER_OF_CLASSES);
+    double precision = lenClass/16.0;
     double from = class * lenClass;
     double to = (class + 1) * lenClass;
 
     angle = from;
     finalAngle = to;
 
+
     while (angle < finalAngle) {
         sum += mixtureVonMises(angle, position) * precision;
+        //sum += mixtureVonMises(angle, position);
         angle += precision;
     }
 
-    /*if (sum == 0.0) {
-        double w,u,k;
-        int i;
-        printf("#####\n");
-        printf("from: %lf, to: %lf \n", from, to);
-        printf("Solution: \n");
-         for (i = 0; i < MIXTURE_AMOUNT; i++) {
-            u = position[i];
-            k = position[i + MIXTURE_AMOUNT];
-            w = position[i + MIXTURE_AMOUNT * 2];
-            printf("w: %lf, u: %lf, k: %lf \n", w,u,k);
-        }
-        printf("#####\n");
-    }*/
-    
 
     return sum;
+    //return sum * lenClass;
+
+    //return mixtureVonMises((to + from) * 0.5, position) * lenClass;
+    //return mixtureVonMises(to, position);
 }
 
 //La Xi cuadrado
@@ -334,13 +340,42 @@ double objectiveFunction(double *position) {
     double Oi;
     double pi;
     double sum = 0.0;
+    double sumProb = 0.0;
     double n = DATA_DIRECTION.sumAllFreq;
+    double lenClass = ((2.0 * PI) / NUMBER_OF_CLASSES);
 
     for (i = 0; i < NUMBER_OF_CLASSES; i++) {
         Oi = DATA_DIRECTION.classesFrequencies[i];
         pi = probabilityWindDirection(position, i);
+
+        //sum += pow((Oi - n*pi), 2)/(n*pi);
         sum += pow((Oi - n*pi), 2)/(n*pi);
     }
+
+    //printf(" %lf \n", sumProb);
  
     return sum; 
+}
+
+double bessi0( double x )
+/*------------------------------------------------------------*/
+/* PURPOSE: Evaluate modified Bessel function In(x) and n=0.  */
+/*------------------------------------------------------------*/
+{
+   double ax,ans;
+   double y;
+
+
+   if ((ax=fabs(x)) < 3.75) {
+      y=x/3.75,y=y*y;
+      ans=1.0+y*(3.5156229+y*(3.0899424+y*(1.2067492
+         +y*(0.2659732+y*(0.360768e-1+y*0.45813e-2)))));
+   } else {
+      y=3.75/ax;
+      ans=(exp(ax)/sqrt(ax))*(0.39894228+y*(0.1328592e-1
+         +y*(0.225319e-2+y*(-0.157565e-2+y*(0.916281e-2
+         +y*(-0.2057706e-1+y*(0.2635537e-1+y*(-0.1647633e-1
+         +y*0.392377e-2))))))));
+   }
+   return ans;
 }

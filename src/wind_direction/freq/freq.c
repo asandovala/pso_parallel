@@ -40,7 +40,7 @@ void loadFreqData() {
         i++; 
     }
 
-    getRelFreq(DATA_DIRECTION.classesFrequencies);
+    setDensity(DATA_DIRECTION.classesFrequencies);
 
     double n = 0.0;
     for (i = 0; i < NUMBER_OF_CLASSES; i++) {
@@ -52,34 +52,41 @@ void loadFreqData() {
     fclose(fp);
 }
 
-void getRelFreq(double *classesFrequencies) {
+void setDensity(double *classesFrequencies) {
     int lenData = DATA_DIRECTION.len;
     int i,j;
     double *classes = (double *) malloc(sizeof(double *) * NUMBER_OF_CLASSES);
     double count = 0.0;
     double PI = 3.14159265358979323846;
     double data;
+    double lenClass = (2*PI/NUMBER_OF_CLASSES);
 
     for (i = 0; i < NUMBER_OF_CLASSES; i++) {
-        classes[i] = (i + 1) * (2.0/NUMBER_OF_CLASSES);
+        classes[i] = (i + 1) * (2.0 * PI /NUMBER_OF_CLASSES);
     }
 
+    printf("Prob \n");
     for (i = 0; i < NUMBER_OF_CLASSES; i++) {
 
         for (j = 0; j < lenData; j++) {
             data = DATA_DIRECTION.rawData[j];
             if (i == 0) {
-                if (data >= 0 && data < classes[i] * PI) {
+                if (data >= 0 && data < classes[i]) {
                     count += 1.0;
                 }
             } else {
-                if (data >= classes[i - 1] * PI && data < classes[i] * PI) {
+                if (data >= classes[i - 1] && data < classes[i]) {
                     count += 1.0;
                 }
             }
         }
 
-        classesFrequencies[i] = count ;// lenData;
+        classesFrequencies[i] = count;
+        //Pruebas con densidad
+        //classesFrequencies[i] = (count/lenData) / lenClass;
         count = 0.0;
+
+        printf(" %lf ", classesFrequencies[i]);
     }
+    printf("\n");
 }
