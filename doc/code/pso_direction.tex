@@ -1,11 +1,11 @@
 %!TEX root = main.tex
-
 \begin{algorithm}[h!]
-\caption{PSO para el ajuste de los parámetros de la distribución de Weibull}
+\caption{PSO para la mejora de la aproximación de los parámetros de la \emph{mixture von Mises distribution}}
 \label{alg:pso}
 \begin{algorithmic}
-\REQUIRE Datos de frecuencias de velocidades del viento.
-\ENSURE Valores para los parámetros $k$ y $c$.
+\REQUIRE Datos de la dirección del viento.
+\REQUIRE Solución inicial para el ajuste de la \emph{mixture von Mises distribution}.
+\ENSURE Solución inicial mejorada.
 \STATE enjambre = inicializar(w,c1,c2)
 \FOR{$i = 1$ to $Iter_{max}$}
 \FOR{Each partículas en enjambre}
