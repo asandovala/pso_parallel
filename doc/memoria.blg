@@ -1,0 +1,58 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: memoria.aux
+The style file: ieeetr.bst
+Database file #1: bibliography/images.bib
+Database file #2: bibliography/bibliography.bib
+Warning--I didn't find a database entry for "goodFitTest"
+Warning--I didn't find a database entry for "chiSquareTable"
+Warning--empty journal in Dabbaghiyan15
+Warning--empty journal in Carneiro15
+Warning--empty journal in Heckenbergerova15
+Warning--empty journal in Psoexplain14
+Warning--empty journal in Kongnam15
+Warning--empty journal in Chang10
+Warning--empty journal in Winddirelse15
+Warning--empty journal in Carta07
+You've used 12 entries,
+            1876 wiz_defined-function locations,
+            546 strings with 5694 characters,
+and the built_in function-call counts, 2190 in all, are:
+= -- 184
+> -- 100
+< -- 0
++ -- 39
+- -- 27
+* -- 138
+:= -- 348
+add.period$ -- 15
+call.type$ -- 12
+change.case$ -- 13
+chr.to.int$ -- 0
+cite$ -- 20
+duplicate$ -- 120
+empty$ -- 235
+format.name$ -- 27
+if$ -- 515
+int.to.chr$ -- 0
+int.to.str$ -- 12
+missing$ -- 10
+newline$ -- 42
+num.names$ -- 12
+pop$ -- 64
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 42
+stack$ -- 0
+substring$ -- 59
+swap$ -- 18
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 8
+while$ -- 16
+width$ -- 14
+write$ -- 99
+(There were 10 warnings)

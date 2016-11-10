@@ -12,7 +12,6 @@
 
 double range_u[] = {0.0, 2 * PI};
 double range_k[] = {0.0, 700.0};
-//double range_k[] = {0.0, 23.0};
 
 double limit_u[] = {0.0, 1.0};
 double limit_k[] = {0.0, 1.0};
@@ -170,10 +169,10 @@ void saveGlobalBest(struct swarm *s) {
 
             printf("\n New best: %d \n", i);
             for ( j = 0; j < LEN_SOL; j++) {
-                printf(" %.5f,", s->global_best[j]);        
+                //printf(" %.5f,", s->global_best[j]);        
             }
 
-            printf("\n");
+            printf("\n Fitness: %lf \n", best_result);
         }
     }
 }
