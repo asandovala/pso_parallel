@@ -6,13 +6,15 @@
 #define AMOUNT_VECTORS_SOLUTION 3
 #define LEN_SOL MIXTURE_AMOUNT * AMOUNT_VECTORS_SOLUTION
 
-#define PARAM_W 0.89//9.0
-#define PARAM_C1 0.5//3.5
-#define PARAM_C2 0.7//2.5
+#define PARAM_W 0.4//9.0
+#define PARAM_C1 1.0//3.5
+#define PARAM_C2 0.0//2.5
 
 #define W_A 0.5 //Alpha weight for inertia param
 #define W_B 1.5 //Beta weight for cognitive param
 #define W_G 1.0 //Gamma weight for social param
+
+#define EXPECTED_FITNESS 20.0
 
 struct particle {
     double *position;        //solution of the particle.    
@@ -41,7 +43,7 @@ struct swarm {
  * 
  * @return: A pointer to the swarm struct created. 
  */
-struct swarm * initializeSwarm(int particles, int w, int c1, int c2);
+struct swarm * initializeSwarm(int particles);
 
 void initializeParticle(struct particle *p, struct swarm *s);
 
@@ -54,7 +56,7 @@ void updateSwarm(struct swarm *s);
 /*
  * Make parameters dynamic to avoid fast convergence
  */
-void updateParameters(struct swarm *s, int time);
+void updateParameters(struct swarm *s, double fitness);
 
 /*
  * Search for the best result between all particles and set it 

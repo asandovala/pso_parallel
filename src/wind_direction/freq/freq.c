@@ -4,7 +4,7 @@
 #include <errno.h>
 #include <string.h>
 
-char file_path[] = "../../data/2014/parse/direction_freq_data_14_SEP.csv"; //Data must be sorted, min to max
+char file_path[] = "../../data/2013/parse/direction_freq_data_13.csv"; //Data must be sorted, min to max
 
 void loadFreqData() {
     FILE *fp;

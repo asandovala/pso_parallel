@@ -33,7 +33,10 @@ Mientras que el enjambre, siendo esencialmente una estructura que posee referenc
 
 \subsection{Descripción del algoritmo}
 La lógica del algoritmo \ref{alg:pso} se basa en mover las partículas dentro del rango definido para los componentes de la solución hasta que todas las partículas se concentren en alguna zona que represente una buena solución al problema, no necesariamente el óptimo. Lo importante en cada iteración es actualizar o mover el enjambre, revisar y guardar las mejores soluciones y actualizar los parámetros de inercia, cognitivo y social que definen las velocidades.
+\begin{algorithm}[h!]
+\label{alg:pso}
 \input{code/pso_code}
+\end{algorithm}
 Las iteraciones fueron probadas hasta un máximo de 1000 y 50 partículas, (A excepción del experimento donde se consideraron todos los promedios diarios, 2013, 2014 y 2015, en el cual, se utilizaron 200 partículas). Los parámetros de $w$, $c1$ y $c2$ fueron definidos tal y como explica en el modelo matemático, en la sección \ref{ss:Modelo_Mat}.\\
 
 \subsection{Experimentos}
@@ -143,102 +146,36 @@ El parámetro $w_j$ está representado en el rango $i \in \{2k+1,...,n\}$ cuyos 
 \subsection{Descripción del algoritmo}
 El algoritmo para el ajuste de la función de densidad de probabilidad para la dirección del viento se basa en la propuesta de Heckenbergerova et al. \cite{Heckenbergerova15}.\\ 
 Como se ha ido vislumbrado, consiste en dos fases. La primera, una aproximación basada en la estimación numérica de los parámetros requeridos para la \emph{mixture of von Mises distribution} a través de operaciones simples con los datos recolectados, y la segunda, una mejora de la solución inicial obtenida en la fase anterior mediante el uso de la meta-heurística \emph{Particle Swarm Optimization}. \\
-A continuación se describe el algoritmo para la aproximación inicial de la solución.
+El algoritmo para la aproximación inicial de la solución se describe en \ref{alg:init_aprox_direction}.
+\begin{algorithm}[h!]
+\label{alg:init_aprox_direction}
 \input{code/initial_direction}
+\end{algorithm}
 En donde la estimación de los parámetros se realiza como se describe en \ref{eq:Prevailing_Param} para los $\mu_j$, \ref{eq:Implicit_Param} para los $k_j$ y \ref{eq:Weight_Param} para los pesos $w_j$.
 Una vez obtenida la aproximación inicial se procede a mejorar esta mediante el uso del PSO.
+\begin{algorithm}[h!]
+\label{alg:pso_direction}
 \input{code/pso_direction}
-El algoritmo es bastante similar en estructura al desarrollado para la dirección del viento \ref{alg:pso}. Sin embargo,
+\end{algorithm}
+El algoritmo es bastante similar en estructura al desarrollado para la velocidad del viento \ref{alg:pso}. Sin embargo,
 existen diferencias importantes, relevantes al problema actual que se destacarán a continuación.\\
 Para la inicialización de las partículas, se realizaron pequeñas perturbaciones a la solución inicial tal y como se sugiere en Heckenbergerova et al. \cite{Heckenbergerova15}. Esto evita que la solución escape a zonas que tengan un buen resultado en la función objetivo, pero que la forma escape a la del histograma. Debido a que la función objetivo definida \ref{eq:FO_Direction} mide las diferencias de frecuencias entre los datos reales y los teóricos, es decir, las áreas de las barras del histograma de densidad versus el área bajo la curva de la distribución de probabilidad en algún intervalo, más de una forma de la curva podría parecer una buena solución. (referencia imágen) Por ello, la idea es mantener la forma inicial encontrada, mejorándola sin deformarla. Así, las perturbaciones iniciales a los valores entre 0 y 1  de las posiciones de las partículas eran del orden de $~ 10^{-3}$.\\
 La forma en que se cuidaron las condiciones de borde consistieron en limitar el avance de las partículas a los bordes 0 y 1 manteniéndolos en dichos valores si es que se excedían a ellos.\\
 Para cuidar la restricción de pesos se normalizaran los valores determinados en cada iteración, es decir, se suman todos los valores $w_j$ y se ponderan dichos valores por el recíproco de la suma obtenida.\\
 Debido a que la función objetivo implica determinar la frecuencia teórica, es necesario determinar la probabilidad
 de cierto rango de direcciones mediante el cálculo del área bajo la curva de la distribución de densidad de probabilidad para luego ser multiplicada por la suma del total de datos y así obtener el valor requerido. Por ende, para el cálculo de la integral se utilizaron sumas de Riemann con una partición conveniente al desempeño del algoritmo y la precisión requerida.\\
-Finalmente, la solución obtenida es decodificada tal y como se explica en la sección anterior \ref{sec:Representacion}.
-\subsection{Experimentos}
+Finalmente, la solución obtenida es decodificada tal y como se explica en la sección anterior \ref{sec:Representacion}.\\
+El esquema \ref{esq:PSO_DIR} resume el funcionamiento del algoritmo.
+%%Ver redacción acá ....
 
-\begin{figure}[htbp]
-     \centering
-        \subfigure[Evolucion de la solucion.]{
-            \label{fig:EV_SOL}
-            \includegraphics[width=0.5\textwidth]{figures/ev_solution.png}
-        }%
-        \subfigure[Comparacion solución inicial y final, 2015.]{
-           \label{fig:COMP_INI_END}
-           \includegraphics[width=0.5\textwidth]{figures/sol_ini_sol_fin.png}
-        }\\ %  ------- End of the first row ----------------------%
-        \subfigure[Ejemplo de mal ajuste, 2015.]{
-            \label{fig:BAD_ADJUST}
-            \includegraphics[width=0.5\textwidth]{figures/bad_adjust.png}
-        }
-        \subfigure[Solucion inicial y final, 2014.]{
-            \label{fig:SOL_14}
-            \includegraphics[width=0.5\textwidth]{figures/sol_ini_sol_fin_2014.png}
-        }\\
-         \subfigure[Solucion inicial y final, 2013.]{
-            \label{fig:SOL_13}
-            \includegraphics[width=0.5\textwidth]{figures/sol_ini_sol_fin_2013.png}
-        }
-    \caption{Graficos de ajustes anuales}
-    \label{fig:subfigures}
-\end{figure}
+%% Los parámetros....
 \begin{figure}[ht!]
-    \begin{center}
-         %%MONTHS  
-        \subfigure[Solución inicial y final, Enero.]{
-            \label{fig:PLOT_SOL_ENERO}
-            \includegraphics[width=0.4\textwidth]{figures/sol_ini_sol_fin_ENERO.png}
-        }
-         \subfigure[Solución inicial y final, Febrero.]{
-            \label{fig:PLOT_SOL_FEBRERO}
-            \includegraphics[width=0.4\textwidth]{figures/sol_ini_sol_fin_FEBRERO.png}
-        }\\
-          \subfigure[Solución inicial y final, Marzo.]{
-            \label{fig:PLOT_SOL_MARZO}
-            \includegraphics[width=0.4\textwidth]{figures/sol_ini_sol_fin_MARZO.png}
-        }
-         \subfigure[Solución inicial y final, Abril.]{
-            \label{fig:PLOT_SOL_ABRIL}
-            \includegraphics[width=0.4\textwidth]{figures/sol_ini_sol_fin_ABRIL.png}
-        }\\
-          \subfigure[Solución inicial y final, Mayo.]{
-            \label{fig:PLOT_SOL_MAYO}
-            \includegraphics[width=0.4\textwidth]{figures/sol_ini_sol_fin_MAYO.png}
-        }
-         \subfigure[Solución inicial y final, Junio.]{
-            \label{fig:PLOT_SOL_JUNIO}
-            \includegraphics[width=0.4\textwidth]{figures/sol_ini_sol_fin_JUNIO.png}
-        }\\
-        \subfigure[Solución inicial y final, Julio.]{
-            \label{fig:PLOT_SOL_JULIO}
-            \includegraphics[width=0.5\textwidth]{figures/sol_ini_sol_fin_JULIO.png}
-        }
-         %\subfigure[Solución inicial y final, Agosto.]{
-         %   \label{fig:PLOT_SOL_AGOSTO}
-         %   \includegraphics[width=0.5\textwidth]{figures/sol_ini_sol_fin_AGOSTO.png}
-        %}\\
-          \subfigure[Solución inicial y final, Septiembre.]{
-            \label{fig:PLOT_SOL_SEPTIEMBRE}
-            \includegraphics[width=0.4\textwidth]{figures/sol_ini_sol_fin_SEPTIEMBRE.png}
-        }
-         \subfigure[Solución inicial y final, Octubre.]{
-            \label{fig:PLOT_SOL_OCTUBRE}
-            \includegraphics[width=0.4\textwidth]{figures/sol_ini_sol_fin_OCTUBRE.png}
-        }\\
-          \subfigure[Solución inicial y final, Noviembre.]{
-            \label{fig:PLOT_SOL_NOVIEMBRE}
-            \includegraphics[width=0.4\textwidth]{figures/sol_ini_sol_fin_NOVIEMBRE.png}
-        }
-         \subfigure[Solución inicial y final, Diciembre.]{
-            \label{fig:PLOT_SOL_DICIEMBRE}
-            \includegraphics[width=0.4\textwidth]{figures/sol_ini_sol_fin_DICIEMBRE.png}
-        }
-
-    \end{center}
-    \caption{Gráficos de ajuste de MVM por meses. Fuente: Elaboración propia.}
-    \label{fig:PLOT_MONTHS}
+\caption{Esquema de uso del algoritmo}
+\input{tikzFigures/flowChartAlg}
+\label{esq:PSO_DIR}
 \end{figure}
+
+\subsection{Experimentos}
 
 %%Chi square goodness fit.
 ads\cite{goodFitTest}

@@ -8,7 +8,7 @@ int main() {
     struct swarm *s;
     double pi;
     double sum = 0.0;
-    s = initializeSwarm(100, PARAM_W, PARAM_C1, PARAM_C2);
+    s = initializeSwarm(100);
 
 
     printf("Initial \n");
@@ -22,11 +22,10 @@ int main() {
     for (i = 0; i < MAX_ITER; i++) {
         //printf("\n Iteration %d \n", i);
         updateSwarm(s);
-	    updateParameters(s,i);
 
-        //if (objectiveFunction(s->global_best) < 22.362) {
-        //    break;
-        //}
+        if (objectiveFunction(s->global_best) < 22.362) {
+            break;
+        }
     }
 
     printf("\nIterations #: %d \n", i);
