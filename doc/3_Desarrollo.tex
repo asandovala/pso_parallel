@@ -33,13 +33,10 @@ Mientras que el enjambre, siendo esencialmente una estructura que posee referenc
 
 \subsection{Descripción del algoritmo}
 La lógica del algoritmo \ref{alg:pso} se basa en mover las partículas dentro del rango definido para los componentes de la solución hasta que todas las partículas se concentren en alguna zona que represente una buena solución al problema, no necesariamente el óptimo. Lo importante en cada iteración es actualizar o mover el enjambre, revisar y guardar las mejores soluciones y actualizar los parámetros de inercia, cognitivo y social que definen las velocidades.
-\begin{algorithm}[h!]
-\label{alg:pso}
 \input{code/pso_code}
-\end{algorithm}
 Las iteraciones fueron probadas hasta un máximo de 1000 y 50 partículas, (A excepción del experimento donde se consideraron todos los promedios diarios, 2013, 2014 y 2015, en el cual, se utilizaron 200 partículas). Los parámetros de $w$, $c1$ y $c2$ fueron definidos tal y como explica en el modelo matemático, en la sección \ref{ss:Modelo_Mat}.\\
 
-\subsection{Experimentos}
+\subsection{Experimentos}\label{sec:Experimentos_velocidad}
 Los experimentos fueron realizados con datos del viento obtenidos por la Armada de Chile para la región de Valparaíso en los años 2013, 2014 y 2015. Estos fueron tratados mediante \emph{scripts} desarrollados en python para obtener las frecuencias de las distintas velocidades del viento registradas a lo largo del año. Los datos se organizaban de la siguiente forma: Por cada año, se tiene una tabla en un archivo exel de cada mes, en donde se registra por cada fila los resultados de la medición de cada día. Las mediciones son registradas en un intervalo de tres horas, es decir, se tienen registros diarios para las 3:00, 6:00, 9:00, 12:00, 15:00, 18:00, 21:00 y 00:00 horas.\\
 Un ejemplo es la tabla mostrada en la figura \ref{fig:example_data}.
  \begin{figure}[h!]
@@ -110,7 +107,7 @@ Tradicionalmente, se estima el parámetro de concentración $k_j$ con la ecuaci�
     \frac{I_1(k_j)}{I_0(k_j)} = \sqrt{s_j^2 + c_j^2}
 \end{align}
 Donde $I_1(k_j)$ es la función modificada de Bessel de primera clase y orden 1.
- Como se explica en Banerjee et al. \cite{Banerjee05}, debido a la falta de una solución análitica a la ecuación \ref{eq:ImplicitK}, no es posible estimar directamente los valores de $k$. Se podrían utilizar métodos para ecuaciones no lineales, pero para datos de altas dimensiones, problemas de desbordamiento (\emph{overflow}) o inestabilidad numérica se vuelven concurrentes. Por tanto, se utiliza la propuesta realizada en el trabajo de Heckenbergerova et al. \cite{Heckenbergerova15} con lo cual el parámetro $k_j$ puede ser aproximado por:\\
+ Como se explica en Banerjee et al. \cite{Banerjee05}, debido a la falta de una solución análitica a la ecuación \ref{eq:Implicit_Param}, no es posible estimar directamente los valores de $k$. Se podrían utilizar métodos para ecuaciones no lineales, pero para datos de altas dimensiones, problemas de desbordamiento (\emph{overflow}) o inestabilidad numérica se vuelven concurrentes. Por tanto, se utiliza la propuesta realizada en el trabajo de Heckenbergerova et al. \cite{Heckenbergerova15} con lo cual el parámetro $k_j$ puede ser aproximado por:\\
 \begin{align}
     |k_j| = \{23.29041409 - 16.8617370\sqrt[4]{s_j^2 + c_j^2}\} 
 \end{align}
@@ -147,40 +144,32 @@ El parámetro $w_j$ está representado en el rango $i \in \{2k+1,...,n\}$ cuyos 
 El algoritmo para el ajuste de la función de densidad de probabilidad para la dirección del viento se basa en la propuesta de Heckenbergerova et al. \cite{Heckenbergerova15}.\\ 
 Como se ha ido vislumbrado, consiste en dos fases. La primera, una aproximación basada en la estimación numérica de los parámetros requeridos para la \emph{mixture of von Mises distribution} a través de operaciones simples con los datos recolectados, y la segunda, una mejora de la solución inicial obtenida en la fase anterior mediante el uso de la meta-heurística \emph{Particle Swarm Optimization}. \\
 El algoritmo para la aproximación inicial de la solución se describe en \ref{alg:init_aprox_direction}.
-\begin{algorithm}[h!]
-\label{alg:init_aprox_direction}
 \input{code/initial_direction}
-\end{algorithm}
 En donde la estimación de los parámetros se realiza como se describe en \ref{eq:Prevailing_Param} para los $\mu_j$, \ref{eq:Implicit_Param} para los $k_j$ y \ref{eq:Weight_Param} para los pesos $w_j$.
 Una vez obtenida la aproximación inicial se procede a mejorar esta mediante el uso del PSO.
-\begin{algorithm}[h!]
-\label{alg:pso_direction}
 \input{code/pso_direction}
-\end{algorithm}
 El algoritmo es bastante similar en estructura al desarrollado para la velocidad del viento \ref{alg:pso}. Sin embargo,
 existen diferencias importantes, relevantes al problema actual que se destacarán a continuación.\\
-Para la inicialización de las partículas, se realizaron pequeñas perturbaciones a la solución inicial tal y como se sugiere en Heckenbergerova et al. \cite{Heckenbergerova15}. Esto evita que la solución escape a zonas que tengan un buen resultado en la función objetivo, pero que la forma escape a la del histograma. Debido a que la función objetivo definida \ref{eq:FO_Direction} mide las diferencias de frecuencias entre los datos reales y los teóricos, es decir, las áreas de las barras del histograma de densidad versus el área bajo la curva de la distribución de probabilidad en algún intervalo, más de una forma de la curva podría parecer una buena solución. (referencia imágen) Por ello, la idea es mantener la forma inicial encontrada, mejorándola sin deformarla. Así, las perturbaciones iniciales a los valores entre 0 y 1  de las posiciones de las partículas eran del orden de $~ 10^{-3}$.\\
+Para la inicialización de las partículas, se realizaron pequeñas perturbaciones a la solución inicial tal y como se sugiere en Heckenbergerova et al. \cite{Heckenbergerova15}. Esto evita que la solución escape a zonas que tengan un buen resultado en la función objetivo, pero que la forma escape a la del histograma. Debido a que la función objetivo definida \ref{eq:FO_Direction} mide las diferencias de frecuencias entre los datos reales y los teóricos, es decir, las áreas de las barras del histograma de densidad versus el área bajo la curva de la distribución de probabilidad en algún intervalo, más de una forma de la curva podría parecer una buena solución. (referencia imagen) Por ello, la idea es mantener la forma inicial encontrada, mejorándola sin deformarla. Así, las perturbaciones iniciales a los valores entre 0 y 1  de las posiciones de las partículas eran del orden de $~ 10^{-3}$.\\
 La forma en que se cuidaron las condiciones de borde consistieron en limitar el avance de las partículas a los bordes 0 y 1 manteniéndolos en dichos valores si es que se excedían a ellos.\\
 Para cuidar la restricción de pesos se normalizaran los valores determinados en cada iteración, es decir, se suman todos los valores $w_j$ y se ponderan dichos valores por el recíproco de la suma obtenida.\\
 Debido a que la función objetivo implica determinar la frecuencia teórica, es necesario determinar la probabilidad
 de cierto rango de direcciones mediante el cálculo del área bajo la curva de la distribución de densidad de probabilidad para luego ser multiplicada por la suma del total de datos y así obtener el valor requerido. Por ende, para el cálculo de la integral se utilizaron sumas de Riemann con una partición conveniente al desempeño del algoritmo y la precisión requerida.\\
 Finalmente, la solución obtenida es decodificada tal y como se explica en la sección anterior \ref{sec:Representacion}.\\
-El esquema \ref{esq:PSO_DIR} resume el funcionamiento del algoritmo.
 %%Ver redacción acá ....
 
+\subsection{Experimentos}
+Similar a los descrito en \label{sec:Experimentos_velocidad}, los datos de dirección del viento son tratados para rescatar las mediciones pertinentes al trabajo aquí expuesto. Estos se encuentran inicialmente en un formato como el que se puede apreciar en la figura \ref{fig:example_data}.\\
+Nuevamente, las pruebas fueron realizadas en un computador con sistema operativo Ubuntu 16.04 64-bit, 3.8 GB de memoria y procesador doble núcleo Intel Pentium 2.60 GHz.\\
+Para evaluar la calidad de la solución, se utiliza el test \emp{Chi square goodness fit}\cite{goodFitTest}, con lo cual se evalúa que tan bien representa el modelo propuesto a los datos medidos. Para ello, la hipótesis nula $H_0$ es que los datos de dirección del viento se distribuyen según la función \emph{mixture of von Mises distribution} y la hipótesis alternativa $H_1$ niega dicha afirmación. Se rechaza $H_0$ si el valor de la función objetivo del PSO para la solución final encontrada excede el valor crítico de $\Xi^2$ para un nivel de significancia de $\alpha = 0.05$ y 13 grados de libertad, es decir \textbf{22.362}, el cual se puede encontrar en la tabla de la distribución $\Xi^2$ \cite{chiSquareTable}. Los grados de libertad son definidos a partir de la cantidad de clases de frecuencia definidas para el estudio, en este caso, se dividió el rango de valores de $\[0, 2\pi\]$ en 14 tramos iguales, por lo quedan $(n-1)$ grados de libertad, 13 en este caso.\\
+Los experimentos realizados...
+
+%%Mayor numero de clases disminuye la precisión y hace el algoritmo más lento.... 
+\section{Aplicación de los algoritmos propuestos}
+El esquema \ref{esq:PSO_DIR} resume el funcionamiento del algoritmo.
 %% Los parámetros....
 \begin{figure}[ht!]
 \caption{Esquema de uso del algoritmo}
 \input{tikzFigures/flowChartAlg}
 \label{esq:PSO_DIR}
 \end{figure}
-
-\subsection{Experimentos}
-
-%%Chi square goodness fit.
-ads\cite{goodFitTest}
-
-%%Chi square table
-sad\cite{chiSquareTable}
-
-%%Mayor numero de clases disminuye la precisión y hace el algoritmo más lento.... 

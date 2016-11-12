@@ -1,5 +1,7 @@
 %!TEX root = main.tex
+\begin{algorithm}[h!]
 \caption{PSO para la mejora de la aproximación de los parámetros de la \emph{mixture von Mises distribution}}
+\label{alg:pso_direction}
 \begin{algorithmic}
 \REQUIRE Datos de la dirección del viento.
 \REQUIRE Solución inicial para el ajuste de la \emph{mixture von Mises distribution}.
@@ -17,3 +19,4 @@
 \ENDFOR
 \STATE retornarMejorResultadoGlobal(enjambre).
 \end{algorithmic}
+\end{algorithm}

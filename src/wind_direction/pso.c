@@ -143,22 +143,21 @@ void updateSwarm(struct swarm *s) {
     saveGlobalBest(s);
 }
 
-void updateParameters(struct swarm *s, double fitness) {
-    //s->w_inertia = pow((1.0 - (double)time/MAX_ITER), W_A) * (w_range[1] - w_range[0]) + w_range[0];
-
+void updateParameters(struct swarm *s, double time){//double fitness) {
+    /*
     double percent = (EXPECTED_FITNESS / fitness);
     if (percent > 1) {
         percent = 0;
     }
 
-    printf("percent %lf", percent);
+    printf("percent %lf", percent);*/
 
-
-    s->w_inertia = (w_range[1] - s->w_inertia) * percent + s->w_inertia;
-    //s->c1_cognitive = pow((1.0 - (double)time/MAX_ITER), W_B) * (c1_range[1] - c1_range[0]) + c1_range[0];
-    s->c1_cognitive = (c1_range[1] - s->c1_cognitive) * percent + s->c1_cognitive;
-    //s->c2_social = pow((1.0 - (double)time/MAX_ITER), W_G) * (c2_range[1] - c2_range[0]) + c2_range[1];
-    s->c2_social = (c2_range[0] - s->c2_social) * percent + s->c2_social;
+    s->w_inertia = pow((1.0 - (double)time/MAX_ITER), W_A) * (w_range[1] - w_range[0]) + w_range[0];
+    //s->w_inertia = (w_range[1] - s->w_inertia) * percent + s->w_inertia;
+    s->c1_cognitive = pow((1.0 - (double)time/MAX_ITER), W_B) * (c1_range[1] - c1_range[0]) + c1_range[0];
+    //s->c1_cognitive = (c1_range[1] - s->c1_cognitive) * percent + s->c1_cognitive;
+    s->c2_social = pow((1.0 - (double)time/MAX_ITER), W_G) * (c2_range[1] - c2_range[0]) + c2_range[1];
+    //s->c2_social = (c2_range[0] - s->c2_social) * percent + s->c2_social;
 }
 
 void saveGlobalBest(struct swarm *s) {
@@ -179,7 +178,7 @@ void saveGlobalBest(struct swarm *s) {
                 s->global_best[j] = p->position[j];
             } 
 
-            updateParameters(s, best_result);    
+            //updateParameters(s, best_result);    
 
             printf("\n New best: %d \n", i);
             for ( j = 0; j < LEN_SOL; j++) {
@@ -223,9 +222,9 @@ void updateParticlePosition(struct particle *p) {
 
 void saveParticleBest(struct particle *p) {
     int i;
-    //float current_best = objectiveFunction(p->particle_best);
+    double current_best = objectiveFunction(p->particle_best);
     double current_value = objectiveFunction(p->position);
-    double current_best = 0.0;
+    //double current_best = 0.0;
 
     if (current_value < current_best) {
         for (i = 0; i < LEN_SOL; i++) {

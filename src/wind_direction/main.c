@@ -22,6 +22,7 @@ int main() {
     for (i = 0; i < MAX_ITER; i++) {
         //printf("\n Iteration %d \n", i);
         updateSwarm(s);
+        updateParameters(s, i);
 
         if (objectiveFunction(s->global_best) < 22.362) {
             break;
