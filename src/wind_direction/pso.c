@@ -17,19 +17,20 @@ double limit_u[] = {0.0, 1.0};
 double limit_k[] = {0.0, 1.0};
 double limit_w[] = {0.0, 1.0};
 
-//double w_range[] = {0.9, 0.9};
+//double w_range[] = {0.89, 0.89};
 double w_range[] = {0.4, 0.9};
-//double c1_range[] = {3.5, 3.5};
+//double c1_range[] = {0.5, 0.5};
 double c1_range[] = {0.5, 2.5};
-//double c2_range[] = {1.0, 1.0};
+//double c2_range[] = {0.7, 0.7};
 double c2_range[] = {0.5, 2.5};
 
-struct swarm * initializeSwarm(int particles) {
+struct swarm * initializeSwarm(int particles, char * file_path) {
     int i, j;
     struct swarm *s;
     struct particle *p;
 
-    loadFreqData();
+    printf("\n FILE: %s\n", file_path);
+    loadFreqData(file_path);
 
     s = (struct swarm *) malloc(sizeof(struct swarm));
     s->particles = malloc(sizeof(struct particle) * particles);
@@ -143,21 +144,18 @@ void updateSwarm(struct swarm *s) {
     saveGlobalBest(s);
 }
 
-void updateParameters(struct swarm *s, double time){//double fitness) {
-    /*
+void updateParameters(struct swarm *s, double fitness) {
     double percent = (EXPECTED_FITNESS / fitness);
     if (percent > 1) {
         percent = 0;
     }
 
-    printf("percent %lf", percent);*/
-
-    s->w_inertia = pow((1.0 - (double)time/MAX_ITER), W_A) * (w_range[1] - w_range[0]) + w_range[0];
-    //s->w_inertia = (w_range[1] - s->w_inertia) * percent + s->w_inertia;
-    s->c1_cognitive = pow((1.0 - (double)time/MAX_ITER), W_B) * (c1_range[1] - c1_range[0]) + c1_range[0];
-    //s->c1_cognitive = (c1_range[1] - s->c1_cognitive) * percent + s->c1_cognitive;
-    s->c2_social = pow((1.0 - (double)time/MAX_ITER), W_G) * (c2_range[1] - c2_range[0]) + c2_range[1];
-    //s->c2_social = (c2_range[0] - s->c2_social) * percent + s->c2_social;
+    //s->w_inertia = pow((1.0 - (double)time/MAX_ITER), W_A) * (w_range[1] - w_range[0]) + w_range[0];
+    s->w_inertia = (w_range[1] - s->w_inertia) * percent + s->w_inertia;
+    //s->c1_cognitive = pow((1.0 - (double)time/MAX_ITER), W_B) * (c1_range[1] - c1_range[0]) + c1_range[0];
+    s->c1_cognitive = (c1_range[1] - s->c1_cognitive) * percent + s->c1_cognitive;
+    //s->c2_social = pow((1.0 - (double)time/MAX_ITER), W_G) * (c2_range[1] - c2_range[0]) + c2_range[1];
+    s->c2_social = (c2_range[0] - s->c2_social) * percent + s->c2_social;
 }
 
 void saveGlobalBest(struct swarm *s) {
@@ -178,14 +176,14 @@ void saveGlobalBest(struct swarm *s) {
                 s->global_best[j] = p->position[j];
             } 
 
-            //updateParameters(s, best_result);    
+            updateParameters(s, best_result);    
 
-            printf("\n New best: %d \n", i);
-            for ( j = 0; j < LEN_SOL; j++) {
+            //printf("\n New best: %d \n", i);
+            //for ( j = 0; j < LEN_SOL; j++) {
                 //printf(" %.5f,", s->global_best[j]);        
-            }
+            //}
 
-            printf("\n Fitness: %lf \n", best_result);
+            //printf("\n Fitness: %lf \n", best_result);
         }
     }
 }

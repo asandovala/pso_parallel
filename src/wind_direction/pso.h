@@ -1,7 +1,7 @@
 #ifndef PSO_
 #define PSO_
 
-#define MAX_ITER 50500
+#define MAX_ITER 50000
 #define MIXTURE_AMOUNT 7
 #define AMOUNT_VECTORS_SOLUTION 3
 #define LEN_SOL MIXTURE_AMOUNT * AMOUNT_VECTORS_SOLUTION
@@ -43,7 +43,7 @@ struct swarm {
  * 
  * @return: A pointer to the swarm struct created. 
  */
-struct swarm * initializeSwarm(int particles);
+struct swarm * initializeSwarm(int particles, char * file_path);
 
 void initializeParticle(struct particle *p, struct swarm *s);
 

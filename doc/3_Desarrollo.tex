@@ -161,15 +161,34 @@ Finalmente, la solución obtenida es decodificada tal y como se explica en la se
 \subsection{Experimentos}
 Similar a los descrito en \label{sec:Experimentos_velocidad}, los datos de dirección del viento son tratados para rescatar las mediciones pertinentes al trabajo aquí expuesto. Estos se encuentran inicialmente en un formato como el que se puede apreciar en la figura \ref{fig:example_data}.\\
 Nuevamente, las pruebas fueron realizadas en un computador con sistema operativo Ubuntu 16.04 64-bit, 3.8 GB de memoria y procesador doble núcleo Intel Pentium 2.60 GHz.\\
-Para evaluar la calidad de la solución, se utiliza el test \emp{Chi square goodness fit}\cite{goodFitTest}, con lo cual se evalúa que tan bien representa el modelo propuesto a los datos medidos. Para ello, la hipótesis nula $H_0$ es que los datos de dirección del viento se distribuyen según la función \emph{mixture of von Mises distribution} y la hipótesis alternativa $H_1$ niega dicha afirmación. Se rechaza $H_0$ si el valor de la función objetivo del PSO para la solución final encontrada excede el valor crítico de $\Xi^2$ para un nivel de significancia de $\alpha = 0.05$ y 13 grados de libertad, es decir \textbf{22.362}, el cual se puede encontrar en la tabla de la distribución $\Xi^2$ \cite{chiSquareTable}. Los grados de libertad son definidos a partir de la cantidad de clases de frecuencia definidas para el estudio, en este caso, se dividió el rango de valores de $\[0, 2\pi\]$ en 14 tramos iguales, por lo quedan $(n-1)$ grados de libertad, 13 en este caso.\\
-Los experimentos realizados...
+Para evaluar la calidad de la solución, se utiliza el test \emph{Chi square goodness fit}\cite{goodFitTest}, con lo cual se evalúa que tan bien representa el modelo propuesto a los datos medidos. Para ello, la hipótesis nula $H_0$ es que los datos de dirección del viento se distribuyen según la función \emph{mixture of von Mises distribution} y la hipótesis alternativa $H_1$ niega dicha afirmación. Se rechaza $H_0$ si el valor de la función objetivo del PSO para la solución final encontrada excede el valor crítico de $\Xi^2$ para un nivel de significancia de $\alpha = 0.05$ y 13 grados de libertad, es decir \textbf{22.362}, el cual se puede encontrar en la tabla de la distribución $\Xi^2$ \cite{chiSquareTable}. Los grados de libertad son definidos a partir de la cantidad de clases de frecuencia definidas para el estudio, en este caso, se dividió el rango de valores de $[0, 2\pi]$ en 14 tramos iguales, por lo quedan $(n-1)$ grados de libertad, 13 en este caso.\\
+Los experimentos consistieron en el ajuste de varios subconjunto de datos provenientes de las mediciones obtenidas para la dirección del viento en los años 2013, 2014 y 2015. Así, se prueba la utilidad de la propuesta realizada independiente del rango de tiempo a modelar.\\
+Es importante considerar que no se incluyen los días en los que no hubo viento por la evidente imposibilidad de registrar la dirección.
+Los subconjuntos definidos fueron los siguientes:
+\begin{enumerate}
+    \item \textbf{Anual}: Se consideran los datos de todo el año elegido.
+    \item \textbf{Meses acumulados}: Se considera una agrupación mensual pero reuniendo los datos de tres años consecutivos (2013, 2014, 2015). Es decir, para el mes de Enero, se ajusta el modelo a los datos de Enero-2013, Enero-2014 y Enero-2015 en conjunto.
+    \item \textbf{Meses}: Se escogen algunos meses para ser comparados consigo mismos durante los tres años escogidos. Por ejemplo, Enero-2013, Enero-2014 y Enero-2015 por separado.       
+\end{enumerate}
+
+Para el funcionamiento del PSO, se estableció un límite de 50500 iteraciones, se utilizaron 100 partículas, y se usó un límite de parada si es que el valor en la función objetivo de la mejor solución encontrada al momento era menor a 22.362 (criterio basado en la estrategia de cumplir el test \emph{Chi square goodness fit}).
 
 %%Mayor numero de clases disminuye la precisión y hace el algoritmo más lento.... 
 \section{Aplicación de los algoritmos propuestos}
-El esquema \ref{esq:PSO_DIR} resume el funcionamiento del algoritmo.
-%% Los parámetros....
+El esquema \ref{esq:PSO_ALG} resume el funcionamiento del algoritmo para el ajuste del modelo probabilístico a los datos del viento. A continuación se detallarán los pasos a seguir en el proceso de obtener el ajuste.
+\begin{enumerate}
+    \item Lo primero que se realiza es el formateo de los datos, es decir, la conversión desde un set de datos externos a el formato utilizado por el programa desarrollado, CSV. El \emph{script} utilizado dependerá del formato externo en el cual se proveen los datos.
+    \item Una vez obtenido los datos en el formato deseado, se procede a calcular las frecuencias de los registros obtenidos, para posteriormente ser comparadas con el modelo teórico.
+    \item Antes de comenzar con el ajuste, se calcula una solución inicial ya sea de forma aleatoria (como es el caso para el ajuste de la velocidad del viento) o mediante algún método conveniente (como la aproximación numérica para el caso del ajuste de la dirección del viento). La elección de esta última implica que se quiere guiar la solución a encontrar.  
+    \item Definiendo la cantidad de partículas y el número de iteraciones, se ejecuta el algoritmo \emph{Particle Swarm Optimization} para que mejore la estimación inicial de acuerdo a una función objetivo previamente definida. 
+    \item Finalmente, una vez que el algoritmo termina, entrega los valores de los parámetros para la función de densidad de probabilidad (fdp). Con ello, es posible elaborar un histograma y graficar la fdp para evaluar cualitativamente el ajuste obtenido.
+\end{enumerate}
+Una vez finalizado el proceso, se tiene un modelo matemático con el cual es posible trabajar para, por ejemplo, alguna de las aplicaciones que se exponen en la siguiente sección de análisis.
+
+%%EXPLICAR SISTEMA DE LA ROSA DE LOS VIENTOS
+
 \begin{figure}[ht!]
 \caption{Esquema de uso del algoritmo}
 \input{tikzFigures/flowChartAlg}
-\label{esq:PSO_DIR}
+\label{esq:PSO_ALG}
 \end{figure}

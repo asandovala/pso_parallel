@@ -13,7 +13,7 @@ struct freq_data {
 /* 
  * Load freq data of some year and save in local memory, DATA_DIRECTION
  */
-void loadFreqData();
+void loadFreqData(char * file_path);
 
 
 /*

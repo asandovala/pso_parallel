@@ -11,13 +11,13 @@
     
 \begin{tikzpicture}[node distance = 3cm, auto]
     % Place nodes
-    \node [block] (dataFormat) {Ajuste formato de los datos};
+    \node [block] (dataFormat) {1. Formateo de los datos};
     \node [cloud, left of=dataFormat] (inputData) {Datos};
     %\node [cloud, right of=init] (system) {system};
-    \node [blockALG, below of=dataFormat] (initAlg) {Cálculo de frecuencias, por rango (continuas) o discretas};
-    \node [blockALG, below of=initAlg] (SolIni) {Estimación inicial de parámetros};
-    \node [blockALG, below of=SolIni] (PSO) {PSO ajusta los parámetros de la fdp};
-    \node [block, below of=PSO, node distance=3cm] (grafico) {Visualización del ajuste con histograma y fdp};
+    \node [blockALG, below of=dataFormat] (initAlg) {2. Cálculo de frecuencias};
+    \node [blockALG, below of=initAlg] (SolIni) {3. Estimación inicial};
+    \node [blockALG, below of=SolIni] (PSO) {4. PSO mejora la estimación inicial};
+    \node [block, below of=PSO, node distance=3cm] (grafico) {5. Visualización con histograma y la fdp};
     % Draw edges
   
     \path [line] (dataFormat) -- node {\footnotesize{\emph{CSV con datos formateados}}}(initAlg);
