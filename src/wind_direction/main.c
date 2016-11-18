@@ -40,7 +40,7 @@ int main() {
     clock_t end;
     float seconds;
 
-    for (file = 0; file < 24; file++) {
+    for (file = 1; file < 2; file++) {
         start = clock();
 
         s = initializeSwarm(100, file_path[file]);
@@ -57,7 +57,7 @@ int main() {
         for (i = 0; i < MAX_ITER; i++) {
             //printf("\n Iteration %d \n", i);
             updateSwarm(s);
-            updateParameters(s, i);
+            //updateParameters(s, i);
 
             if (objectiveFunction(s->global_best) < 22.362) {
                 break;

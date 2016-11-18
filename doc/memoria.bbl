@@ -71,6 +71,10 @@ J.~Heckenbergerova, P.~Musilek, J.~Mejznar, and M.~Vancura, ``Estimation of
 J.~A. Carta, C.~Bueno, and P.~Ramírez, ``Statistical modelling of directional
   wind speeds using mixtures of von mises distribution: Case study,'' 2007.
 
+\bibitem{Gavin16}
+H.~P. Gavin, ``The levenberg-marquardt method for nonlinear least squares
+  curve-fitting problems,'' 2016.
+
 \bibitem{goodFitTest}
 Y.~U. Department~of statistics, ``Chi-square goodness of fit test.'' URL
   \url{https://www.stat.yale.edu/Courses/1997-98/101/chigf.htm}, 1998.

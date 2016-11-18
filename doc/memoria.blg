@@ -17,37 +17,38 @@ Warning--empty journal in Chang10
 Warning--empty journal in Winddirelse15
 Warning--empty journal in Heckenbergerova13
 Warning--empty journal in Carta07
+Warning--empty journal in Gavin16
 Warning--empty journal in RosaViento
-You've used 19 entries,
+You've used 20 entries,
             1876 wiz_defined-function locations,
-            581 strings with 6902 characters,
-and the built_in function-call counts, 3192 in all, are:
-= -- 265
-> -- 146
+            587 strings with 7082 characters,
+and the built_in function-call counts, 3322 in all, are:
+= -- 275
+> -- 150
 < -- 0
-+ -- 58
-- -- 39
-* -- 194
-:= -- 508
-add.period$ -- 24
-call.type$ -- 19
-change.case$ -- 20
++ -- 60
+- -- 40
+* -- 201
+:= -- 529
+add.period$ -- 25
+call.type$ -- 20
+change.case$ -- 21
 chr.to.int$ -- 0
-cite$ -- 32
-duplicate$ -- 173
-empty$ -- 356
-format.name$ -- 39
-if$ -- 751
+cite$ -- 34
+duplicate$ -- 182
+empty$ -- 373
+format.name$ -- 40
+if$ -- 781
 int.to.chr$ -- 0
-int.to.str$ -- 19
-missing$ -- 15
-newline$ -- 65
-num.names$ -- 19
-pop$ -- 106
+int.to.str$ -- 20
+missing$ -- 16
+newline$ -- 68
+num.names$ -- 20
+pop$ -- 112
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 55
+skip$ -- 56
 stack$ -- 0
 substring$ -- 59
 swap$ -- 18
@@ -55,8 +56,8 @@ text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 13
-while$ -- 23
-width$ -- 21
-write$ -- 154
-(There were 13 warnings)
+warning$ -- 14
+while$ -- 24
+width$ -- 22
+write$ -- 161
+(There were 14 warnings)

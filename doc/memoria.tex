@@ -26,6 +26,14 @@
 \usepackage{tikz}
 \usetikzlibrary{babel,arrows.meta,shapes,arrows}
 
+\usepackage{afterpage}
+
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    %\addtocounter{page}{-1}%
+    \newpage}
+
 %\usepackage{layout} %debug only
 
 \RequirePackage{fancyhdr}
@@ -52,6 +60,7 @@
 \thispagestyle{empty}
 \input{0_Portada}
 \newpage
+\blankpage
 
 %debug
 %\layout
@@ -60,8 +69,9 @@
 %% Hack para el abstract corregir si se puede.
 %\chapter*{ }
 %\vspace{-3cm}
-%\section*{Abstact} \chaptermark{Abstract}
-%\section*{Resumen}
+\section*{Abstact} \chaptermark{Abstract}
+\section*{Resumen}
+\newpage
 
 \begin{spacing}{1}
 \tableofcontents \chaptermark{Tabla de contenidos}

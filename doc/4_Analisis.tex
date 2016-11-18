@@ -5,8 +5,8 @@
 \section{Resultados y conclusiones}
 \subsection{Análisis de los resultados - velocidad del viento}
 \subsubsection{Visualización de los datos}
-Los gráficos \ref{fig:data_valpo_13}, \ref{fig:data_valpo_14} y \ref{fig:data_valpo_15} muestran la distribución de datos de velocidad del viento en Valparaíso a lo largo de los meses del año y las horas del día, lo cual permite visualizar la naturaleza de la intensidad del tiempo de forma cualitativa.
-Por ejemplo, se logra apreciar que las máximas velocidades son obtenidas en los meses finales de primavera y comienzos de verano.\\
+Los gráficos \ref{fig:data_valpo_13}, \ref{fig:data_valpo_14} y \ref{fig:data_valpo_15} muestran la distribución de datos de velocidad del viento en Valparaíso a lo largo de los meses del año y las horas del día, lo cual permite visualizar la naturaleza de la intensidad del viento de forma cualitativa.
+Por ejemplo, se logra apreciar que las máximas velocidades son obtenidas en los meses finales de primavera y comienzos de verano. Además, tener en cuenta que interpolación de los datos es realizada con rectas, por lo que la superficie que se expone no representa necesariamente la distribución real de los datos.\\
 \begin{figure}[ht!]
      \centering
         \subfigure[Vientos Valparaíso 2013.]{
@@ -113,7 +113,7 @@ que se demuestra que es posible definir cualquier intervalo (manteniendo como un
 \end{figure}
 
 \subsubsection{Experimento 4, ajuste a datos año 2015 y datos brutos}
-La razón de por qué se utiliza el promedio diario de los datos del viento para ajustar Weibull y no las mediciones puras (las mediciones tomadas cada 3 horas diariamente) es expuesta en el gráfico \ref{fig:pso_valpo_15_all_data}. La distribución de Weibull no se ajusta a una distribución de datos con más de un máximo, por lo que de requerirse un modelo para este caso se debe buscar otra distribución o modificar Weibull.
+La razón de por qué se utiliza el promedio diario de los datos del viento para ajustar Weibull y no las mediciones puras (las mediciones tomadas cada 3 horas diariamente) es expuesta en el gráfico \ref{fig:pso_valpo_15_all_data}. La distribución de Weibull no se ajusta a una distribución de datos con más de un máximo, por lo que de requerirse un modelo para este caso se debe buscar otra distribución o modificar la distribución de Weibull. Es por ello que normalmente se utiliza un promedio del los datos, como se realiza en el trabajo de Farade \cite{Fadare08}.
 
 \begin{figure}[ht!]
     \centering
@@ -201,7 +201,7 @@ En las figuras referenciadas previamente se observa la evolución de la solució
 
 \subsubsection{Experimento 3, Ajustes de meses acumulados}
 Similar al ejercicio anterior, los gráficos agrupados en \ref{fig:PLOT_MONTHS_ALL_1} y \ref{fig:PLOT_MONTHS_ALL_2}, permiten visualizar el ajuste de los datos del viento por meses. En este caso se agruparon los datos de los tres años escogidos por cada mes, es decir, la figura \ref{fig:PLOT_SOL_ENERO}, por ejemplo, contiene los datos del mes de enero de los años 2013, 2014 y 2015.\\
-Se puede observar que algunos gráficos muestran un mejor ajuste que otros, a pesar del correcto valor obtenido en la función objetivo como se expresa posteriormente en la tabla \ref{super_tabla}. Esto se debe a que probablemente la solución se escapa más de los deseado de la solución inicial, asunto que será retomado más adelante. 
+Se puede observar que algunos gráficos muestran un mejor ajuste que otros, a pesar del correcto valor obtenido en la función objetivo como se expresa posteriormente en la tabla \ref{table:stadistical_tests_direction}. Esto se debe a que probablemente la solución se escapa más de los deseado de la solución inicial. 
 \begin{figure}[ht!]
     \begin{center}
          %%MONTHS  
@@ -267,7 +267,7 @@ Se puede observar que algunos gráficos muestran un mejor ajuste que otros, a pe
 \end{figure}
 
 \subsubsection{Experimento 4, Ajuste por meses, visualización en coordenadas polares}
-En las figuras agrupadas \ref{fig:PLOT_MONTHS_1} y \ref{fig:PLOT_MONTHS_2} se aprecia una visualización más interesante. Allí se puede ver de forma más intuitiva las direcciones dominantes del viento, relativas al sistema de referencia utilizado en meteorología conocido comúnmente como la rosa de los vientos \cite{RosaViento}.
+En las figuras agrupadas \ref{fig:PLOT_MONTHS_1} y \ref{fig:PLOT_MONTHS_2} se aprecia una visualización más interesante. Allí se puede ver de forma más intuitiva las direcciones dominantes del viento, relativas al sistema de referencia utilizado en meteorología conocido comúnmente como la rosa de los vientos \cite{RosaViento}. En el mes de Enero \ref{polar_ene_2015}\ref{polar_ene_2014}\ref{polar_ene_2013}, los vientos parecen provenir principalmente desde el sur-oeste, mientras que en Mayo \ref{polar_may_2015}\ref{polar_may_2014}\ref{polar_may_2013} no es tan fija la fuente de los vientos, proveniendo desde el nor-este y el sur principalmente. En Septiembre \ref{polar_sep_2015}\ref{polar_sep_2014}\ref{polar_sep_2013}, vuelve a inclinarse la funtes de los vientos hacia el sur y sur-oeste.
 \begin{figure}[ht!]
     \begin{center}
         \subfigure[Dirección enero 2015.]{
@@ -359,16 +359,16 @@ En las figuras agrupadas \ref{fig:PLOT_MONTHS_1} y \ref{fig:PLOT_MONTHS_2} se ap
     \end{tabular}
     }   
 \end{table}
-La tabla \ref{table:stadistical_tests_direction} muestra un resumen de los resultados obtenidos al ajustar la distribución de probabilidad \emph{von Mises distribution} en diferentes subconjuntos de tiempo de los datos colectados en los años 2013, 2014 y 2015. La tabla está organizada como sigue a continuación.
+La tabla \ref{table:stadistical_tests_direction} muestra un resumen de los resultados obtenidos al ajustar la distribución de probabilidad \emph{von Mises distribution} en diferentes subconjuntos de tiempo de los datos colectados en los años 2013, 2014 y 2015. La tabla está organizada como sigue a continuación. La estrategia 1 hace referencia a la propuesta realizada en este trabajo, mientras que la estrategia 2 es la seguida en el trabajo de Heckenbergerova et al. \cite{Heckenbergerova15}, la cual consta simplemente de la definición de parámetros fijos para el PSO.
 \begin{enumerate}
     \item \emph{Periodo de tiempo}: Rango de tiempo donde se consideraron los datos para el ajuste.
     \item \emph{PSI}: Puntaje solución inicial, es decir, el valor obtenido al evaluar la solución inicial en la función objetivo.
-    \item \emph{PSF1}: Puntaje solución final 1, se refiere a la solución obtenida por el PSO al utilizar la estrategia explicada en \ref{sdsadasd Metodo 1}.
-    \item \emph{PSF2}:  Puntaje solución final 2, se refiere a la solución obtenida por el PSO al utilizar la estrategia explicada en \ref{sdsadasd Metodo 2}.
-    \item \emph{Tiempo 1}: Tiempo empleado por el PSO con la estrategia 1 \ref{sdsadasd Metodo 1}. 
-    \item \emph{Tiempo 2}: Tiempo empleado por el PSO con la estrategia 2 \ref{sdsadasd Metodo 2}. 
-    \item \emph{Iteraciones 1}: Iteraciones empleadas por el PSO con la estrategia 1 \ref{sdsadasd Metodo 1}. 
-    \item \emph{Iteraciones 2}: Iteraciones empleadas por el PSO con la estrategia 2 \ref{sdsadasd Metodo 2}. 
+    \item \emph{PSF1}: Puntaje solución final 1, se refiere a la solución obtenida por el PSO al utilizar la estrategia explicada en \ref{eq:VariationParameters_new}.
+    \item \emph{PSF2}:  Puntaje solución final 2, se refiere a la solución obtenida por el PSO al utilizar la estrategia tradicional.
+    \item \emph{Tiempo 1}: Tiempo empleado por el PSO con la estrategia 1 \ref{eq:VariationParameters_new}. 
+    \item \emph{Tiempo 2}: Tiempo empleado por el PSO con la estrategia 2. 
+    \item \emph{Iteraciones 1}: Iteraciones empleadas por el PSO con la estrategia 1 \ref{eq:VariationParameters_new}. 
+    \item \emph{Iteraciones 2}: Iteraciones empleadas por el PSO con la estrategia 2. 
     \item \emph{Cantidad datos}: Cantidad de datos utilizados en el ajuste.
 \end{enumerate}
 
@@ -389,9 +389,12 @@ La tabla \ref{table:stadistical_tests_direction} muestra un resumen de los resul
     \caption{Comparación de variaciones en el PSO.\\ Fuente: Elaboración propia.}
     \label{fig:comparison_pso_2}
 \end{figure}
+Los gráficos en \ref{fig:comparison_pso_1} y  \ref{fig:comparison_pso_2} muestran la comparación de los rendimientos de los algoritmos con parámetros fijos y variables para el PSO según la propuesta realizada \ref{eq:VariationParameters_new}. Es claro que en la maýoría de los experimentos, la propuesta realizada tiene mejor rendimiento y en el peor de los casos se comporta igual o levemente peor que la forma tradicional de parámetros fijos utilizada en el trabajo de Heckenbergerova et al. \cite{Heckenbergerova15}.
 
 \pagebreak
 \subsection{Aplicaciones}
+%%ENERGIA ELECTRICA!!
+
 
 \pagebreak
 \subsection{Conclusiones}
@@ -403,3 +406,6 @@ En este trabajo se presentó un caso de estudio para los datos del viento en Val
 se ajusta a la distribución de datos de promedios diarios de velocidad del viento. Esto quiere decir, que si estimamos la velocidad más probable, por ejemplo, 
 esta se referirá al promedio más probable que se dé cierto día. Teniendo esto en cuenta, es posible obtener modelos para distintos intervalos de tiempo,
 teniendo en cuenta que es posible modificar la calidad del modelos obtenido, mediante el ajuste de los parámetros de la distribución de Weibull.
+
+
+%%% IMPORTANTE DESTACAR QUE INDEPENDIENTE DE LA NATURALEZA DE LOS DATOS ESTA COSA SE AJUSTA .
