@@ -40,7 +40,7 @@ struct swarm {
  * 
  * @return: A pointer to the swarm struct created. 
  */
-struct swarm * initializeSwarm(int particles, int w, int c1, int c2);
+struct swarm * initializeSwarm(int particles, int w, int c1, int c2, char * file_path);
 
 void initializeParticle(struct particle *p);
 

@@ -3,41 +3,54 @@
 \contentsline {section}{\numberline {1.1}Identificaci\IeC {\'o}n del problema}{1}{section.1.1}
 \contentsline {section}{\numberline {1.2}Objetivos}{3}{section.1.2}
 \contentsline {subsection}{\numberline {1.2.1}Objetivos espec\IeC {\'\i }ficos}{3}{subsection.1.2.1}
-\contentsline {chapter}{\numberline {2}Estado del arte}{4}{chapter.2}
-\contentsline {section}{\numberline {2.1}Particle Swarm Optimization}{4}{section.2.1}
-\contentsline {section}{\numberline {2.2}Velocidad del viento}{6}{section.2.2}
-\contentsline {subsection}{\numberline {2.2.1}Distribuci\IeC {\'o}n de Weibull}{6}{subsection.2.2.1}
-\contentsline {subsection}{\numberline {2.2.2}M\IeC {\'e}todos num\IeC {\'e}ricos}{7}{subsection.2.2.2}
-\contentsline {subsection}{\numberline {2.2.3}Particle Swarm Optimization}{10}{subsection.2.2.3}
-\contentsline {section}{\numberline {2.3}Direcci\IeC {\'o}n del viento}{11}{section.2.3}
-\contentsline {chapter}{\numberline {3}Desarrollo de la soluci\IeC {\'o}n}{16}{chapter.3}
-\contentsline {section}{\numberline {3.1}Velocidad del viento}{16}{section.3.1}
-\contentsline {subsection}{\numberline {3.1.1}Modelo Matem\IeC {\'a}tico}{16}{subsection.3.1.1}
-\contentsline {subsection}{\numberline {3.1.2}Representaci\IeC {\'o}n}{17}{subsection.3.1.2}
-\contentsline {subsection}{\numberline {3.1.3}Descripci\IeC {\'o}n del algoritmo}{18}{subsection.3.1.3}
-\contentsline {subsection}{\numberline {3.1.4}Experimentos}{18}{subsection.3.1.4}
-\contentsline {section}{\numberline {3.2}Direcci\IeC {\'o}n del viento}{20}{section.3.2}
-\contentsline {subsection}{\numberline {3.2.1}Modelo Matem\IeC {\'a}tico}{20}{subsection.3.2.1}
-\contentsline {subsection}{\numberline {3.2.2}Representaci\IeC {\'o}n}{24}{subsection.3.2.2}
-\contentsline {subsection}{\numberline {3.2.3}Descripci\IeC {\'o}n del algoritmo}{25}{subsection.3.2.3}
-\contentsline {subsection}{\numberline {3.2.4}Experimentos}{27}{subsection.3.2.4}
-\contentsline {section}{\numberline {3.3}Uso de los algoritmos propuestos}{28}{section.3.3}
-\contentsline {chapter}{\numberline {4}An\IeC {\'a}lisis y conclusiones}{31}{chapter.4}
-\contentsline {section}{\numberline {4.1}Resultados y conclusiones}{31}{section.4.1}
-\contentsline {subsection}{\numberline {4.1.1}An\IeC {\'a}lisis de los resultados - velocidad del viento}{31}{subsection.4.1.1}
-\contentsline {subsubsection}{Visualizaci\IeC {\'o}n de los datos}{31}{section*.14}
-\contentsline {subsubsection}{Experimento 1, datos anuales y promedios diarios}{31}{section*.16}
-\contentsline {subsubsection}{Experimento 2, datos de tres a\IeC {\~n}os y promedios diarios}{32}{section*.18}
-\contentsline {subsubsection}{Experimento 3, ajuste a datos anuales con resultados del experimento 2}{33}{section*.20}
-\contentsline {subsubsection}{Experimento 4, ajuste a datos de tres meses y promedios diarios}{34}{section*.22}
-\contentsline {subsubsection}{Experimento 4, ajuste a datos a\IeC {\~n}o 2015 y datos brutos}{34}{section*.24}
-\contentsline {subsubsection}{Resumen de los experimentos}{36}{section*.26}
-\contentsline {subsection}{\numberline {4.1.2}An\IeC {\'a}lisis de los resultados - direcci\IeC {\'o}n del viento}{37}{subsection.4.1.2}
-\contentsline {subsubsection}{Experimento 1, pruebas iniciales}{37}{section*.28}
-\contentsline {subsubsection}{Experimento 2, Ajustes anuales}{37}{section*.30}
-\contentsline {subsubsection}{Experimento 3, Ajustes de meses acumulados}{38}{section*.32}
-\contentsline {subsubsection}{Experimento 4, Ajuste por meses, visualizaci\IeC {\'o}n en coordenadas polares}{38}{section*.35}
-\contentsline {subsubsection}{Resumen de los experimentos}{39}{section*.38}
-\contentsline {subsection}{\numberline {4.1.3}Aplicaciones}{41}{subsection.4.1.3}
-\contentsline {subsection}{\numberline {4.1.4}Conclusiones}{42}{subsection.4.1.4}
-\contentsline {chapter}{Bibliography}{49}{subsection.4.1.4}
+\contentsline {section}{\numberline {1.3}Estructura del documento}{3}{section.1.3}
+\contentsline {chapter}{\numberline {2}Estado del arte}{5}{chapter.2}
+\contentsline {section}{\numberline {2.1}Particle Swarm Optimization}{5}{section.2.1}
+\contentsline {section}{\numberline {2.2}Velocidad del viento}{7}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Distribuci\IeC {\'o}n de Weibull}{7}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}M\IeC {\'e}todos num\IeC {\'e}ricos}{8}{subsection.2.2.2}
+\contentsline {subsection}{\numberline {2.2.3}Particle Swarm Optimization}{11}{subsection.2.2.3}
+\contentsline {section}{\numberline {2.3}Direcci\IeC {\'o}n del viento}{12}{section.2.3}
+\contentsline {section}{\numberline {2.4}Resumen del cap\IeC {\'\i }tulo}{16}{section.2.4}
+\contentsline {chapter}{\numberline {3}PSO para la velocidad del viento en Valpara\IeC {\'\i }so}{17}{chapter.3}
+\contentsline {section}{\numberline {3.1}Modelo Matem\IeC {\'a}tico}{17}{section.3.1}
+\contentsline {section}{\numberline {3.2}Estructura del PSO}{17}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Representaci\IeC {\'o}n}{18}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Consideraci\IeC {\'o}n de los par\IeC {\'a}metros}{19}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}Descripci\IeC {\'o}n del algoritmo}{20}{subsection.3.2.3}
+\contentsline {section}{\numberline {3.3}Resultados}{20}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Experimentos}{20}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}An\IeC {\'a}lisis de los resultados}{23}{subsection.3.3.2}
+\contentsline {subsubsection}{Visualizaci\IeC {\'o}n de los datos}{23}{section*.16}
+\contentsline {subsubsection}{Experimento 1, datos anuales y promedios diarios}{23}{section*.18}
+\contentsline {subsubsection}{Experimento 2, datos de tres a\IeC {\~n}os y promedios diarios}{24}{section*.20}
+\contentsline {subsubsection}{Experimento 3, ajuste a datos anuales con resultados del experimento 2}{25}{section*.22}
+\contentsline {subsubsection}{Experimento 4, ajuste a datos de tres meses y promedios diarios}{26}{section*.24}
+\contentsline {subsubsection}{Experimento 4, ajuste a datos a\IeC {\~n}o 2015 y datos brutos}{26}{section*.26}
+\contentsline {subsubsection}{Resumen de los experimentos}{27}{section*.28}
+\contentsline {section}{\numberline {3.4}Conclusiones del cap\IeC {\'\i }tulo}{30}{section.3.4}
+\contentsline {chapter}{\numberline {4}PSO para la direcci\IeC {\'o}n del viento en Valpara\IeC {\'\i }so}{31}{chapter.4}
+\contentsline {section}{\numberline {4.1}Modelo Matem\IeC {\'a}tico}{31}{section.4.1}
+\contentsline {section}{\numberline {4.2}Estructura del PSO}{33}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Representaci\IeC {\'o}n}{34}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Consideraci\IeC {\'o}n de los par\IeC {\'a}metros}{34}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Descripci\IeC {\'o}n del algoritmo}{36}{subsection.4.2.3}
+\contentsline {section}{\numberline {4.3}Resultados}{38}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Experimentos}{38}{subsection.4.3.1}
+\contentsline {subsection}{\numberline {4.3.2}An\IeC {\'a}lisis de los resultados}{40}{subsection.4.3.2}
+\contentsline {subsubsection}{Experimento 1, pruebas iniciales}{40}{section*.30}
+\contentsline {subsubsection}{Experimento 2, Ajustes anuales}{40}{section*.32}
+\contentsline {subsubsection}{Experimento 3, Ajustes de meses acumulados}{41}{section*.34}
+\contentsline {subsubsection}{Experimento 4, Ajuste por meses, visualizaci\IeC {\'o}n en coordenadas polares}{42}{section*.37}
+\contentsline {subsubsection}{Resumen de los experimentos}{45}{section*.40}
+\contentsline {section}{\numberline {4.4}Conclusiones del cap\IeC {\'\i }tulo}{47}{section.4.4}
+\contentsline {chapter}{\numberline {5}Aplicaciones}{49}{chapter.5}
+\contentsline {section}{\numberline {5.1}Esquema de uso del algoritmo}{49}{section.5.1}
+\contentsline {section}{\numberline {5.2}Uso de los resultados}{50}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Energ\IeC {\'\i }a e\IeC {\'o}lica}{50}{subsection.5.2.1}
+\contentsline {subsection}{\numberline {5.2.2}Propagaci\IeC {\'o}n de incendios}{52}{subsection.5.2.2}
+\contentsline {subsection}{\numberline {5.2.3}Propagaci\IeC {\'o}n de pesticidas}{53}{subsection.5.2.3}
+\contentsline {subsection}{\numberline {5.2.4}An\IeC {\'a}lisis atmosf\IeC {\'e}rico}{54}{subsection.5.2.4}
+\contentsline {subsection}{\numberline {5.2.5}Resumen del cap\IeC {\'\i }tulo}{55}{subsection.5.2.5}
+\contentsline {chapter}{\numberline {6}Conclusiones}{56}{chapter.6}
+\contentsline {chapter}{Bibliography}{58}{chapter.6}

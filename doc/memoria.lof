@@ -1,67 +1,72 @@
 \select@language {spanish}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Movimiento de una part\IeC {\'\i }cula\relax }}{5}{figure.caption.7}
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Funci\IeC {\'o}n de distribuci\IeC {\'o}n de probabilidad de Weibull\relax }}{7}{figure.caption.8}
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Distribuci\IeC {\'o}n de Weibull con histograma - Maracana\IeC {\'u}\relax }}{11}{figure.caption.9}
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Modelo de ajuste FVMV para suroeste y noreste en la estaci\IeC {\'o}n Mersing\relax }}{13}{figure.caption.10}
-\contentsline {figure}{\numberline {2.5}{\ignorespaces Ajuste direcci\IeC {\'o}n del viento, aeropuerto St. John\relax }}{14}{figure.caption.11}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Movimiento de una part\IeC {\'\i }cula\relax }}{6}{figure.caption.10}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Funci\IeC {\'o}n de distribuci\IeC {\'o}n de probabilidad de Weibull\relax }}{8}{figure.caption.11}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Distribuci\IeC {\'o}n de Weibull con histograma - Maracana\IeC {\'u}\relax }}{12}{figure.caption.12}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Modelo de ajuste FVMV para suroeste y noreste en la estaci\IeC {\'o}n Mersing\relax }}{14}{figure.caption.13}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Ajuste direcci\IeC {\'o}n del viento, aeropuerto St. John\relax }}{15}{figure.caption.14}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Ejemplo colecci\IeC {\'o}n de datos Enero Valpara\IeC {\'\i }so 2015\relax }}{19}{figure.caption.12}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Esquema de uso del algoritmo\relax }}{30}{figure.caption.13}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Ejemplo colecci\IeC {\'o}n de datos Enero Valpara\IeC {\'\i }so 2015\relax }}{22}{figure.caption.15}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Superficie de datos viento de Valpara\IeC {\'\i }so. Fuente: Elaboraci\IeC {\'o}n Propia.\relax }}{24}{figure.caption.17}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Vientos Valpara\IeC {\'\i }so 2013.}}}{24}{figure.caption.17}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Vientos Valpara\IeC {\'\i }so 2014.}}}{24}{figure.caption.17}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Vientos Valpara\IeC {\'\i }so 2015.}}}{24}{figure.caption.17}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Ajuste con PSO a datos del viento de Valpara\IeC {\'\i }so. Fuente: Elaboraci\IeC {\'o}n Propia.\relax }}{25}{figure.caption.19}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {PSO Valpara\IeC {\'\i }so 2013.}}}{25}{figure.caption.19}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {PSO Valpara\IeC {\'\i }so 2014.}}}{25}{figure.caption.19}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {PSO Valpara\IeC {\'\i }so 2015.}}}{25}{figure.caption.19}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Ajuste con PSO a datos Valpara\IeC {\'\i }so 2015, 2014 y 2013, baja y buena calidad. Fuente: Elaboraci\IeC {\'o}n Propia.\relax }}{26}{figure.caption.21}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Buen ajuste PSO Valpara\IeC {\'\i }so 2013.}}}{26}{figure.caption.21}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Mal ajuste PSO Valpara\IeC {\'\i }so 2013.}}}{26}{figure.caption.21}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Ajuste con PSO a registros del viento en Valpara\IeC {\'\i }so (Con todos los datos). Fuente: Elaboraci\IeC {\'o}n Propia.\relax }}{27}{figure.caption.23}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Velocidad viento Valpara\IeC {\'\i }so 2013.}}}{27}{figure.caption.23}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Velocidad viento Valpara\IeC {\'\i }so 2014.}}}{27}{figure.caption.23}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Velocidad viento Valpara\IeC {\'\i }so 2015.}}}{27}{figure.caption.23}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Ajuste con PSO a datos Valpara\IeC {\'\i }so 2015, por rango de meses. Fuente: Elaboraci\IeC {\'o}n Propia.\relax }}{28}{figure.caption.25}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Enero - Marzo.}}}{28}{figure.caption.25}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Abril - Junio.}}}{28}{figure.caption.25}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Julio - Septiembre.}}}{28}{figure.caption.25}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Octubre - Diciembre.}}}{28}{figure.caption.25}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Ajuste con PSO a datos (cifras puras) Valpara\IeC {\'\i }so 2015, 2014, 2013\relax }}{28}{figure.caption.27}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Superficie de datos viento de Valpara\IeC {\'\i }so. Fuente: Elaboraci\IeC {\'o}n Propia.\relax }}{32}{figure.caption.15}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Vientos Valpara\IeC {\'\i }so 2013.}}}{32}{figure.caption.15}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Vientos Valpara\IeC {\'\i }so 2014.}}}{32}{figure.caption.15}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Vientos Valpara\IeC {\'\i }so 2015.}}}{32}{figure.caption.15}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Ajuste con PSO a datos del viento de Valpara\IeC {\'\i }so. Fuente: Elaboraci\IeC {\'o}n Propia.\relax }}{33}{figure.caption.17}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {PSO Valpara\IeC {\'\i }so 2013.}}}{33}{figure.caption.17}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {PSO Valpara\IeC {\'\i }so 2014.}}}{33}{figure.caption.17}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {PSO Valpara\IeC {\'\i }so 2015.}}}{33}{figure.caption.17}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Ajuste con PSO a datos Valpara\IeC {\'\i }so 2015, 2014 y 2013, baja y buena calidad. Fuente: Elaboraci\IeC {\'o}n Propia.\relax }}{33}{figure.caption.19}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Buen ajuste PSO Valpara\IeC {\'\i }so 2013.}}}{33}{figure.caption.19}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Mal ajuste PSO Valpara\IeC {\'\i }so 2013.}}}{33}{figure.caption.19}
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Ajuste con PSO a registros del viento en Valpara\IeC {\'\i }so (Con todos los datos). Fuente: Elaboraci\IeC {\'o}n Propia.\relax }}{34}{figure.caption.21}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Velocidad viento Valpara\IeC {\'\i }so 2013.}}}{34}{figure.caption.21}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Velocidad viento Valpara\IeC {\'\i }so 2014.}}}{34}{figure.caption.21}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Velocidad viento Valpara\IeC {\'\i }so 2015.}}}{34}{figure.caption.21}
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Ajuste con PSO a datos Valpara\IeC {\'\i }so 2015, por rango de meses. Fuente: Elaboraci\IeC {\'o}n Propia.\relax }}{35}{figure.caption.23}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Enero - Marzo.}}}{35}{figure.caption.23}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Abril - Junio.}}}{35}{figure.caption.23}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Julio - Septiembre.}}}{35}{figure.caption.23}
-\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Octubre - Diciembre.}}}{35}{figure.caption.23}
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Ajuste con PSO a datos (cifras puras) Valpara\IeC {\'\i }so 2015, 2014, 2013\relax }}{35}{figure.caption.25}
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Pruebas iniciales. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{37}{figure.caption.29}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Ejemplo de mal ajuste, 2015.}}}{37}{figure.caption.29}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Evolucion de la solucion.}}}{37}{figure.caption.29}
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Graficos de ajustes anuales. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{38}{figure.caption.31}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, 2015.}}}{38}{figure.caption.31}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, 2014.}}}{38}{figure.caption.31}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, 2013.}}}{38}{figure.caption.31}
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Gr\IeC {\'a}ficos de ajuste de MVM por meses. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{43}{figure.caption.33}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Enero.}}}{43}{figure.caption.33}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Febrero.}}}{43}{figure.caption.33}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Marzo.}}}{43}{figure.caption.33}
-\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Abril.}}}{43}{figure.caption.33}
-\contentsline {subfigure}{\numberline {(e)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Mayo.}}}{43}{figure.caption.33}
-\contentsline {subfigure}{\numberline {(f)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Junio.}}}{43}{figure.caption.33}
-\contentsline {figure}{\numberline {4.10}{\ignorespaces Gr\IeC {\'a}ficos de ajuste de MVM por meses. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{44}{figure.caption.34}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Julio.}}}{44}{figure.caption.34}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Agosto.}}}{44}{figure.caption.34}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Septiembre.}}}{44}{figure.caption.34}
-\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Octubre.}}}{44}{figure.caption.34}
-\contentsline {subfigure}{\numberline {(e)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Noviembre.}}}{44}{figure.caption.34}
-\contentsline {subfigure}{\numberline {(f)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Diciembre.}}}{44}{figure.caption.34}
-\contentsline {figure}{\numberline {4.11}{\ignorespaces Gr\IeC {\'a}ficos de ajuste por meses en coordenadas polares. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{45}{figure.caption.36}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Direcci\IeC {\'o}n enero 2015.}}}{45}{figure.caption.36}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Direcci\IeC {\'o}n enero 2014.}}}{45}{figure.caption.36}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Direcci\IeC {\'o}n enero 2013.}}}{45}{figure.caption.36}
-\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Direcci\IeC {\'o}n mayo 2015.}}}{45}{figure.caption.36}
-\contentsline {subfigure}{\numberline {(e)}{\ignorespaces {Direcci\IeC {\'o}n mayo 2014.}}}{45}{figure.caption.36}
-\contentsline {subfigure}{\numberline {(f)}{\ignorespaces {Direcci\IeC {\'o}n mayo 2013.}}}{45}{figure.caption.36}
-\contentsline {figure}{\numberline {4.12}{\ignorespaces Gr\IeC {\'a}ficos de ajuste por meses en coordenadas polares. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{46}{figure.caption.37}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Direcci\IeC {\'o}n septiembre 2015.}}}{46}{figure.caption.37}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Direcci\IeC {\'o}n septiembre 2014.}}}{46}{figure.caption.37}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Direcci\IeC {\'o}n septiembre 2013.}}}{46}{figure.caption.37}
-\contentsline {figure}{\numberline {4.13}{\ignorespaces Comparaci\IeC {\'o}n de variaciones en el PSO. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{47}{figure.caption.40}
-\contentsline {figure}{\numberline {4.14}{\ignorespaces Comparaci\IeC {\'o}n de variaciones en el PSO. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{48}{figure.caption.41}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Pruebas iniciales. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{40}{figure.caption.31}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Ejemplo de mal ajuste, 2015.}}}{40}{figure.caption.31}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Evolucion de la soluci\IeC {\'o}n.}}}{40}{figure.caption.31}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Graficos de ajustes anuales. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{41}{figure.caption.33}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, 2015.}}}{41}{figure.caption.33}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, 2014.}}}{41}{figure.caption.33}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, 2013.}}}{41}{figure.caption.33}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Gr\IeC {\'a}ficos de ajuste de MVM por meses. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{42}{figure.caption.35}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Enero.}}}{42}{figure.caption.35}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Febrero.}}}{42}{figure.caption.35}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Marzo.}}}{42}{figure.caption.35}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Abril.}}}{42}{figure.caption.35}
+\contentsline {subfigure}{\numberline {(e)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Mayo.}}}{42}{figure.caption.35}
+\contentsline {subfigure}{\numberline {(f)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Junio.}}}{42}{figure.caption.35}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Gr\IeC {\'a}ficos de ajuste de MVM por meses. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{43}{figure.caption.36}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Julio.}}}{43}{figure.caption.36}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Agosto.}}}{43}{figure.caption.36}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Septiembre.}}}{43}{figure.caption.36}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Octubre.}}}{43}{figure.caption.36}
+\contentsline {subfigure}{\numberline {(e)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Noviembre.}}}{43}{figure.caption.36}
+\contentsline {subfigure}{\numberline {(f)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Diciembre.}}}{43}{figure.caption.36}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Gr\IeC {\'a}ficos de ajuste por meses en coordenadas polares. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{44}{figure.caption.38}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Direcci\IeC {\'o}n enero 2015.}}}{44}{figure.caption.38}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Direcci\IeC {\'o}n enero 2014.}}}{44}{figure.caption.38}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Direcci\IeC {\'o}n enero 2013.}}}{44}{figure.caption.38}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Direcci\IeC {\'o}n mayo 2015.}}}{44}{figure.caption.38}
+\contentsline {subfigure}{\numberline {(e)}{\ignorespaces {Direcci\IeC {\'o}n mayo 2014.}}}{44}{figure.caption.38}
+\contentsline {subfigure}{\numberline {(f)}{\ignorespaces {Direcci\IeC {\'o}n mayo 2013.}}}{44}{figure.caption.38}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Gr\IeC {\'a}ficos de ajuste por meses en coordenadas polares. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{45}{figure.caption.39}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Direcci\IeC {\'o}n septiembre 2015.}}}{45}{figure.caption.39}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Direcci\IeC {\'o}n septiembre 2014.}}}{45}{figure.caption.39}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Direcci\IeC {\'o}n septiembre 2013.}}}{45}{figure.caption.39}
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Comparaci\IeC {\'o}n de variaciones en el PSO. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{47}{figure.caption.42}
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Comparaci\IeC {\'o}n de variaciones en el PSO. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{48}{figure.caption.43}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Esquema de uso del algoritmo\relax }}{51}{figure.caption.44}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Ejemplo de zonas a evaluar en la velocidad del viento. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{52}{figure.caption.45}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Ejemplo emplazamiento turbinas e\IeC {\'o}licas. Fuente: Jorge M\IeC {\'\i }rez \cite {figureEmplacement}.\relax }}{53}{figure.caption.46}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Principales procesos que interact\IeC {\'u}an en el comportamiento de los pesticidas despu\IeC {\'e}s de su aplicaci\IeC {\'o}n. Fuente: Bedos \cite {Bedos01}.\relax }}{54}{figure.caption.47}
+\addvspace {10\p@ }

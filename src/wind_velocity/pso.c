@@ -12,12 +12,12 @@ float w_range[] = {0.4, 0.9};
 float c1_range[] = {1.0, 3.5};
 float c2_range[] = {0.0, 2.5};
 
-struct swarm * initializeSwarm(int particles, int w, int c1, int c2) {
+struct swarm * initializeSwarm(int particles, int w, int c1, int c2, char * file_path) {
     int i, j;
     struct swarm *s;
     struct particle *p;
 
-    loadFreqData();
+    loadFreqData(file_path);
 
     s = (struct swarm *) malloc(sizeof(struct swarm));
     s->particles = malloc(sizeof(struct particle) * particles);

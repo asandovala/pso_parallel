@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include "freq.h"
 
-char file_path[] = "../../data/2015/parse/freq_data_15_oct-dic.csv";
+//char file_path[] = "../../data/2015/parse/freq_data_15_oct-dic.csv";
 
-void loadFreqData() {
+void loadFreqData(char * file_path) {
     FILE *fp;
     char ch;    
     int lines = 0, i = 0, j;

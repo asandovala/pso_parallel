@@ -7,6 +7,7 @@
 \REQUIRE Solución inicial para el ajuste de la \emph{mixture von Mises distribution}.
 \ENSURE Solución inicial mejorada.
 \STATE enjambre = inicializar(w,c1,c2)
+\STATE mejorSol
 \FOR{$i = 1$ to $Iter_{max}$}
 \FOR{Each partículas en enjambre}
     \STATE actualizarVelocidadPartícula(partícula)
@@ -14,8 +15,10 @@
     \STATE revisarLímitesPosición(partícula)
     \STATE guardarMejorResultadoPartícula(partícula)
 \ENDFOR
-\STATE guardarMejorResultadoGlobal(enjambre)
-\STATE actualizarParámetros(enjambre)
+\STATE mejorSol = guardarMejorResultadoGlobal(enjambre)
+\IF{Se mejora solución global}
+  \STATE actualizarParámetros(enjambre, mejorSol)
+\ENDIF
 \ENDFOR
 \STATE retornarMejorResultadoGlobal(enjambre).
 \end{algorithmic}

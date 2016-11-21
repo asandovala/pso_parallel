@@ -4,14 +4,14 @@
 //float **vel_freq;
 
 struct freq_data {
-    double *data;
+    float **data;
     int len;
-} DATA_DIRECTION;
+} vel_freq;
 
 /* 
  * Load freq data of some year and save in local memory, vel_freq
  */
-void loadFreqData();
+void loadFreqData(char * file_path);
 
 
 /*
