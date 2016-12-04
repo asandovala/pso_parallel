@@ -1,7 +1,7 @@
 %% Desarrollo PSO velocidad
 
 \chapter{PSO para la velocidad del viento en Valparaíso}
-En este capítulo se presenta la implementación de la técnica \emph{Particle Swarm Optimization} basada principalmente en el trabajo de Carneiro et al. \cite{Carneiro15}. En principio se definen y explican los principales conceptos para entender la solución propuesta, para finalmente mostrar los resultados obtenidos al buscar los parámetros de ajuste de la distribución de Weibull.
+En este capítulo se presenta la implementación de la técnica \emph{Particle Swarm Optimization} basada principalmente en el trabajo de Carneiro et al. \cite{Carneiro15}. En principio se definen y explican los principales conceptos para entender la solución propuesta, para luego mostrar los resultados obtenidos al buscar los parámetros de ajuste de la distribución de Weibull.
 
 \section{Modelo Matemático} \label{ss:Modelo_Mat}
 Como se mencionó anteriormente, para encontrar los parámetros de la distribución de Weibull que se ajusten a los datos de prueba se utilizará la meta-heurística \emph{Particle Swarm Optimization}. La función de distribución de Weibull está definida en la ecuación \ref{eq:weibull}. La función objetivo se describe con la fórmula \ref{eq:PSO_FO} y es aquella con la que se busca minimizar el error cuadrático entre la frecuencia real de los datos y la estimada por la distribución de Weibull. Los parámetros a encontrar $k$ y $c$ deben ser $\geq 0$. Para encontrar estos parámetros se construyó el PSO que se detalla a continuación.
@@ -21,29 +21,29 @@ Así, para cada partícula se define una estructura que posee las siguientes pro
     \begin{align}\label{eq:PSO}
       v_{i,j}^{k+1} &= wv_{i,j}^{k} + c_{1}r_{1}(xbest_{i,j}^k - x_{i,j}^k) + c_{2}r_{2}(xgbest_{j}^{k} - x_{i,j}^k)
     \end{align} 
-    En donde $v_{i,j}^{k+1}$ es la velocidad de la partícula en el instante $k+1$, $w$, $c_1$ y $c_2$ son los parámetros de inercia, cognitivo y social respectivamente, $r_{1}$ y $r_{2}$ son número aleatorios entre $[0, 1]$, $xbest_{i,j}^k$ y $xgbest_{j}^{k}$ son la mejor solución de la partícula y la mejor solución del enjambre respectivamente en el instante $k$, $x_{i,j}^k$ representa la posición de la partícula, o la solución, en el instante $k$.    
+    En donde $v_{i,j}^{k+1}$ es la velocidad de la partícula en el instante $k+1$, $w$, $c_1$ y $c_2$ son los parámetros de inercia, cognitivo y social respectivamente, $r_{1}$ y $r_{2}$ son números aleatorios entre $[0, 1]$, $xbest_{i,j}^k$ y $xgbest_{j}^{k}$ son la mejor solución de la partícula y la mejor solución del vecindario respectivamente en el instante $k$, $x_{i,j}^k$ representa la posición de la partícula, o la solución, en el instante $k$.    
     \item Mejor resultado personal: vector flotante que guarda la mejor posición conseguida por la partícula durante las iteraciones transcurridas.    
 \end{enumerate}        
 Mientras que el enjambre, siendo esencialmente una estructura que posee referencia a todas las partículas, queda representado de la siguiente forma:
 \begin{enumerate}\label{rep:Swarm}
     \item Partículas: Arreglo de referencias a las estructuras de partículas creadas.
-    \item Mejor posición global: De todos los mejores resultados particulares a cada partícula, se almacena la mejor posición de todas. La que persiste al final del ciclo de iteraciones, es la solución final.
+    \item Mejor posición global: De todos los mejores resultados de cada partícula, se almacena la mejor posición de todas. La que persiste al final del ciclo de iteraciones, es la solución final.
 \end{enumerate} 
 
 %% Ajustar para que sea coherente
 \subsection{Consideración de los parámetros}
 Los parámetros $w$ de inercia, $c_1$ cognitivo y $c_2$ social del PSO determinan con que peso inciden en el camino que siguen las partículas del enjambre, la velocidad anterior, la solución particular y la solución global respectivamente.\\ 
-La inercia $w$ regula que magnitud de la velocidad anterior se mantiene en la actual, así la partícula se comporta similar a un cuerpo desacelerando. En Kaveh \cite{Psoexplain14} se explica que en términos extremos, si la velocidad previa se elimina (peso nulo), las partículas no pueden salir del circulo local relativo a las soluciones iniciales, lo que sería equivalente a un procedimiento de búsqueda local.  Por el contrario, si se le da mucho peso, las partículas tendería a huir de las buenas posiciones conocidas.\\
+La inercia $w$ regula qué magnitud de la velocidad anterior se mantiene en la actual, así la partícula se comporta similar a un cuerpo desacelerando. En Kaveh \cite{Psoexplain14} se explica que en términos extremos, si la velocidad previa se elimina (peso nulo), las partículas no pueden salir del círculo local relativo a las soluciones iniciales, lo que sería equivalente a un procedimiento de búsqueda local.  Por el contrario, si se le da mucho peso, las partículas tendería a huir de las buenas posiciones conocidas.\\
 El parámetro cognitivo $c_1$ controla la influencia de la mejor solución encontrada por la partícula misma en la velocidad actual. Si se le da un peso mayor a este valor, la partícula tenderá a explorar las zonas locales a la posición desde donde partió.\\
 El parámetro social $c_2$ controla la influencia de la mejor solución global encontrada por el enjambre en la velocidad actual. Si se le da un peso mayor a este valor, la partícula tenderá a explotar las zonas locales a la posición de las solución global.\\
 La convergencia prematura es un comportamiento presente en el \emph{Particle Swarm Optimization}, como se explica nuevamente en Kaveh \cite{Psoexplain14}. Esto se debe a que normalmente, las partículas se concentran en una ``nube'' local a la mejor solución global una vez que se ha avanzado ciertas iteraciones, lo que por una lado hace que el algoritmo sea más rápido que otras técnicas afines, como los algoritmos evolutivos, pero por otro impide que, a partir de cierto punto, se siga mejorando la solución. Por tanto, hay un límite óptimo para las iteraciones, ya que en cierto momento las partículas se quedarán atrapadas en un óptimo local.\\
-A modo de evitar la convergencia prematura, varias técnicas han sido propuestas, las cuales se resumen en el trabajo de Kaveh \cite{Psoexplain14}. Para esta memoria, y es esta sección, se utilizará la recomendación de Chang \cite{Chang10_2} para la variación de parámetros del enjambre:
+A modo de evitar la convergencia prematura, varias técnicas han sido propuestas, las cuales se resumen en el trabajo de Kaveh \cite{Psoexplain14}. Para esta memoria, se utilizará la recomendación de Chang \cite{Chang10_2} para la variación de parámetros del enjambre:
 \begin{align}\label{eq:VariationParameters}
-    w(j) &= (1 - \frac{j}{iter_{max}})^{\alpha}(w_{max} - w_{min} + w_{min})\\
+    w(j) &= (1 - \frac{j}{iter_{max}})^{\alpha}(w_{max} - w_{min}) + w_{min}\\
     c_{1}(j) &= (1 - \frac{j}{iter_{max}})^{\beta}(c_{1max} - c_{1min}) + c_{1min}\\
     c_{2}(j) &= (1 - \frac{j}{iter_{max}})^{\gamma}(c_{2min} - c_{2max}) + c_{2max}
 \end{align}    
-Donde $w(j)$, $c_{1}(j)$, $c_{2}(j)$, son los parámetros de incercia, cognitivo y social en el instante $j$. Los valores para los rangos de los parámetros son $w_{max} = 0.9$ y $w_{min} = 0.4$, $c_{1max}$, $c_{2max}$ y $c_{1min}$, $c_{2min}$, 2.5 y 0 respectivamente. Los parámetros $\alpha, \beta, \gamma$ son definidos como 0.5, 1.5 y 1.0 respectivamente. La variable $iter_{max}$ es el máximo número de iteraciones. \\
+Donde $w(j)$, $c_{1}(j)$, $c_{2}(j)$, son los parámetros de inercia, cognitivo y social en el instante $j$. Los valores para los rangos de los parámetros son $w_{max} = 0.9$ y $w_{min} = 0.4$, $c_{1max}$, $c_{2max}$ y $c_{1min}$, $c_{2min}$, 2.5 y 0 respectivamente. Los parámetros $\alpha, \beta, \gamma$ son definidos como 0.5, 1.5 y 1.0 respectivamente. La variable $iter_{max}$ es el máximo número de iteraciones. \\
 Esta modificación provocará que las partículas ``frenen'' su convergencia al óptimo local, dado que en cada iteración se da menos peso a la solución global y mayor peso al óptimo de cada partícula y a la velocidad anterior.
 
 \subsection{Descripción del algoritmo}
@@ -55,8 +55,7 @@ La lógica del algoritmo PSO (ver Algoritmo \ref{alg:pso}) se basa en mover las 
 En esta sección se presentan los resultados obtenidos en los experimentos realizados para el ajuste de la distribución de Weibull a diferentes conjuntos de datos del viento en Valparaíso.
 \subsection{Experimentos}
 Los experimentos fueron probados hasta en un máximo de 1000 iteraciones y 50 partículas, (A excepción del experimento donde se consideraron todos los promedios diarios, 2013, 2014 y 2015, en el cual, se utilizaron 200 partículas). Los parámetros de $w$, $c1$ y $c2$ fueron definidos tal y como explica en el modelo matemático, en la sección \ref{ss:Modelo_Mat}.\\
-Los experimentos fueron realizados con datos del viento obtenidos por la Armada de Chile para la región de Valparaíso en los años 2013, 2014 y 2015. Estos fueron tratados mediante \emph{scripts} desarrollados en \emph{Python} para obtener las frecuencias de las distintas velocidades del viento registradas a lo largo del año. Los datos se organizaban de la siguiente forma: Por cada año, se tiene una tabla en un archivo excel de cada mes, en donde se registra por cada fila los resultados de la medición de cada día. Las mediciones son registradas en un intervalo de tres horas, es decir, se tienen registros diarios para las 3:00, 6:00, 9:00, 12:00, 15:00, 18:00, 21:00 y 00:00 horas.\\
-Un ejemplo es la tabla mostrada en la Figura \ref{fig:example_data}.
+Los experimentos fueron realizados con datos del viento obtenidos por la Armada de Chile para la región de Valparaíso en los años 2013, 2014 y 2015. Estos fueron tratados mediante \emph{scripts} desarrollados en \emph{Python} para obtener las frecuencias de las distintas velocidades del viento registradas a lo largo del año. Los datos se organizaban de la siguiente forma: Por cada año, se tiene una tabla en un archivo excel de cada mes, en donde se registra por cada fila los resultados de la medición de cada día. Las mediciones son registradas en un intervalo de tres horas, es decir, se tienen registros diarios para las 3:00, 6:00, 9:00, 12:00, 15:00, 18:00, 21:00 y 00:00 horas. Un ejemplo es la tabla mostrada en la Figura \ref{fig:example_data}.\\
  \begin{figure}[h!]
     \centering
     \includegraphics[height=100mm]{figures/example_data.png}
@@ -99,7 +98,8 @@ Las pruebas fueron realizadas en un computador con sistema operativo Ubuntu 16.0
 \subsection{Análisis de los resultados}
 \subsubsection{Visualización de los datos}
 Los gráficos \ref{fig:data_valpo_13}, \ref{fig:data_valpo_14} y \ref{fig:data_valpo_15} muestran la distribución de datos de velocidad del viento en Valparaíso a lo largo de los meses del año y las horas del día, lo cual permite visualizar la naturaleza de la intensidad del viento de forma cualitativa.
-Por ejemplo, se logra apreciar que las máximas velocidades son obtenidas en los meses finales de primavera y comienzos de verano. Además, tener en cuenta que interpolación de los datos es realizada con rectas, por lo que la superficie que se expone no representa necesariamente la distribución real de los datos.\\
+Por ejemplo, se logra apreciar que las máximas velocidades son obtenidas en los meses finales de primavera y comienzos de verano.\\
+Las superficies que se exponen no representan la distribución continua de los datos. Estos fueron graficados de forma discreta y posteriormente la herramienta utilizada para generar la superficie unió los puntos mediante rectas.\\
 \begin{figure}[ht!]
      \centering
      \captionsetup{justification=centering,margin=2cm}
@@ -120,7 +120,7 @@ Por ejemplo, se logra apreciar que las máximas velocidades son obtenidas en los
 \end{figure}
 
 \subsubsection{Experimento 1, datos anuales y promedios diarios}
-Las figuras \ref{fig:pso_valpo_13}, \ref{fig:pso_valpo_14} y \ref{fig:pso_valpo_15} muestran el ajuste de la distribución de Weibull a los histogramas de datos del viento (promedios diarios), con los parámetros $k$ y $c$  que se muestran en las primeras tres filas de la tabla \ref{table:stadistical_tests} determinados por el PSO. El ajuste tiene buena forma, lo cual es corroborado por los datos estadísticos obtenidos con los test previamente mencionados (RMSE, r, RB), expuestos en la tabla \ref{table:stadistical_tests}. Si se compara con la precisión conseguida en el trabajo de Carneiro et al. \cite{Carneiro15}, se aprecia que el ajuste conseguido es levemente más impreciso, sobre todo en lo relativo al test RB. Esto podría deberse a la naturaleza de los datos 
+Las figuras \ref{fig:pso_valpo_13}, \ref{fig:pso_valpo_14} y \ref{fig:pso_valpo_15} muestran el ajuste de la distribución de Weibull a los histogramas de datos del viento (promedios diarios), con los parámetros $k$ y $c$  que se muestran en las primeras tres filas de la tabla \ref{table:stadistical_tests} determinados por el PSO. El ajuste tiene buena forma, lo cual es corroborado por los datos estadísticos obtenidos con los test previamente mencionados (RMSE, r, RB), expuestos en la tabla \ref{table:stadistical_tests} en las filas 1, 2 y 3. Si se compara con la precisión conseguida en el trabajo de Carneiro et al. \cite{Carneiro15}, se aprecia que el ajuste conseguido es levemente más impreciso, sobre todo en lo relativo al test \emph{relative bias} (RB) el cual es una medida de distancia de la frecuencia estimada con la de los datos. Esto podría deberse a la naturaleza de los datos 
 trabajados.\\
 \begin{figure}[ht!]
     \centering
@@ -211,7 +211,7 @@ que se demuestra que es posible definir cualquier intervalo (manteniendo como un
 \end{figure}
 
 \subsubsection{Experimento 4, ajuste a datos año 2015 y datos brutos}
-La razón de por qué se utiliza el promedio diario de los datos del viento para ajustar Weibull y no las mediciones puras (las mediciones tomadas cada 3 horas diariamente) es expuesta en el gráfico \ref{fig:pso_valpo_15_all_data}. La distribución de Weibull no se ajusta a una distribución de datos con más de un máximo, por lo que de requerirse un modelo para este caso se debe buscar otra distribución o modificar la distribución de Weibull. Es por ello que normalmente se utiliza un promedio del los datos, como se realiza en el trabajo de Farade \cite{Fadare08}.
+La razón de por qué se utiliza el promedio diario de los datos del viento para ajustar Weibull y no las mediciones puras (las mediciones tomadas cada 3 horas diariamente) es expuesta en el gráfico \ref{fig:pso_valpo_15_all_data}. La distribución de Weibull no se ajusta a una distribución de datos con más de un máximo, por lo que de requerirse un modelo para este caso se debe buscar otra distribución o modificar la distribución de Weibull. Es por ello que normalmente se utiliza un promedio de los datos, como se realiza en el trabajo de Farade \cite{Fadare08}.
 \begin{figure}[ht!]
     \centering
     \captionsetup{justification=centering,margin=2cm}
@@ -236,7 +236,7 @@ La tabla se organiza como se explica a continuación:
   \item \textbf{RB}: Test estadístico conocido como \emph{relative bias}.
   \item \textbf{Tiempo}: Tiempo total de ejecución del algoritmo.
 \end{enumerate}
-Los tiempos omitidos en la Tabla \ref{table:stadistical_tests}, en las filas 6, 7 y 8 indican que no se calcularon los parámetros de la función de densidad, sino que se utilizaron los obtenidos previamente, en el experimento de la fila 5.
+Los tiempos omitidos en la Tabla \ref{table:stadistical_tests}, en las filas 6, 7 y 8 indican que no se calcularon los parámetros de la función de densidad, sino que se utilizaron los obtenidos previamente, en el experimento de la fila 5. El número de iteraciones del PSO no se considera debido a que sólo se itera en la fase de desarrollo del algoritmo. Cuando este está completo, basta con una ejecución para tener el resultado definitivo del experimento.
 \begin{table}[ht!]
     %\centering
     \caption{Tabla de pruebas, PSO velocidad del viento}
@@ -246,29 +246,52 @@ Los tiempos omitidos en la Tabla \ref{table:stadistical_tests}, en las filas 6, 
         \hline
         \textbf{\#} & \textbf{Método} & \textbf{Periodo} & \textbf{k} & \textbf{c} & \textbf{RMSE} & \textbf{r} & \textbf{RB} & \textbf{Tiempo}\\
         \hline
-        1   & PSO                 & 2013        & 2.78 & 3.12 &0.0226585230791  & 0.984353070415  & 0.00197971468299  & 1.748337s\\
-        2   & PSO                 & 2014        & 2.91 & 3.37 &0.0232779965263  & 0.982087745069  & 0.000754465101398 & 1.630882s\\
-        3   & PSO                 & 2015        & 2.65 & 3.10 &0.0164721412159  & 0.992323803649  & 0.00302918178445  & 1.599510s\\
+        1   & PSO                 & 2013        & 2.78 & 3.12                   & 2.26\cdot$10^{-2}$ & 0.984  & 1.98\cdot$10^{-3}$  & 1.74s\\
+        2   & PSO                 & 2014        & 2.91 & 3.37                   & 2.32\cdot$10^{-2}$ & 0.982  & 7.54\cdot$10^{-4}$  & 1.63s\\
+        3   & PSO                 & 2015        & 2.65 & 3.10                   & 1.64\cdot$10^{-2}$ & 0.992  & 3.02\cdot$10^{-3}$  & 1.59s\\
         \hline
-        4   & PSO (50p)           & 2015-14-13  & 3.47 & 3.07 & 0.0360794587206 & 0.975240385258  & 0.000411212628513 & 2.002766s\\
-        5   & PSO (200p)          & 2015-14-13  & 2.78 & 3.20 & 0.016175531561  & 0.994989105807  & 0.00190916669626  & 7.781343s\\
+        4   & PSO (50p)           & 2015-14-13  & 3.47 & 3.07                   & 3.61\cdot$10^{-2}$ & 0.975  & 4.11\cdot$10^{-3}$  & 2.00s\\
+        5   & PSO (200p)          & 2015-14-13  & 2.78 & 3.20                   & 1.61\cdot$10^{-2}$ & 0.994  & 1.91\cdot$10^{-3}$  & 7.78s\\
         \hline
-        6   & PSO (200p y todos los datos)          & 2013        & 2.78 & 3.20 & 0.0240448436122 & 0.981963054492  & 0.00192186034284  & - \\
-        7   & PSO (200p y todos los datos)          & 2014        & 2.78 & 3.20 & 0.0301463089474 & 0.970662237238  & 0.00000889024791  & - \\
-        8   & PSO (200p y todos los datos)          & 2015        & 2.78 & 3.20 & 0.0202342934641 & 0.98662798667   & 0.00192175053173  & - \\
+        6   & PSO (200p y todos los datos)          & 2013        & 2.78 & 3.20 & 2.41\cdot$10^{-2}$ & 0.981  & 1.92\cdot$10^{-3}$  & - \\
+        7   & PSO (200p y todos los datos)          & 2014        & 2.78 & 3.20 & 3.01\cdot$10^{-2}$ & 0.970  & 8.89\cdot$10^{-6}$  & - \\
+        8   & PSO (200p y todos los datos)          & 2015        & 2.78 & 3.20 & 2.02\cdot$10^{-2}$ & 0.986  & 1.92\cdot$10^{-3}$  & - \\
         \hline
-        9   & PSO                 & Ene-Mar     & 2.85 & 3.15 & 0.0230380400157 & 0.982158006469  & 0.00641888742608  & 1.293452s\\
-        10  & PSO                 & Abr-Jun     & 2.76 & 2.65 & 0.0204300909755 & 0.993857185938  & 0.00303620481316  & 1.345529s\\
-        11  & PSO                 & Jul-Sep     & 2.66 & 2.83 & 0.0251002816356 & 0.985858767021  & 0.00443453471038  & 1.1998735s\\
-        12  & PSO                 & Oct-Dic     & 3.40 & 3.75 & 0.0260278634297 & 0.978479679326  & 0.00071665352959  & 1.3032119s\\
+        9   & PSO                 & Ene-Mar     & 2.85 & 3.15                   & 2.31\cdot$10^{-2}$ & 0.982  & 6.41\cdot$10^{-3}$  & 1.29s\\
+        10  & PSO                 & Abr-Jun     & 2.76 & 2.65                   & 2.04\cdot$10^{-2}$ & 0.993  & 3.03\cdot$10^{-3}$  & 1.34s\\
+        11  & PSO                 & Jul-Sep     & 2.66 & 2.83                   & 2.51\cdot$10^{-2}$ & 0.985  & 4.43\cdot$10^{-3}$  & 1.19s\\
+        12  & PSO                 & Oct-Dic     & 3.40 & 3.75                   & 2.60\cdot$10^{-2}$ & 0.978  & 7.16\cdot$10^{-4}$  & 1.30s\\
         \hline 
-        13  & PSO (datos brutos)  & 2015        & 1.00 & 9.49 & 0.0451794472583 & 0.751732944794  & 0.676094670465 & 1.6544219s\\ 
+        13  & PSO (datos brutos)  & 2015        & 1.00 & 9.49                   & 4.51\cdot$10^{-2}$ & 0.751  & 6.7\cdot$10^{-1}$   & 1.65s\\ 
         \hline
+
+        %\hline
+        %\textbf{\#} & \textbf{Método} & \textbf{Periodo} & \textbf{k} & \textbf{c} & \textbf{RMSE} & \textbf{r} & \textbf{RB} & \textbf{Tiempo}\\
+        %\hline
+        %1   & PSO                 & 2013        & 2.78 & 3.12 & 0.0226585230791 & 0.984353070415  & 0.00197971468299  & 1.748337s\\
+        %2   & PSO                 & 2014        & 2.91 & 3.37 & 0.0232779965263 & 0.982087745069  & 0.000754465101398 & 1.630882s\\
+        %3   & PSO                 & 2015        & 2.65 & 3.10 & 0.0164721412159 & 0.992323803649  & 0.00302918178445  & 1.599510s\\
+        %\hline
+        %4   & PSO (50p)           & 2015-14-13  & 3.47 & 3.07 & 0.0360794587206 & 0.975240385258  & 0.000411212628513 & 2.002766s\\
+        %5   & PSO (200p)          & 2015-14-13  & 2.78 & 3.20 & 0.016175531561  & 0.994989105807  & 0.00190916669626  & 7.781343s\\
+        %\hline
+        %6   & PSO (200p y todos los datos)          & 2013        & 2.78 & 3.20 & 0.0240448436122 & 0.981963054492  & 0.00192186034284  & - \\
+        %7   & PSO (200p y todos los datos)          & 2014        & 2.78 & 3.20 & 0.0301463089474 & 0.970662237238  & 0.00000889024791  & - \\
+        %8   & PSO (200p y todos los datos)          & 2015        & 2.78 & 3.20 & 0.0202342934641 & 0.98662798667   & 0.00192175053173  & - \\
+        %\hline
+        %9   & PSO                 & Ene-Mar     & 2.85 & 3.15 & 0.0230380400157 & 0.982158006469  & 0.00641888742608  & 1.293452s\\
+        %10  & PSO                 & Abr-Jun     & 2.76 & 2.65 & 0.0204300909755 & 0.993857185938  & 0.00303620481316  & 1.345529s\\
+        %11  & PSO                 & Jul-Sep     & 2.66 & 2.83 & 0.0251002816356 & 0.985858767021  & 0.00443453471038  & 1.1998735s\\
+        %12  & PSO                 & Oct-Dic     & 3.40 & 3.75 & 0.0260278634297 & 0.978479679326  & 0.00071665352959  & 1.3032119s\\
+        %\hline 
+        %13  & PSO (datos brutos)  & 2015        & 1.00 & 9.49 & 0.0451794472583 & 0.751732944794  & 0.676094670465 & 1.6544219s\\ 
+        %\hline
+
     \end{tabular}
     }   
 \end{table}
 
 \newpage
 \section{Conclusiones del capítulo}
-En este capítulo se implementó la propuesta realizada en Carneiro et al. \cite{Carneiro15} para ajustar los parámetros de la distribución de Weibull a los datos de velocidad del viento en Valparaíso. Los resultados confirman que el método propuesto permite obtener soluciones de buena calidad, bajo el punto de vista de los test estadísticos aplicados (RMSE, r y RB), y los gráficos generados. Sin embargo, se debe tener en consideración que la distribución de Weibull representa el promedio diario de velocidades medidas del viento, detalle que no siempre se menciona en los trabajos que utilizan esta distribución, pero que aún así se explican en algunos como en Fadare \cite{Fadare08}. Aún así, este modelo es útil para aplicaciones como por ejemplo, la estimación del potencial eléctrico en determinada región.\\
-Si se desea otra representación para las velocidades del viento, que permita representar otras velocidades predominantes, o una descripción más directa de los datos, como los representados en la Figura \ref{fig:pso_valpo_15_all_data}, se debe buscar otra distribución o una versión modificada de Weibull.
+En este capítulo se implementó la propuesta realizada en Carneiro et al. \cite{Carneiro15} para ajustar los parámetros de la distribución de Weibull a los datos de velocidad del viento en Valparaíso. Los resultados confirman que el método propuesto permite obtener soluciones de buena calidad, bajo el punto de vista de los test estadísticos aplicados (RMSE, r y RB), y los gráficos generados. Sin embargo, se debe tener en consideración que la distribución de Weibull representa el promedio diario de velocidades medidas del viento, detalle que no siempre se menciona en los trabajos que utilizan esta distribución, pero que se explican en algunos como en Fadare \cite{Fadare08}. Este modelo es útil para aplicaciones como, la estimación del potencial eléctrico en determinada región.\\
+Si se desea otra representación para las velocidades del viento, que permita representar velocidades predominantes, o una descripción más directa de los datos, como los representados en la Figura \ref{fig:pso_valpo_15_all_data}, se debe buscar otra distribución o una versión modificada de Weibull.

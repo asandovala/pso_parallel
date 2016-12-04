@@ -65,7 +65,7 @@ void setDensity(double *classesFrequencies) {
         classes[i] = (i + 1) * (2.0 * PI /NUMBER_OF_CLASSES);
     }
 
-    printf("Prob \n");
+    //printf("Prob \n");
     for (i = 0; i < NUMBER_OF_CLASSES; i++) {
 
         for (j = 0; j < lenData; j++) {
@@ -86,7 +86,7 @@ void setDensity(double *classesFrequencies) {
         //classesFrequencies[i] = (count/lenData) / lenClass;
         count = 0.0;
 
-        printf(" %lf ", classesFrequencies[i]);
+        //printf(" %lf ", classesFrequencies[i]);
     }
-    printf("\n");
+    //printf("\n");
 }

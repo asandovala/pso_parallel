@@ -29,7 +29,8 @@ struct swarm * initializeSwarm(int particles, char * file_path) {
     struct swarm *s;
     struct particle *p;
 
-    printf("\n FILE: %s\n", file_path);
+    
+    //printf("\n FILE: %s\n", file_path);
     loadFreqData(file_path);
 
     s = (struct swarm *) malloc(sizeof(struct swarm));

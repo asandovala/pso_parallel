@@ -1,9 +1,9 @@
 import os
 import math as m
 
-PATH_RES = "../../data/2015/csv/"
-PATH_OUT = "../../data/2015/parse/"
-NAME_OUT = "direction_freq_data_15.csv"
+PATH_RES = "../../data/2013/csv/"
+PATH_OUT = "../../data/2013/parse/"
+NAME_OUT = "direction_freq_data_13_SEP.csv"
 
 allDirections = []
 
@@ -34,7 +34,7 @@ def getData(text):
     if isNumber(line[1]):  #if more data
       for i in range(2,18,2):
       	if (float(line[i + 1]) > 0):
-      	 allDirections.append( m.pi * (float(line[i])) * 0.0055555 )
+      	 allDirections.append( m.pi * (float(line[i])) * 0.0055555 )   
     else:  #No more data
       return
 
@@ -51,13 +51,14 @@ def saveFreqYear():
       else: 
       	f.write(line)	
 
-for fileName in os.listdir(PATH_RES):
-  with open(PATH_RES + fileName, "r") as f:
-    print fileName
+fileName = "09_SEPTIEMBRE_2013.csv"
+#for fileName in os.listdir(PATH_RES):
+with open(PATH_RES + fileName, "r") as f:
+  print fileName
 
-    text = f.read()
-    text = text.split("\n")
-    getData(text)
+  text = f.read()
+  text = text.split("\n")
+  getData(text)
 
 saveFreqYear()
 
