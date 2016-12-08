@@ -5,7 +5,7 @@
 \contentsline {figure}{\numberline {2.2}{\ignorespaces Funci\IeC {\'o}n de distribuci\IeC {\'o}n de probabilidad de Weibull\relax }}{8}{figure.caption.11}
 \contentsline {figure}{\numberline {2.3}{\ignorespaces Distribuci\IeC {\'o}n de Weibull con histograma - Maracana\IeC {\'u}\relax }}{12}{figure.caption.12}
 \contentsline {figure}{\numberline {2.4}{\ignorespaces Modelo de ajuste FVMV para suroeste y noreste en la estaci\IeC {\'o}n Mersing\relax }}{14}{figure.caption.13}
-\contentsline {figure}{\numberline {2.5}{\ignorespaces Ajuste direcci\IeC {\'o}n del viento, aeropuerto St. John\relax }}{15}{figure.caption.14}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Ajuste direcci\IeC {\'o}n del viento, aeropuerto St. John. Creado por Heckenbergerova et al \cite {Heckenbergerova15}.\relax }}{15}{figure.caption.14}
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Ejemplo colecci\IeC {\'o}n de datos Enero Valpara\IeC {\'\i }so 2015\relax }}{22}{figure.caption.15}
 \contentsline {figure}{\numberline {3.2}{\ignorespaces Superficie de datos viento de Valpara\IeC {\'\i }so. Fuente: Elaboraci\IeC {\'o}n Propia.\relax }}{24}{figure.caption.17}
@@ -28,7 +28,7 @@
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Abril - Junio.}}}{28}{figure.caption.25}
 \contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Julio - Septiembre.}}}{28}{figure.caption.25}
 \contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Octubre - Diciembre.}}}{28}{figure.caption.25}
-\contentsline {figure}{\numberline {3.7}{\ignorespaces Ajuste con PSO a datos (cifras puras) Valpara\IeC {\'\i }so 2015, 2014, 2013\relax }}{28}{figure.caption.27}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Ajuste con PSO a datos (cifras puras) Valpara\IeC {\'\i }so 2015, 2014, 2013\relax }}{29}{figure.caption.27}
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Pruebas iniciales. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{40}{figure.caption.31}
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Ejemplo de mal ajuste, 2015.}}}{40}{figure.caption.31}
@@ -51,22 +51,22 @@
 \contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Octubre.}}}{43}{figure.caption.36}
 \contentsline {subfigure}{\numberline {(e)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Noviembre.}}}{43}{figure.caption.36}
 \contentsline {subfigure}{\numberline {(f)}{\ignorespaces {Soluci\IeC {\'o}n inicial y final, Diciembre.}}}{43}{figure.caption.36}
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Gr\IeC {\'a}ficos de ajuste por meses en coordenadas polares. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{44}{figure.caption.38}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Direcci\IeC {\'o}n enero 2015.}}}{44}{figure.caption.38}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Direcci\IeC {\'o}n enero 2014.}}}{44}{figure.caption.38}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Direcci\IeC {\'o}n enero 2013.}}}{44}{figure.caption.38}
-\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Direcci\IeC {\'o}n mayo 2015.}}}{44}{figure.caption.38}
-\contentsline {subfigure}{\numberline {(e)}{\ignorespaces {Direcci\IeC {\'o}n mayo 2014.}}}{44}{figure.caption.38}
-\contentsline {subfigure}{\numberline {(f)}{\ignorespaces {Direcci\IeC {\'o}n mayo 2013.}}}{44}{figure.caption.38}
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Gr\IeC {\'a}ficos de ajuste por meses en coordenadas polares. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{45}{figure.caption.39}
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Direcci\IeC {\'o}n septiembre 2015.}}}{45}{figure.caption.39}
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Direcci\IeC {\'o}n septiembre 2014.}}}{45}{figure.caption.39}
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Direcci\IeC {\'o}n septiembre 2013.}}}{45}{figure.caption.39}
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Comparaci\IeC {\'o}n de variaciones en el PSO. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{47}{figure.caption.42}
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Comparaci\IeC {\'o}n de variaciones en el PSO. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{48}{figure.caption.43}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Gr\IeC {\'a}ficos de ajuste por meses en coordenadas polares. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{47}{figure.caption.38}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Direcci\IeC {\'o}n enero 2015.}}}{47}{figure.caption.38}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Direcci\IeC {\'o}n enero 2014.}}}{47}{figure.caption.38}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Direcci\IeC {\'o}n enero 2013.}}}{47}{figure.caption.38}
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {Direcci\IeC {\'o}n mayo 2015.}}}{47}{figure.caption.38}
+\contentsline {subfigure}{\numberline {(e)}{\ignorespaces {Direcci\IeC {\'o}n mayo 2014.}}}{47}{figure.caption.38}
+\contentsline {subfigure}{\numberline {(f)}{\ignorespaces {Direcci\IeC {\'o}n mayo 2013.}}}{47}{figure.caption.38}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Gr\IeC {\'a}ficos de ajuste por meses en coordenadas polares. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{48}{figure.caption.39}
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Direcci\IeC {\'o}n septiembre 2015.}}}{48}{figure.caption.39}
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Direcci\IeC {\'o}n septiembre 2014.}}}{48}{figure.caption.39}
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Direcci\IeC {\'o}n septiembre 2013.}}}{48}{figure.caption.39}
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Comparaci\IeC {\'o}n de variaciones en el PSO. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{49}{figure.caption.42}
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Comparaci\IeC {\'o}n de variaciones en el PSO. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{50}{figure.caption.43}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Esquema de uso del algoritmo\relax }}{51}{figure.caption.44}
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Ejemplo de zonas a evaluar en la velocidad del viento. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{52}{figure.caption.45}
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Ejemplo emplazamiento turbinas e\IeC {\'o}licas. Fuente: Jorge M\IeC {\'\i }rez \cite {figureEmplacement}.\relax }}{53}{figure.caption.46}
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Principales procesos que interact\IeC {\'u}an en el comportamiento de los pesticidas despu\IeC {\'e}s de su aplicaci\IeC {\'o}n. Fuente: Bedos \cite {Bedos01}.\relax }}{54}{figure.caption.47}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Esquema de uso del algoritmo\relax }}{53}{figure.caption.44}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Ejemplo de zonas a evaluar en la velocidad del viento. Fuente: Elaboraci\IeC {\'o}n propia.\relax }}{54}{figure.caption.45}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Ejemplo emplazamiento turbinas e\IeC {\'o}licas. Fuente: Jorge M\IeC {\'\i }rez \cite {figureEmplacement}.\relax }}{55}{figure.caption.46}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Principales procesos que interact\IeC {\'u}an en el comportamiento de los pesticidas despu\IeC {\'e}s de su aplicaci\IeC {\'o}n. Fuente: Bedos \cite {Bedos01}.\relax }}{56}{figure.caption.47}
 \addvspace {10\p@ }

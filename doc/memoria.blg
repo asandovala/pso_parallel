@@ -26,43 +26,43 @@ Warning--empty journal in Bedos01
 Warning--empty journal in Portugues12
 You've used 27 entries,
             1876 wiz_defined-function locations,
-            627 strings with 8381 characters,
-and the built_in function-call counts, 4350 in all, are:
-= -- 356
-> -- 202
+            627 strings with 8434 characters,
+and the built_in function-call counts, 4532 in all, are:
+= -- 372
+> -- 212
 < -- 0
-+ -- 81
-- -- 54
-* -- 262
-:= -- 695
-add.period$ -- 34
++ -- 84
+- -- 57
+* -- 278
+:= -- 714
+add.period$ -- 33
 call.type$ -- 27
-change.case$ -- 28
+change.case$ -- 27
 chr.to.int$ -- 0
 cite$ -- 46
-duplicate$ -- 235
-empty$ -- 494
-format.name$ -- 54
-if$ -- 1021
+duplicate$ -- 244
+empty$ -- 509
+format.name$ -- 57
+if$ -- 1067
 int.to.chr$ -- 0
 int.to.str$ -- 27
-missing$ -- 21
-newline$ -- 91
+missing$ -- 22
+newline$ -- 90
 num.names$ -- 27
-pop$ -- 154
+pop$ -- 156
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 68
+skip$ -- 78
 stack$ -- 0
-substring$ -- 59
-swap$ -- 18
+substring$ -- 83
+swap$ -- 25
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 19
-while$ -- 31
+while$ -- 34
 width$ -- 29
-write$ -- 216
+write$ -- 214
 (There were 19 warnings)

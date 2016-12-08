@@ -75,6 +75,18 @@ double getMeanValue(double *values) {
     return mean;
 }
 
+double showArrayResults(double *values) {
+    int i;
+
+    printf("\n > ");
+    for (i = 0; i < 30; i++) {     
+        printf(" %lf ,", values[i]);
+    }
+    printf("< \n");
+
+    return;
+}
+
 int main() {
     int file, i, j;
     float k, c;
@@ -82,6 +94,7 @@ int main() {
     double pi;
     double sum = 0.0;
     clock_t start;
+    clock_t mid;
     clock_t end;
     float seconds;
     int exp;
@@ -129,6 +142,12 @@ int main() {
                 if (objectiveFunction(s->global_best) < 22.362) {
                     break;
                 }
+
+                mid = clock();
+                seconds = (float)(end - start) / CLOCKS_PER_SEC; 
+                if (seconds > 1800) {
+                    break;
+                }
             }
 
             //printf("\n Iterations #: %d \n", i);
@@ -149,6 +168,16 @@ int main() {
             times[exp] = seconds;    
         }
 
+         //Review experiments
+        printf("\n Resumen de experimentos \n");
+
+        printf("Results: \n");
+        showArrayResults(results);
+        printf("Iterations: \n");
+        showArrayResults(iterations);
+        printf("Times: \n");
+        showArrayResults(times);
+
         bestResult = getMinValue(results);
         worstResult = getMaxValue(results);
         meanResult = getMeanValue(results); 
@@ -160,9 +189,6 @@ int main() {
         bestTime = getMinValue(times);
         worstTime = getMaxValue(times);
         meanTime = getMeanValue(times);
-
-        //Review experiments
-        printf("\n Resumen de experimentos \n");
 
         printf(" Best Fitness  %lf \n", bestResult);
         printf(" Worst Fitness  %lf \n", worstResult);

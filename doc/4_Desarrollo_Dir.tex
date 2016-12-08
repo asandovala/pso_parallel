@@ -81,9 +81,9 @@ Anteriormente se menciona la estrategia sugerida en el trabajo de Chang \cite{Ch
 Al realizarse diversas pruebas con cantidad de iteraciones distintas, se puede evidenciar que el hecho de que el número de iteraciones máximo sean un valor que afecta la variación de parámetros, tiene como consecuencia que el algoritmo tome diferentes caminos hacia la solución final, por ende, un aumento en el número de iteraciones no constituiría necesariamente una mejora en calidad de la solución. De cierta forma, el número de iteraciones máximo se transforma en un factor pseudo-aleatorio para el PSO.\\
 Por lo tanto, debido a que los parámetros fijos no consiguen buenos resultados y la variación de parámetros propuesta por Chang \cite{Chang10_2} presenta inconvenientes estructurales para el PSO, se propone el siguiente método para el ajuste de parámetros.\\
 Sean $w(j)$, $c_1(j)$ y $c_2(j)$ los parámetros de inercia, cognitivo y social del PSO en el instante $j$ respectivamente:  
-\begin{align}\label{eq:VariationParameters_new}\label{eq:VariationParameters_new_2}\label{eq:VariationParameters_new_3}
-    w(j) &= w(j) + (w_{max} - w(j)) * F \\
-    c_{1}(j) &= c_1(j) + (c_{1max} - c_1(j)) * F \\
+\begin{align}\label{eq:VariationParameters_new}
+    w(j) &= w(j) + (w_{max} - w(j)) * F \\\label{eq:VariationParameters_new_2}
+    c_{1}(j) &= c_1(j) + (c_{1max} - c_1(j)) * F \\\label{eq:VariationParameters_new_3}
     c_{2}(j) &= c_2(j) + (c_{2min} - c_2(j)) * F
 \end{align} 
 Donde $F$ es un factor de avance dentro de un rango definido para los parámetros el cual está en función de una valor de la función objetivo esperado y el valor actual de la solución. Es decir: 
