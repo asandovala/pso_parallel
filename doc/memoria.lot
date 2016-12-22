@@ -2,8 +2,10 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces Tabla de pruebas, PSO velocidad del viento\relax }}{29}{table.caption.29}
+\contentsline {table}{\numberline {3.1}{\ignorespaces Tabla de pruebas, PSO velocidad del viento\relax }}{30}{table.caption.29}
+\contentsline {table}{\numberline {3.2}{\ignorespaces Tabla resumen de repeticiones del PSO par la velocidad del viento\relax }}{30}{table.caption.30}
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Tabla de pruebas, PSO direcci\IeC {\'o}n del viento\relax }}{44}{table.caption.41}
+\contentsline {table}{\numberline {4.1}{\ignorespaces Tabla de pruebas y repeticiones, PSO direcci\IeC {\'o}n del viento, Estrategia Variable\relax }}{47}{table.caption.44}
+\contentsline {table}{\numberline {4.2}{\ignorespaces Tabla de pruebas y repeticiones, PSO direcci\IeC {\'o}n del viento, Estrategia Fija\relax }}{47}{table.caption.45}
 \addvspace {10\p@ }
 \addvspace {10\p@ }

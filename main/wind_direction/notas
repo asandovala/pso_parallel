@@ -1,6 +1,0 @@
-#Notas
-
-· La dirección del viento cuando la intensidad de este es 0 no debería ser considerada por que 
-basicamente no hay viento.
-
-· Asumiremos clases de 10 en 10 grados o 0.05 PI

@@ -76,10 +76,12 @@ En el trabajo de Heckenbergerova et al. \cite{Heckenbergerova15} los parámetros
   \item Para el factor cognitivo $c_1$ el valor es 0.5.
   \item Para el factor social $c_2$ el valor es 0.7.
 \end{enumerate}
-Sin embargo, como se concluye en su trabajo y de acuerdo a los resultados de la tabla \ref{table:stadistical_tests_direction}, estos valores no generan resultados satisfactorios, es decir, las soluciones encontradas bajo esos parámetros, al ser evaluadas en la función objetivo, no satisfacen los requerimientos para el test realizado por ellos mismos. Por esto, en esta memoria se propone una estrategia distinta para el control de los parámetros del PSO.\\ 
+Sin embargo, como se concluye en su trabajo y de acuerdo a los resultados de la tabla \ref{table:stadistical_tests_direction}, estos valores no generan resultados satisfactorios, es decir, las soluciones encontradas bajo esos parámetros, al ser evaluadas en la función objetivo, no satisfacen los requerimientos para el test realizado por ellos mismos. Por esto, en esta memoria se propone una estrategia distinta para el control de los parámetros del PSO, la cual se compara con la estrategia de parámetros fijos, a través de experimentos que utilizan ambas técnicas.\\ 
 Anteriormente se menciona la estrategia sugerida en el trabajo de Chang \cite{Chang10_2} para la variación de parámetros del PSO, descrita en \ref{eq:VariationParameters}, con el fin de evitar una convergencia prematura en el ajuste de la distribución de Weibull. Esta estrategia podría ser considerada para intentar mejorar los resultados conseguidos por Heckenbergerova et al. \cite{Heckenbergerova15}, sin embargo, la sugerencia presenta inconvenientes por que depende del número de iteraciones máximo que se defina para el algoritmo.\\
 Al realizarse diversas pruebas con cantidad de iteraciones distintas, se puede evidenciar que el hecho de que el número de iteraciones máximo sean un valor que afecta la variación de parámetros, tiene como consecuencia que el algoritmo tome diferentes caminos hacia la solución final, por ende, un aumento en el número de iteraciones no constituiría necesariamente una mejora en calidad de la solución. De cierta forma, el número de iteraciones máximo se transforma en un factor pseudo-aleatorio para el PSO.\\
 Por lo tanto, debido a que los parámetros fijos no consiguen buenos resultados y la variación de parámetros propuesta por Chang \cite{Chang10_2} presenta inconvenientes estructurales para el PSO, se propone el siguiente método para el ajuste de parámetros.\\
+
+\subsection{Propuesta para la variación de parámetros del PSO}
 Sean $w(j)$, $c_1(j)$ y $c_2(j)$ los parámetros de inercia, cognitivo y social del PSO en el instante $j$ respectivamente:  
 \begin{align}\label{eq:VariationParameters_new}
     w(j) &= w(j) + (w_{max} - w(j)) * F \\\label{eq:VariationParameters_new_2}
@@ -106,7 +108,7 @@ En síntesis, el cambio de los parámetros se produce en proporción a la distan
 
 \subsection{Descripción del algoritmo}
 La estructura del algoritmo definida para el PSO consiste en dos fases. La primera, una aproximación basada en la estimación numérica de los parámetros requeridos para la \emph{mixture of von Mises distribution} a través de operaciones simples con los datos recolectados, y la segunda, una mejora de la solución inicial obtenida en la fase anterior mediante el uso de la meta-heurística \emph{Particle Swarm Otimization}. \\
-El método para la aproximación inicial de la solución se describe en el Algoritmo \ref{alg:init_aprox_direction}.
+El método para la aproximación inicial de la solución se detalla en el Algoritmo \ref{alg:init_aprox_direction}.
 En donde la estimación de los parámetros se realiza como se describe en la ecuación \ref{eq:Prevailing_Param} para los $\mu_j$, la ecuación \ref{eq:Implicit_Param} para los $k_j$ y  la ecuación \ref{eq:Weight_Param} para los pesos $w_j$.
 \input{code/initial_direction}
 Una vez obtenida la aproximación inicial se procede a mejorar esta mediante el uso del PSO descrito en el Algoritmo \ref{alg:pso_direction}.
@@ -116,7 +118,7 @@ Los parámetros del PSO varían de acuerdo a lo definido anteriormente en las ec
 La forma en que se cuidaron las condiciones de borde consistieron en limitar el avance de las partículas a los bordes 0 y 1 manteniéndolos en dichos valores si es que se excedían a ellos.\\
 Para cuidar la restricción de pesos se normalizaran los valores determinados en cada iteración, es decir, se suman todos los valores $w_j$ y se ponderan dichos valores por el recíproco de la suma obtenida.\\
 Debido a que la función objetivo implica determinar la frecuencia teórica, es necesario determinar la probabilidad
-de cierto rango de direcciones mediante el cálculo del área bajo la curva de la distribución de densidad de probabilidad, para luego ser multiplicada por la suma del total de datos y así obtener el valor requerido. Por ende, para el cálculo de la integral se utilizaron sumas de Riemann con una partición conveniente al desempeño del algoritmo y la precisión requerida.\\
+de cierto rango de direcciones mediante el cálculo del área bajo la curva de la distribución de densidad de probabilidad, para luego multiplicarla por la suma del total de datos y así obtener el valor requerido. Por ende, para el cálculo de la integral se utilizaron sumas de Riemann con una partición conveniente al desempeño del algoritmo y la precisión requerida.\\
 Finalmente, la solución obtenida es decodificada tal y como se explica en la sección \ref{sec:Representacion}.\\
 
 \section{Resultados}\label{sec:Resultados_Dir}
@@ -124,17 +126,20 @@ En esta sección se presentan los experimentos realizados y los resultados obten
 \subsection{Experimentos}
 Similar a los descrito en la sección \ref{sec:Experimentos_velocidad}, los datos de dirección del viento son tratados para rescatar las mediciones pertinentes al trabajo aquí expuesto. Estos se encuentran inicialmente en un formato como el que se puede apreciar en la Figura \ref{fig:example_data}.\\
 Nuevamente, las pruebas fueron realizadas en un computador con sistema operativo Ubuntu 16.04 64-bit, 3.8 GB de memoria y procesador doble núcleo Intel Pentium 2.60 GHz.\\
-Para evaluar la calidad de la solución, se utilizó el test \emph{Chi square goodness fit}\cite{goodFitTest}, con lo cual se evalúa que tan bien representa el modelo propuesto a los datos medidos. Para ello, la hipótesis nula $H_0$ afirma que los datos de dirección del viento se distribuyen según la función de densidad \emph{mixture of von Mises distribution} y la hipótesis alternativa $H_1$ niega dicha afirmación. Se rechaza $H_0$ si el valor de la función objetivo del PSO para la solución final encontrada excede el valor crítico de $\chi^2$ para un nivel de significancia de $\alpha = 0.05$ y 13 grados de libertad, es decir \textbf{22.362}, valor que puede encontrarse en la tabla de la distribución $\chi^2$ \cite{chiSquareTable}. Los grados de libertad son definidos a partir de la cantidad de clases de frecuencia definidas para el estudio, en este caso, se dividió el rango de valores de $[0, 2\pi]$ en 14 tramos iguales, por lo que quedan $(n-1)$ grados de libertad, 13 en este caso.\\
+Para evaluar la calidad de la solución, se utilizó el test de Chi cuadrado (\emph{Chi square goodness fit})\cite{goodFitTest}, con lo cual se evalúa qué tan bien representa el modelo propuesto a los datos medidos. Para ello, la hipótesis nula $H_0$ afirma que los datos de dirección del viento se distribuyen según la función de densidad \emph{mixture of von Mises distribution} y la hipótesis alternativa $H_1$ niega dicha afirmación. Se rechaza $H_0$ si el valor de la función objetivo del PSO para la solución final encontrada excede el valor crítico de $\chi^2$ para un nivel de significancia de $\alpha = 0.05$ y 13 grados de libertad, es decir \textbf{22.362}, valor que puede encontrarse en la tabla de la distribución $\chi^2$ \cite{chiSquareTable}. Los grados de libertad son definidos a partir de la cantidad de clases de frecuencia definidas para el estudio, en este caso, se dividió el rango de valores de $[0, 2\pi]$ en 14 tramos iguales, por lo que quedan $(n-1)$ grados de libertad, 13 en este caso.\\
 Los experimentos consistieron en el ajuste de varios subconjuntos de datos provenientes de las mediciones obtenidas para la dirección del viento en los años 2013, 2014 y 2015. Así, se prueba la utilidad de la propuesta realizada independiente del rango de tiempo a modelar.\\
 Es importante considerar que no se incluyen los días en los que no hubo viento por la evidente imposibilidad de registrar la dirección.
 Los subconjuntos definidos fueron los siguientes:
 \begin{enumerate}
-    \item \textbf{Anual}: Se consideran los datos de todo el año elegido.
+    \item \textbf{Anual}: Se consideran los datos de todo el año elegido (2013, 2014, 2015).
     \item \textbf{Meses acumulados}: Se considera una agrupación mensual pero reuniendo los datos de tres años consecutivos (2013, 2014, 2015). Es decir, para el mes de Enero, se ajusta el modelo a los datos de Enero-2013, Enero-2014 y Enero-2015 en conjunto.
     \item \textbf{Meses}: Se escogen algunos meses para ser comparados consigo mismos durante los tres años escogidos. Por ejemplo, Enero-2013, Enero-2014 y Enero-2015 por separado.       
 \end{enumerate}
 
-Para el funcionamiento del PSO, se estableció un límite de 50500 iteraciones, se utilizaron 100 partículas, y se usó como criterio de parada si es que el valor en la función objetivo de la mejor solución encontrada al momento era menor a 22.362 (criterio basado en la estrategia de cumplir el test \emph{Chi square goodness fit}). El mismo valor se estableció como valor esperado para la función objetivo al utilizarse la variación de parámetros definida en las ecuaciones \ref{eq:VariationParameters_new},  \ref{eq:VariationParameters_new_2} y \ref{eq:VariationParameters_new_3}. La cantidad de \emph{mixture of simple von Mises distribution} utilizadas fue de 7, siguiendo la recomendación de Carta et al. \cite{Carta07} y algunas pruebas iniciales.\\
+Para el funcionamiento del PSO, se estableció un límite de 50500 iteraciones, se utilizaron 100 partículas, y se usó como criterio de parada si es que el valor en la función objetivo de la mejor solución encontrada al momento era menor a 22.362 (criterio basado en la estrategia de cumplir el test \emph{Chi square goodness fit}). El mismo valor se estableció como valor esperado para la función objetivo al utilizarse la variación de parámetros definida en las ecuaciones \ref{eq:VariationParameters_new},  \ref{eq:VariationParameters_new_2} y \ref{eq:VariationParameters_new_3}. Además, se estableció un límite de tiempo de 30 minutos de ejecución por experimento.\\
+La cantidad de \emph{mixture of simple von Mises distribution} utilizadas fue de 7, siguiendo la recomendación de Carta et al. \cite{Carta07} y algunas pruebas iniciales.\\
+Con el fin de evitar que los resultados estén sesgados por el azar, dado los factores aleatorios presentes en la fórmula del PSO 
+\ref{rep:Swarm}, se repiten los experimentos realizados 30 veces cambiando la semilla generadora de números aleatorios.\\
 
 Por último, se comparan los resultados obtenidos por el PSO propuesto en el trabajo de Heckenbergerova et al. \cite{Heckenbergerova15} con la propuesta realizada en esta memoria para la variación de parámetros del PSO definidas en las ecuaciones \ref{eq:VariationParameters_new}, \ref{eq:VariationParameters_new_2} y \ref{eq:VariationParameters_new_3}.
 
@@ -154,7 +159,8 @@ Por esto, es importante que el PSO busque mejorar la solución inicial en una ve
             \label{fig:EV_SOL}
             \includegraphics[width=0.45\textwidth]{figures/ev_solution.png}
         }%
-    \caption{Pruebas iniciales.\\ Fuente: Elaboración propia.}
+    \caption{Pruebas iniciales.}
+    \caption*{Fuente: Elaboración propia.}
     \label{fig:subfigures}
 \end{figure}
 
@@ -179,7 +185,8 @@ En las Figuras referenciadas previamente se observa la evolución de la solució
             \label{fig:SOL_13}
             \includegraphics[width=0.45\textwidth]{figures/sol_ini_sol_fin_2013.png}
         }
-    \caption{Graficos de ajustes anuales.\\ Fuente: Elaboración propia.}
+    \caption{Graficos de ajustes anuales.}
+    \caption*{Fuente: Elaboración propia.}
     \label{fig:subfigures}
 \end{figure}
 
@@ -192,93 +199,96 @@ Se puede observar que algunos gráficos muestran un mejor ajuste que otros, a pe
          %%MONTHS  
         \subfigure[Solución inicial y final, Enero.]{
             \label{fig:PLOT_SOL_ENERO}
-            \includegraphics[width=0.45\textwidth]{figures/sol_ini_sol_fin_ENERO.png}
+            \includegraphics[width=0.42\textwidth]{figures/sol_ini_sol_fin_ENERO.png}
         }
          \subfigure[Solución inicial y final, Febrero.]{
             \label{fig:PLOT_SOL_FEBRERO}
-            \includegraphics[width=0.45\textwidth]{figures/sol_ini_sol_fin_FEBRERO.png}
+            \includegraphics[width=0.42\textwidth]{figures/sol_ini_sol_fin_FEBRERO.png}
         }\\
           \subfigure[Solución inicial y final, Marzo.]{
             \label{fig:PLOT_SOL_MARZO}
-            \includegraphics[width=0.45\textwidth]{figures/sol_ini_sol_fin_MARZO.png}
+            \includegraphics[width=0.42\textwidth]{figures/sol_ini_sol_fin_MARZO.png}
         }
          \subfigure[Solución inicial y final, Abril.]{
             \label{fig:PLOT_SOL_ABRIL}
-            \includegraphics[width=0.45\textwidth]{figures/sol_ini_sol_fin_ABRIL.png}
+            \includegraphics[width=0.42\textwidth]{figures/sol_ini_sol_fin_ABRIL.png}
         }\\
           \subfigure[Solución inicial y final, Mayo.]{
             \label{fig:PLOT_SOL_MAYO}
-            \includegraphics[width=0.45\textwidth]{figures/sol_ini_sol_fin_MAYO.png}
+            \includegraphics[width=0.42\textwidth]{figures/sol_ini_sol_fin_MAYO.png}
         }
          \subfigure[Solución inicial y final, Junio.]{
             \label{fig:PLOT_SOL_JUNIO}
-            \includegraphics[width=0.45\textwidth]{figures/sol_ini_sol_fin_JUNIO.png}
+            \includegraphics[width=0.42\textwidth]{figures/sol_ini_sol_fin_JUNIO.png}
         }
-    \caption{Gráficos de ajuste de MVM por meses.\\ Fuente: Elaboración propia.}
+    \caption{Gráficos de ajuste de MVM por meses.}
+    \caption*{Fuente: Elaboración propia.}
     \label{fig:PLOT_MONTHS_ALL_1}
 \end{figure}
-
+\newpage
 \begin{figure}[ht!]
     \centering
     \captionsetup{justification=centering,margin=2cm}
         \subfigure[Solución inicial y final, Julio.]{
             \label{fig:PLOT_SOL_JULIO}
-            \includegraphics[width=0.45\textwidth]{figures/sol_ini_sol_fin_JULIO.png}
+            \includegraphics[width=0.42\textwidth]{figures/sol_ini_sol_fin_JULIO.png}
         }
          \subfigure[Solución inicial y final, Agosto.]{
             \label{fig:PLOT_SOL_AGOSTO}
-            \includegraphics[width=0.45\textwidth]{figures/sol_ini_sol_fin_AGOSTO.png}
+            \includegraphics[width=0.42\textwidth]{figures/sol_ini_sol_fin_AGOSTO.png}
         }\\
           \subfigure[Solución inicial y final, Septiembre.]{
             \label{fig:PLOT_SOL_SEPTIEMBRE}
-            \includegraphics[width=0.45\textwidth]{figures/sol_ini_sol_fin_SEPTIEMBRE.png}
+            \includegraphics[width=0.42\textwidth]{figures/sol_ini_sol_fin_SEPTIEMBRE.png}
         }
          \subfigure[Solución inicial y final, Octubre.]{
             \label{fig:PLOT_SOL_OCTUBRE}
-            \includegraphics[width=0.45\textwidth]{figures/sol_ini_sol_fin_OCTUBRE.png}
+            \includegraphics[width=0.42\textwidth]{figures/sol_ini_sol_fin_OCTUBRE.png}
         }\\
           \subfigure[Solución inicial y final, Noviembre.]{
             \label{fig:PLOT_SOL_NOVIEMBRE}
-            \includegraphics[width=0.45\textwidth]{figures/sol_ini_sol_fin_NOVIEMBRE.png}
+            \includegraphics[width=0.42\textwidth]{figures/sol_ini_sol_fin_NOVIEMBRE.png}
         }
          \subfigure[Solución inicial y final, Diciembre.]{
             \label{fig:PLOT_SOL_DICIEMBRE}
-            \includegraphics[width=0.45\textwidth]{figures/sol_ini_sol_fin_DICIEMBRE.png}
+            \includegraphics[width=0.42\textwidth]{figures/sol_ini_sol_fin_DICIEMBRE.png}
         }
-    \caption{Gráficos de ajuste de MVM por meses.\\ Fuente: Elaboración propia.}
+    \caption{Gráficos de ajuste de MVM por meses.}
+    \caption*{Fuente: Elaboración propia.}
     \label{fig:PLOT_MONTHS_ALL_2}
 \end{figure}
 
 \subsubsection{Experimento 4, Ajuste por meses, visualización en coordenadas polares}
-En las Figuras agrupadas \ref{fig:PLOT_MONTHS_1} y \ref{fig:PLOT_MONTHS_2} se aprecia una visualización más interesante. Allí se puede ver de forma más intuitiva las direcciones dominantes del viento, relativas al sistema de referencia utilizado en meteorología conocido comúnmente como la rosa de los vientos \cite{RosaViento}. En el mes de Enero, Figuras \ref{fig:polar_ene_2015} \ref{fig:polar_ene_2014} \ref{fig:polar_ene_2013}, los vientos parecen provenir principalmente desde el suroeste, mientras que en Mayo, Figuras \ref{fig:polar_may_2015} \ref{fig:polar_may_2014} \ref{fig:polar_may_2013}, el origen del viento es más variable, proviniendo desde el noreste y el sur principalmente. En Septiembre, Figuras \ref{fig:polar_sep_2015} \ref{fig:polar_sep_2014} \ref{fig:polar_sep_2013}, vuelve a haber una fuente de los vientos predominante el suroeste.
+En las Figuras agrupadas \ref{fig:PLOT_MONTHS_1} y \ref{fig:PLOT_MONTHS_2} se aprecia una visualización más interesante. Allí se puede ver de forma más intuitiva las direcciones dominantes del viento, relativas al sistema de referencia utilizado en meteorología conocido comúnmente como la rosa de los vientos \cite{RosaViento}. En el mes de Enero, Figuras \ref{fig:polar_ene_2015} \ref{fig:polar_ene_2014} \ref{fig:polar_ene_2013}, los vientos parecen provenir principalmente desde el suroeste, mientras que en Mayo, Figuras \ref{fig:polar_may_2015} \ref{fig:polar_may_2014} \ref{fig:polar_may_2013}, el origen del viento es más variable, proviniendo desde el noreste y el sur principalmente. En Septiembre, Figuras \ref{fig:polar_sep_2015} \ref{fig:polar_sep_2014} \ref{fig:polar_sep_2013}, vuelve a ser una fuente de los vientos predominante el suroeste.
 \begin{figure}[ht!]
     \centering
     \captionsetup{justification=centering,margin=2cm}
         \subfigure[Dirección enero 2015.]{
             \label{fig:polar_ene_2015}
-            \includegraphics[width=0.45\textwidth]{figures/direction_enero_2015.png}
+            \includegraphics[width=0.43\textwidth]{figures/direction_enero_2015.png}
         }
          \subfigure[Dirección enero 2014.]{
             \label{fig:polar_ene_2014}
-            \includegraphics[width=0.45\textwidth]{figures/direction_enero_2014.png}
+            \includegraphics[width=0.43\textwidth]{figures/direction_enero_2014.png}
         }\\
          \subfigure[Dirección enero 2013.]{
             \label{fig:polar_ene_2013}
-            \includegraphics[width=0.45\textwidth]{figures/direction_enero_2013.png}
+            \includegraphics[width=0.43\textwidth]{figures/direction_enero_2013.png}
         }
          \subfigure[Dirección mayo 2015.]{
             \label{fig:polar_may_2015}
-            \includegraphics[width=0.45\textwidth]{figures/direction_mayo_2015.png}
+            \includegraphics[width=0.43\textwidth]{figures/direction_mayo_2015.png}
         }\\
          \subfigure[Dirección mayo 2014.]{
             \label{fig:polar_may_2014}
-            \includegraphics[width=0.45\textwidth]{figures/direction_mayo_2014.png}
+            \includegraphics[width=0.43\textwidth]{figures/direction_mayo_2014.png}
         }
          \subfigure[Dirección mayo 2013.]{
             \label{fig:polar_may_2013}
-            \includegraphics[width=0.45\textwidth]{figures/direction_mayo_2013.png}
+            \includegraphics[width=0.43\textwidth]{figures/direction_mayo_2013.png}
         }
-    \caption{Gráficos de ajuste por meses en coordenadas polares.\\ Fuente: Elaboración propia.}
+    \caption{Gráficos de ajuste por meses en coordenadas polares.}
+    \caption*{Fuente: Elaboración propia.}
     \label{fig:PLOT_MONTHS_1}
 \end{figure}
 
@@ -297,61 +307,179 @@ En las Figuras agrupadas \ref{fig:PLOT_MONTHS_1} y \ref{fig:PLOT_MONTHS_2} se ap
             \label{fig:polar_sep_2013}
             \includegraphics[width=0.45\textwidth]{figures/direction_septiembre_2013.png}
         }  
-    \caption{Gráficos de ajuste por meses en coordenadas polares.\\ Fuente: Elaboración propia.}
+    \caption{Gráficos de ajuste por meses en coordenadas polares.}
+    \caption*{Fuente: Elaboración propia.}
     \label{fig:PLOT_MONTHS_2}
 \end{figure}
 
 \subsubsection{Resumen de los experimentos}
+%\begin{table}[ht!]
+%    %\centering
+%    \caption{Tabla de pruebas, PSO dirección del viento}
+%    \label{table:stadistical_tests_direction}
+%    \resizebox{\textwidth}{!}{
+%    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+%        \hline
+%        \textbf{Periodo de tiempo} & \textbf{PSI} & \textbf{PSFV} & \textbf{PSFF} & \textbf{Tiempo V} & \textbf{Tiempo F} & \textbf{Iteraciones V} & \textbf{%Iteraciones F} & \textbf{Cantidad datos}\\
+%        \hline
+%        2015            & 461,83    & -         & 251,37    & -           & 38m46,1s    & -     & 50500 & 2076 \\
+%        2015            & 461,83    & 21,58     & 234,97    & 8m5,7s      & 47m47,1s    & 9005  & 50500 & 2076 \\
+%        2014            & 301,12    & 24,86     & 56,57     & 20m37,8s    & 46m23,2s    & 29494 & 50500 & 2499 \\ 
+%        2013            & 424,24    & 33,76     & 69,53     & 11m41,1s    & 48m23,7s    & 16778 & 50500 & 2346 \\
+%        \hline
+%        Enero           & 144,42    & 20,89     & 22,18     & 0m3,3s      & 25m37,2s    & 86    & 27276 & 633 \\
+%        Febrero         & 130,39    & 19,45     & 22,27     & 0m12,2s     & 0m07,1s     & 288   & 134   & 567\\
+%        Marzo           & 104,54    & 18,61     & 22,31     & 0m3,1s      & 0m13,3s     & 49    & 228   & 564 \\
+%        Abril           & 74,97     & 21,13     & 22,25     & 0m12,5s     & 17m58,4s    & 192   & 18544 & 559 \\
+%        Mayo            & 243,65    & 21,65     & 81,75     & 1m6,9s      & 42m59,6s    & 1237  & 50000 & 589 \\
+%        Junio           & 286,30    & 21,01     & 188,91    & 1m42,9s     & 40m52,5s    & 1989  & 50000 & 554 \\
+%        Julio           & 177,33    & 22,06     & 31,39     & 0m17,8s     & 45m48,3s    & 315   & 50000 & 604 \\
+%        Agosto          & 79,57     & 21,94     & 22,17     & 0m12,9s     & 40m26,3s    & 202   & 41204 & 578 \\
+%        Septiembre      & 92,77     & 21,31     & 22,31     & 0m1,7s      & 0m1,7s      & 27    & 166   & 541 \\
+%        Octubre         & 188,14    & 21,81     & 37,50     & 0m45,3s     & 42m56,4s    & 825   & 50000 & 564 \\
+%        Noviembre       & 363,90    & 26,25     & 88,16     & 42m21,4s    & 42m53,6s    & 50500 & 50000 & 582 \\
+%        Diciembre       & 335,28    & 22,30     & 37,81     & 9m56,1s     & 43m52,9s    & 11640 & 50000 & 586 \\
+%        \hline 
+%        Enero 2015      & 42,94     & 16,34     & 18,77     & 0m4,1s      & 0m0,1s      & 61    & 10    & 220 \\
+%        Enero 2014      & 68,10     & 20,68     & 21,61     & 0m1,8s      & 0m0,7s      & 29    & 126   & 206 \\
+%        Enero 2013      & 194,98    & 19,31     & 24,86     & 0m0,4s      & 46m29,2s    & 6     & 50000 & 207 \\
+%        Mayo 2015       & 60,84     & 17,99     & 26,69     & 0m2,3s      & 41m53,8s    & 39    & 50000 & 173 \\
+%        Mayo 2014       & 142,85    & 20,94     & 20,48     & 0m4,8s      & 0m0,3s      & 82    & 50    & 213 \\
+%        Mayo 2013       & 135,68    & 20,88     & 22,34     & 0m5,3s      & 0m1,1s      & 97    & 2089  & 203 \\
+%        Septiembre 2015 & 77,41     & 21,29     & 25,54     & 0m8,4s      & 41m48,7s    & 137   & 50000 & 140 \\
+%        Septiembre 2014 & 19,56     & 18,24     & 15,86     & 0m0,1s      & 0m0,1s      & 1     & 1     & 200 \\
+%        Septiembre 2013 & 68,90     & 16,61     & 21,89     & 0m0,3s      & 0m0,9s      & 5     & 150   & 201 \\
+%        \hline  
+%    \end{tabular}
+%    }   
+%\end{table}
+
 \begin{table}[ht!]
     %\centering
-    \caption{Tabla de pruebas, PSO dirección del viento}
-    \label{table:stadistical_tests_direction}
+    \caption{Tabla de pruebas y repeticiones, PSO dirección del viento, Estrategia Variable}
+    \label{table:repetitions_tests_direction_variable}
     \resizebox{\textwidth}{!}{
-    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
         \hline
-        \textbf{Periodo de tiempo} & \textbf{PSI} & \textbf{PSFV} & \textbf{PSFF} & \textbf{Tiempo V} & \textbf{Tiempo F} & \textbf{Iteraciones V} & \textbf{Iteraciones F} & \textbf{Cantidad datos}\\
+        \textbf{Periodo de tiempo} & \textbf{Puntaje Inicial} & \textbf{Menor Puntaje} & \textbf{Mayor Puntaje} & \textbf{Promedio Puntaje} & \textbf{Menor Iteraciones} & \textbf{Mayor Iteraciones} & \textbf{Promedio Iteraciones} & \textbf{Menor Tiempo} & \textbf{Mayor Tiempo} & \textbf{Promedio Tiempo} & \textbf{Cantidad datos}\\
         \hline
-        2015            & 461.83    & -         & 251.37    & -           & 38m46.1s    & -     & 50500 & 2076 \\
-        2015            & 461.83    & 21.58     & 234,97    & 8m5.7s      & 47m47.1s    & 9005  & 50500 & 2076 \\
-        2014            & 301.12    & 19.86     & 56,57     & 20m37.8s    & 46m23.2s    & 29494 & 50500 & 2499 \\ 
-        2013            & 424.24    & 20.76     & 69,53     & 11m41.1s    & 48m23.7s    & 16778 & 50500 & 2346 \\
-        \hline
-        Enero           & 144.42    & 20.89     & 22,18     & 0m3.3s      & 25m37.2s    & 86    & 27276 & 633 \\
-        Febrero         & 130.39    & 19.45     & 22,27     & 0m12.2s     & 0m07.1s     & 288   & 134   & 567\\
-        Marzo           & 104.54    & 18.61     & 22,31     & 0m3.1s      & 0m13.3s     & 49    & 228   & 564 \\
-        Abril           & 74.97     & 21.13     & 22,25     & 0m12.5s     & 17m58.4s    & 192   & 18544 & 559 \\
-        Mayo            & 243.65    & 21.65     & 81,75     & 1m6.9s      & 42m59.6s    & 1237  & 50000 & 589 \\
-        Junio           & 286.30    & 21.01     & 188,91    & 1m42.9s     & 40m52.5s    & 1989  & 50000 & 554 \\
-        Julio           & 177.33    & 22.06     & 31,39     & 0m17.8s     & 45m48.3s    & 315   & 50000 & 604 \\
-        Agosto          & 79.57     & 21.94     & 22,17     & 0m12.9s     & 40m26.3s    & 202   & 41204 & 578 \\
-        Septiembre      & 92.77     & 21.31     & 22,31     & 0m1.7s      & 0m1.7s      & 27    & 166   & 541 \\
-        Octubre         & 188.14    & 21.81     & 37,50     & 0m45.3s     & 42m56.4s    & 825   & 50000 & 564 \\
-        Noviembre       & 363.90    & 26.25     & 88,16     & 42m21.4s    & 42m53.6s    & 50500 & 50000 & 582 \\
-        Diciembre       & 335.28    & 22.30     & 37,81     & 9m56.1s     & 43m52.9s    & 11640 & 50000 & 586 \\
+        2015            & 461,83    & 19,42     & 86,60  & 32,11 & 445   & 26395 & 13314 & 34   & 1800  &  992   & 2076 \\
+        2014            & 301,12    & 17,08     & 59,73  & 36,18 & 4914  & 25904 & 22633 & 359  & 1800  &  1655  & 2499 \\ 
+        2013            & 424,24    & 17,94     & 81,44  & 26,24 & 838   & 26048 & 12307 & 65   & 1800  &  925   & 2346 \\
+        \hline  
+        Enero           & 144,42    & 20,75     & 22,33  & 21,76 & 22    & 22515 & 1918  & 1    & 1558  & 136    & 633 \\
+        Febrero         & 130,39    & 17,69     & 24,24  & 21,70 & 185   & 27321 & 3978  & 14   & 1800  & 277    & 567\\
+        Marzo           & 104,54    & 16,90     & 24,38  & 21,57 & 37    & 25994 & 2448  & 3    & 1800  & 174    & 564 \\
+        Abril           & 74,97     & 17,19     & 22,35  & 21,20 & 41    & 3369  & 589   & 3    & 235   & 42     & 559 \\
+        Mayo            & 243,65    & 18,86     & 22,34  & 21,46 & 58    & 2281  & 559   & 4    & 166   & 41     & 589 \\
+        Junio           & 286,30    & 20,36     & 22,35  & 21,98 & 50    & 2229  & 754   & 4    & 161   & 55     & 554 \\
+        Julio           & 177,33    & 16,29     & 22,33  & 21,12 & 53    & 585   & 258   & 4    & 43    & 19     & 604 \\
+        Agosto          & 79,57     & 16,42     & 22,30  & 20,99 & 12    & 2155  & 208   & 1    & 171   & 16     & 578 \\
+        Septiembre      & 92,77     & 14,48     & 22,34  & 20,55 & 16    & 227   & 70    & 1    & 18    & 6      & 541 \\
+        Octubre         & 188,14    & 19,21     & 24,41  & 21,89 & 300   & 25702 & 6607  & 22   & 1800  & 479    & 564 \\
+        Noviembre       & 363,90    & 21,90     & 46,00  & 27,00 & 2288  & 25956 & 23969 & 168  & 1800  & 1725   & 582 \\
+        Diciembre       & 335,28    & 21,55     & 64,28  & 27,68 & 5179  & 28004 & 20210 & 364  & 1800  & 1364   & 586 \\
         \hline 
-        Enero 2015      & 42.94     & 16.34     & 18,77     & 0m4.1s      & 0m0.1s      & 61    & 10    & 220 \\
-        Enero 2014      & 68.10     & 20.68     & 21,61     & 0m1.8s      & 0m0.7s      & 29    & 126   & 206 \\
-        Enero 2013      & 194.98    & 19.31     & 24,86     & 0m0.4s      & 46m29.2s    & 6     & 50000 & 207 \\
-        Mayo 2015       & 60.84     & 17.99     & 26,69     & 0m2.3s      & 41m53.8s    & 39    & 50000 & 173 \\
-        Mayo 2014       & 142.85    & 20.94     & 20,48     & 0m4.8s      & 0m0.3s      & 82    & 50    & 213 \\
-        Mayo 2013       & 135.68    & 20.88     & 22,34     & 0m5.3s      & 0m1.1s      & 97    & 2089  & 203 \\
-        Septiembre 2015 & 77.41     & 21.29     & 25,54     & 0m8.4s      & 41m48.7s    & 137   & 50000 & 140 \\
-        Septiembre 2014 & 19.56     & 18.24     & 15,86     & 0m0.1s      & 0m0.1s      & 1     & 1     & 200 \\
-        Septiembre 2013 & 68.90     & 16.61     & 21,89     & 0m0.3s      & 0m0.9s      & 5     & 150   & 201 \\
+        Enero 2015      & 42,94     & 18,68     & 22,33  & 20,50 & 3     & 81    & 29    & 1    & 6     &  2     & 220 \\
+        Enero 2014      & 68,10     & 16,71     & 22,35  & 20,39 & 7     & 438   & 61    & 1    & 32    &  5     & 206 \\
+        Enero 2013      & 194,98    & 15,41     & 22,30  & 19,98 & 10    & 245   & 76    & 1    & 19    &  6     & 207 \\
+        Mayo 2015       & 60,84     & 17,68     & 22,28  & 20,97 & 5     & 107   & 38    & 1    & 8     &  3     & 173 \\
+        Mayo 2014       & 142,85    & 16,30     & 22,30  & 20,22 & 9     & 52    & 24    & 1    & 4     &  2     & 213 \\
+        Mayo 2013       & 135,68    & 15,16     & 21,99  & 19,86 & 2     & 159   & 24    & 1    & 13    &  2     & 203 \\
+        Septiembre 2015 & 77,41     & 11,13     & 22,29  & 19,70 & 8     & 2529  & 690   & 1    & 219   &  60    & 140 \\
+        Septiembre 2014 & 19,56     & 11,01     & 22,31  & 19,54 & 1     & 27    & 10    & 1    & 2     &  1     & 200 \\
+        Septiembre 2013 & 68,90     & 12,29     & 22,33  & 19,92 & 10    & 175   & 35    & 1    & 12    &  3     & 201 \\
         \hline  
     \end{tabular}
     }   
 \end{table}
-La tabla \ref{table:stadistical_tests_direction} muestra un resumen de los resultados obtenidos al ajustar la distribución de probabilidad \emph{von Mises distribution} en diferentes subconjuntos de tiempo de los datos colectados en los años 2013, 2014 y 2015. La tabla está organizada como sigue a continuación. La estrategia \textbf{Variable} hace referencia a la propuesta realizada en esta memoria para la variación de parámetros del PSO explicada en la sección \ref{subsec:parametros_new}, mientras que la estrategia \textbf{Fija} es la seguida en el trabajo de Heckenbergerova et al. \cite{Heckenbergerova15}, la cual consta de la definición de parámetros fijos para el PSO.
+
+\begin{table}[ht!]
+    %\centering
+    \caption{Tabla de pruebas y repeticiones, PSO dirección del viento, Estrategia Fija}
+    \label{table:repetitions_tests_direction_fijo}
+    \resizebox{\textwidth}{!}{
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        \textbf{Periodo de tiempo} & \textbf{Puntaje Inicial} & \textbf{Menor Puntaje} & \textbf{Mayor Puntaje} & \textbf{Promedio Puntaje} & \textbf{Menor Iteraciones} & \textbf{Mayor Iteraciones} & \textbf{Promedio Iteraciones} & \textbf{Menor Tiempo} & \textbf{Mayor Tiempo} & \textbf{Promedio Tiempo} & \textbf{Cantidad datos}\\
+        \hline
+        2015            & 461,83    & 51,79     & 380,40  & 137,07 & 24082  & 27506 & 25651 & 1800 & 1800  & 1800  & 2076 \\
+        2014            & 301,12    & 62,07     & 314,62  & 122,52 & 21681  & 26393 & 24633 & 1800 & 1800  & 1800  & 2499 \\
+        2013            & 424,24    & 65,76     & 433,80  & 182,85 & 21684  & 27603 & 23866 & 1800 & 1800  & 1800  & 2346 \\
+        \hline  
+        Enero           & 144,42    & 22,30     & 96,99   & 49,17 & 940     & 26675 & 23210 & 68   & 1800  & 1699  & 633 \\
+        Febrero         & 130,39    & 23,20     & 87,79   & 46,30 & 22926   & 26619 & 24898 & 1800 & 1800  & 1800  & 567\\
+        Marzo           & 104,54    & 21,15     & 106,97  & 45,49 & 376     & 26552 & 22377 & 28   & 1800  & 1647  & 564 \\
+        Abril           & 74,97     & 19,82     & 84,00   & 33,61 & 54      & 27723 & 13408 & 5    & 1800  & 948   & 559 \\
+        Mayo            & 243,65    & 21,98     & 52,87   & 28,44 & 212     & 25973 & 20789 & 16   & 1800  & 1519  & 589 \\
+        Junio           & 286,30    & 22,76     & 188,91  & 50,13 & 20320   & 27830 & 23479 & 1668 & 1800  & 1756  & 554 \\
+        Julio           & 177,33    & 23,05     & 72,56   & 33,93 & 127     & 26587 & 21869 & 55   & 1800  & 1533  & 604 \\
+        Agosto          & 79,57     & 20,45     & 78,96   & 25,72 & 66      & 25514 & 19256 & 7    & 1800  & 1623  & 578 \\
+        Septiembre      & 92,77     & 21,30     & 64,74   & 32,17 & 155     & 27258 & 20122 & 47   & 1800  & 1414  & 541 \\
+        Octubre         & 188,14    & 22,35     & 102,38  & 38,70 & 277     & 26231 & 24109 & 36   & 1800  & 1563  & 564 \\
+        Noviembre       & 363,90    & 32,69     & 150,89  & 63,91 & 359     & 26032 & 22324 & 20   & 1800  & 1899  & 582 \\
+        Diciembre       & 335,28    & 24,35     & 90,86   & 47,12 & 15720   & 27111 & 21662 & 89   & 1800  & 1657  & 586 \\
+        \hline 
+        Enero 2015      & 42,94     & 15,24     & 38,07   & 22,51 & 17      & 27010  & 8265  & 1   & 1800   & 586  & 220 \\
+        Enero 2014      & 68,10     & 17,16     & 32,71   & 21,78 & 11      & 26014  & 7265  & 1   & 1800   & 750  & 206 \\
+        Enero 2013      & 194,98    & 14,58     & 41,95   & 30,89 & 6       & 25341  & 6541  & 1   & 1800   & 789  & 207 \\
+        Mayo 2015       & 60,84     & 16,92     & 35,77   & 25,72 & 21      & 20147  & 7566  & 1   & 1800   & 852  & 173 \\
+        Mayo 2014       & 142,85    & 19,32     & 56,89   & 30,88 & 62      & 24612  & 7894  & 3   & 1800   & 421  & 213 \\
+        Mayo 2013       & 135,68    & 18,26     & 46,33   & 33,90 & 44      & 20144  & 8742  & 1   & 1800   & 520  & 203 \\
+        Septiembre 2015 & 77,41     & 19,52     & 30,45   & 21,14 & 79      & 24700  & 8440  & 2   & 1800   & 324  & 140 \\
+        Septiembre 2014 & 19,56     & 14,36     & 29,51   & 24,55 & 1       & 20892  & 3247  & 1   & 1800   & 385  & 200 \\
+        Septiembre 2013 & 68,90     & 16,86     & 32,48   & 22,63 & 5       & 24113  & 4570  & 1   & 1800   & 480  & 201 \\
+        \hline  
+    \end{tabular}
+    }   
+\end{table}
+
+\begin{figure}[ht!]
+    \centering
+    \captionsetup{justification=centering,margin=2cm}
+        \subfigure[Puntajes obtenidos con la estrategia Variable.]{
+            \label{fig:polar_ene_2015}
+            \includegraphics[width=0.45\textwidth]{figures/bp_puntaje_V.png}
+        }
+         \subfigure[Puntajes obtenidos con la estrategia Fija.]{
+            \label{fig:polar_ene_2014}
+            \includegraphics[width=0.45\textwidth]{figures/bp_puntaje_F.png}
+        }\\
+         \subfigure[Iteraciones alcanzadas con la estrategia Variable.]{
+            \label{fig:polar_ene_2013}
+            \includegraphics[width=0.45\textwidth]{figures/bp_iteraciones_V.png}
+        }
+         \subfigure[Iteraciones alcanzadas con la estrategia Fija.]{
+            \label{fig:polar_may_2015}
+            \includegraphics[width=0.45\textwidth]{figures/bp_iteraciones_F.png}
+        }\\
+         \subfigure[Tiempos empleado con la estrategia Variable.]{
+            \label{fig:polar_may_2014}
+            \includegraphics[width=0.45\textwidth]{figures/bp_tiempo_V.png}
+        }
+         \subfigure[Tiempos empleado con la estrategia Fija.]{
+            \label{fig:polar_may_2013}
+            \includegraphics[width=0.45\textwidth]{figures/bp_tiempo_F.png}
+        }
+    \caption{Boxplots de repeticiones del PSO con al estratégia Fija y Variable.}
+    \caption*{Fuente: Elaboración propia.}
+    \label{fig:BOXPLOTS_DIRECTION}
+\end{figure}
+
+
+Las tablas \ref{table:repetitions_tests_direction_variable} y \ref{table:repetitions_tests_direction_fijo} muestran un resumen de los resultados obtenidos al ajustar la distribución de probabilidad \emph{von Mises distribution} en diferentes subconjuntos de tiempo de los datos colectados en los años 2013, 2014 y 2015, siguiendo la estrategia Variable (propuesta en esta memoria) y la estrategia Fija (sin variación de parámetros). Las tablas están organizadas como sigue a continuación. La estrategia \textbf{Variable} hace referencia a la propuesta realizada en esta memoria para la variación de parámetros del PSO explicada en la sección \ref{subsec:parametros_new}, mientras que la estrategia \textbf{Fijo} es la seguida en el trabajo de Heckenbergerova et al. \cite{Heckenbergerova15}, la cual consta de la definición de parámetros fijos para el PSO.
 \begin{enumerate}
     \item \emph{Periodo de tiempo}: Rango de tiempo donde se consideraron los datos para el ajuste.
-    \item \emph{PSI}: Puntaje solución inicial, es decir, el valor obtenido al evaluar la solución inicial en la función objetivo.
-    \item \emph{PSFV}: Puntaje solución final \emph{variable}, se refiere a la solución obtenida por el PSO al utilizar la estrategia \textbf{Variable}.
-    \item \emph{PSFF}: Puntaje solución final \emph{fija}, se refiere a la solución obtenida por el PSO al utilizar la estrategia \textbf{Fija}.
-    \item \emph{Tiempo V}: Tiempo empleado por el PSO con la estrategia \textbf{Variable}. 
-    \item \emph{Tiempo F}: Tiempo empleado por el PSO con la estrategia \textbf{Fija}. 
-    \item \emph{Iteraciones V}: Iteraciones empleadas hasta llegar a la mejor solución por el PSO con la estrategia \textbf{Variable}. 
-    \item \emph{Iteraciones F}: Iteraciones empleadas hasta llegar a la mejor solución por el PSO con la estrategia \textbf{Fija}. 
+    \item \emph{Puntaje Inicial}: Puntaje solución inicial, es decir, el valor obtenido al evaluar la solución inicial en la función objetivo.
+    \item \emph{Menor Puntaje}: Equivale al mejor puntaje obtenido por las repeticiones.
+    \item \emph{Mayor Puntaje}: Equivale al peor puntaje obtenido por las repeticiones.
+    \item \emph{Promedio Puntaje}: Puntaje promedio de las repeticiones.
+    \item \emph{Menor Iteraciones}: Equivale a la mejor cantidad de iteraciones obtenidas por las repeticiones.
+    \item \emph{Mayor Iteraciones}: Equivale a la mejor cantidad de iteraciones obtenidas por las repeticiones. 
+    \item \emph{Promedio Iteraciones}: Iteraciones promedio de las repeticiones. 
+    \item \emph{Menor Tiempo}: Equivale al mejor tiempo obtenido por las repeticiones.
+    \item \emph{Mayor Tiempo}: Equivale al peor tiempo obtenido por las repeticiones.
+    \item \emph{Promedio Tiempo}: Tiempo promedio de las repeticiones.
     \item \emph{Cantidad datos}: Cantidad de datos utilizados en el ajuste.
 \end{enumerate}
 
@@ -360,7 +488,8 @@ La tabla \ref{table:stadistical_tests_direction} muestra un resumen de los resul
     \captionsetup{justification=centering,margin=2cm}
         \includegraphics[width=\textwidth]{figures/comp_v1_v2_iteraciones.png}
         \includegraphics[width=\textwidth]{figures/comp_v1_v2_puntaje.png} 
-    \caption{Comparación de variaciones en el PSO.\\ Fuente: Elaboración propia.}
+    \caption{Comparación de variaciones en el PSO.}
+    \caption*{Fuente: Elaboración propia.}
     \label{fig:comparison_pso_1}
 \end{figure}
 
@@ -368,12 +497,15 @@ La tabla \ref{table:stadistical_tests_direction} muestra un resumen de los resul
     \centering
     \captionsetup{justification=centering,margin=2cm}
         \includegraphics[width=\textwidth]{figures/comp_v1_v2_tiempo.png}   
-    \caption{Comparación de variaciones en el PSO.\\ Fuente: Elaboración propia.}
+    \caption{Comparación de variaciones en el PSO.}
+    \caption*{Fuente: Elaboración propia.}
     \label{fig:comparison_pso_2}
 \end{figure}
-Los gráficos en \ref{fig:comparison_pso_1} y  \ref{fig:comparison_pso_2} muestran la comparación de los rendimientos de los algoritmos con parámetros fijos y variables para el PSO según la propuesta explicada en la sección \ref{subsec:parametros_new}. Es claro que en la mayoría de los experimentos, la propuesta realizada tiene mejor rendimiento y en el peor de los casos se comporta igual o levemente peor que la forma tradicional de parámetros fijos utilizada en el trabajo de Heckenbergerova et al. \cite{Heckenbergerova15}.
+Los gráficos en \ref{fig:comparison_pso_1} y  \ref{fig:comparison_pso_2} muestran la comparación de los rendimientos de los algoritmos con parámetros fijos y variables para el PSO según la propuesta explicada en la sección \ref{subsec:parametros_new}. Es claro que en la mayoría de los experimentos, la propuesta realizada tiene mejor rendimiento y en el peor de los casos se comporta igual o levemente peor que la forma tradicional de parámetros fijos utilizada en el trabajo de Heckenbergerova et al. \cite{Heckenbergerova15}.\\
+En las Figuras en \ref{fig:BOXPLOTS_DIRECTION}, se pueden observar la distribución de resultados para los puntajes, iteraciones y tiempos obtenidos por las repeticiones de algunos de los experimentos. En general los valores alcanzados son similares independiente de la semilla generadora de números aleatorios, a excepción de algunos casos particulares en donde se observa una alta dispersión, sobre todo en los experimentos del PSO con estrategia Fija.
 \newpage
 \section{Conclusiones del capítulo}
 En este capítulo se ajustaron los parámetros de la función \emph{mixture of von Mises distribution} a datos de dirección del viento en Valparaíso. Basado en el trabajo de Heckenbergerova et al. \cite{Heckenbergerova15}, se implementó el \emph{Particle Swarm Optimization} con una modificación propuesta en esta memoria para mejorar los resultados del trabajo citado.\\
 Como se puede ver en la tabla \ref{table:stadistical_tests_direction}, la modificación propuesta y explicada en las ecuaciones \ref{eq:VariationParameters_new}, \ref{eq:VariationParameters_new_2} y \ref{eq:VariationParameters_new_3} para el control de los parámetros del PSO, permite obtener mejores tiempos de ejecución y soluciones de mejor calidad que los valores utilizados en el trabajo de Heckenbergerova et al. \cite{Heckenbergerova15}. Esto se debe al problema de convergencia prematura del PSO, el cual no fue considerado en dicho trabajo. \\
-De las Figuras expuestas en \ref{fig:PLOT_MONTHS_ALL_1} y \ref{fig:PLOT_MONTHS_ALL_2} se puede observar que a pesar del buen puntaje conseguido por la solución, el gráfico difiere del histograma en varias pruebas más de lo deseado. Esto se debe a que la función objetivo definida en el PSO procura que las áreas bajo la curva de la función de densidad de probabilidad coincidan con las del histograma, sin embargo, más de una forma de la función de densidad puede cumplir dicho objetivo.
+De las Figuras expuestas en \ref{fig:PLOT_MONTHS_ALL_1} y \ref{fig:PLOT_MONTHS_ALL_2} se puede observar que a pesar del buen puntaje conseguido por la solución, el gráfico difiere del histograma en varias pruebas más de lo deseado. Esto se debe a que la función objetivo definida en el PSO procura que las áreas bajo la curva de la función de densidad de probabilidad coincidan con las del histograma, sin embargo, más de una forma de la función de densidad puede cumplir dicho objetivo. Para evitar este problema se podría modificar la función objetivo añadiendo una penalización a la distancia de los puntos de la curva con respecto a la altura de la sección del histograma correspondiente.\\
+Finalmente, al variar la semilla de números aleatorios, se observa una mayor dispersión en los resultados obtenidos del PSO con la estrategia Fija (sin variar los parámetros del algoritmo durante la ejecución) en comparación con la propuesta realizada en esta memoria.
