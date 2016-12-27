@@ -76,7 +76,7 @@ En el trabajo de Heckenbergerova et al. \cite{Heckenbergerova15} los parámetros
   \item Para el factor cognitivo $c_1$ el valor es 0.5.
   \item Para el factor social $c_2$ el valor es 0.7.
 \end{enumerate}
-Sin embargo, como se concluye en su trabajo y de acuerdo a los resultados de la tabla \ref{table:stadistical_tests_direction}, estos valores no generan resultados satisfactorios, es decir, las soluciones encontradas bajo esos parámetros, al ser evaluadas en la función objetivo, no satisfacen los requerimientos para el test realizado por ellos mismos. Por esto, en esta memoria se propone una estrategia distinta para el control de los parámetros del PSO, la cual se compara con la estrategia de parámetros fijos, a través de experimentos que utilizan ambas técnicas.\\ 
+Sin embargo, como se concluye en su trabajo y de acuerdo a los resultados de la tabla \ref{table:repetitions_tests_direction_fijo}, estos valores no generan resultados satisfactorios en la mayoría de los casos, es decir, las soluciones encontradas bajo esos parámetros, al ser evaluadas en la función objetivo, no satisfacen los requerimientos para el test realizado por ellos mismos. Por esto, en esta memoria se propone una estrategia distinta para el control de los parámetros del PSO, la cual se compara con la estrategia de parámetros fijos, a través de experimentos que utilizan ambas técnicas.\\ 
 Anteriormente se menciona la estrategia sugerida en el trabajo de Chang \cite{Chang10_2} para la variación de parámetros del PSO, descrita en \ref{eq:VariationParameters}, con el fin de evitar una convergencia prematura en el ajuste de la distribución de Weibull. Esta estrategia podría ser considerada para intentar mejorar los resultados conseguidos por Heckenbergerova et al. \cite{Heckenbergerova15}, sin embargo, la sugerencia presenta inconvenientes por que depende del número de iteraciones máximo que se defina para el algoritmo.\\
 Al realizarse diversas pruebas con cantidad de iteraciones distintas, se puede evidenciar que el hecho de que el número de iteraciones máximo sean un valor que afecta la variación de parámetros, tiene como consecuencia que el algoritmo tome diferentes caminos hacia la solución final, por ende, un aumento en el número de iteraciones no constituiría necesariamente una mejora en calidad de la solución. De cierta forma, el número de iteraciones máximo se transforma en un factor pseudo-aleatorio para el PSO.\\
 Por lo tanto, debido a que los parámetros fijos no consiguen buenos resultados y la variación de parámetros propuesta por Chang \cite{Chang10_2} presenta inconvenientes estructurales para el PSO, se propone el siguiente método para el ajuste de parámetros.\\
@@ -192,7 +192,7 @@ En las Figuras referenciadas previamente se observa la evolución de la solució
 
 \subsubsection{Experimento 3, Ajustes de meses acumulados}
 Similar al ejercicio anterior, los gráficos agrupados en \ref{fig:PLOT_MONTHS_ALL_1} y \ref{fig:PLOT_MONTHS_ALL_2}, permiten visualizar el ajuste de los datos del viento por meses. En este caso se agruparon los datos de los tres años escogidos por cada mes, es decir, la Figura \ref{fig:PLOT_SOL_ENERO}, por ejemplo, contiene los datos del mes de enero de los años 2013, 2014 y 2015.\\
-Se puede observar que algunos gráficos muestran un mejor ajuste que otros, a pesar del correcto valor obtenido en la función objetivo como se expresa posteriormente en la tabla \ref{table:stadistical_tests_direction}. Esto se debe a que probablemente la solución se escapa más de los deseado de la solución inicial. 
+Se puede observar que algunos gráficos muestran un mejor ajuste que otros, a pesar del correcto valor obtenido en la función objetivo como se expresa posteriormente en la tabla \ref{table:repetitions_tests_direction_variable}. Esto se debe a que probablemente la solución se escapa más de los deseado de la solución inicial. 
 \begin{figure}[ht!]
     \centering
     \captionsetup{justification=centering,margin=2cm}
@@ -313,6 +313,44 @@ En las Figuras agrupadas \ref{fig:PLOT_MONTHS_1} y \ref{fig:PLOT_MONTHS_2} se ap
 \end{figure}
 
 \subsubsection{Resumen de los experimentos}
+
+Las tablas \ref{table:repetitions_tests_direction_variable} y \ref{table:repetitions_tests_direction_fijo} muestran un resumen de los resultados obtenidos al ajustar la distribución de probabilidad \emph{von Mises distribution} en diferentes subconjuntos de tiempo de los datos colectados en los años 2013, 2014 y 2015, siguiendo la estrategia Variable (propuesta en esta memoria) y la estrategia Fija (sin variación de parámetros). Las tablas están organizadas como sigue a continuación. La estrategia \textbf{Variable} hace referencia a la propuesta realizada en esta memoria para la variación de parámetros del PSO explicada en la sección \ref{subsec:parametros_new}, mientras que la estrategia \textbf{Fijo} es la seguida en el trabajo de Heckenbergerova et al. \cite{Heckenbergerova15}, la cual consta de la definición de parámetros fijos para el PSO.
+\begin{enumerate}
+    \item \emph{Periodo de tiempo}: Rango de tiempo donde se consideraron los datos para el ajuste.
+    \item \emph{Puntaje Inicial}: Puntaje solución inicial, es decir, el valor obtenido al evaluar la solución inicial en la función objetivo.
+    \item \emph{Menor Puntaje}: Equivale al mejor puntaje obtenido por las repeticiones.
+    \item \emph{Mayor Puntaje}: Equivale al peor puntaje obtenido por las repeticiones.
+    \item \emph{Promedio Puntaje}: Puntaje promedio de las repeticiones.
+    \item \emph{Menor Iteraciones}: Equivale a la mejor cantidad de iteraciones obtenidas por las repeticiones.
+    \item \emph{Mayor Iteraciones}: Equivale a la mejor cantidad de iteraciones obtenidas por las repeticiones. 
+    \item \emph{Promedio Iteraciones}: Iteraciones promedio de las repeticiones. 
+    \item \emph{Menor Tiempo}: Equivale al mejor tiempo obtenido por las repeticiones.
+    \item \emph{Mayor Tiempo}: Equivale al peor tiempo obtenido por las repeticiones.
+    \item \emph{Promedio Tiempo}: Tiempo promedio de las repeticiones.
+    \item \emph{Cantidad datos}: Cantidad de datos utilizados en el ajuste.
+\end{enumerate}
+
+\begin{figure}[ht!]
+    \centering
+    \captionsetup{justification=centering,margin=2cm}
+        \includegraphics[width=\textwidth]{figures/comp_v1_v2_iteraciones.png}
+        \includegraphics[width=\textwidth]{figures/comp_v1_v2_puntaje.png} 
+    \caption{Comparación de variaciones en el PSO.}
+    \caption*{Fuente: Elaboración propia.}
+    \label{fig:comparison_pso_1}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \captionsetup{justification=centering,margin=2cm}
+        \includegraphics[width=\textwidth]{figures/comp_v1_v2_tiempo.png}   
+    \caption{Comparación de variaciones en el PSO.}
+    \caption*{Fuente: Elaboración propia.}
+    \label{fig:comparison_pso_2}
+\end{figure}
+Los gráficos en \ref{fig:comparison_pso_1} y  \ref{fig:comparison_pso_2} muestran la comparación de los rendimientos de los algoritmos con parámetros fijos y variables para el PSO según la propuesta explicada en la sección \ref{subsec:parametros_new}. Es claro que en la mayoría de los experimentos, la propuesta realizada tiene mejor rendimiento y en el peor de los casos se comporta igual o levemente peor que la forma tradicional de parámetros fijos utilizada en el trabajo de Heckenbergerova et al. \cite{Heckenbergerova15}.\\
+En las Figuras en \ref{fig:BOXPLOTS_DIRECTION}, se pueden observar la distribución de resultados para los puntajes, iteraciones y tiempos obtenidos por las repeticiones de algunos de los experimentos. En general los valores alcanzados son similares independiente de la semilla generadora de números aleatorios, a excepción de algunos casos particulares en donde se observa una alta dispersión, sobre todo en los experimentos del PSO con estrategia Fija.
+
 %\begin{table}[ht!]
 %    %\centering
 %    \caption{Tabla de pruebas, PSO dirección del viento}
@@ -354,11 +392,12 @@ En las Figuras agrupadas \ref{fig:PLOT_MONTHS_1} y \ref{fig:PLOT_MONTHS_2} se ap
 %    }   
 %\end{table}
 
+\begin{landscape}
 \begin{table}[ht!]
     %\centering
     \caption{Tabla de pruebas y repeticiones, PSO dirección del viento, Estrategia Variable}
     \label{table:repetitions_tests_direction_variable}
-    \resizebox{\textwidth}{!}{
+    \resizebox{1.5\textwidth}{!}{
     \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
         \hline
         \textbf{Periodo de tiempo} & \textbf{Puntaje Inicial} & \textbf{Menor Puntaje} & \textbf{Mayor Puntaje} & \textbf{Promedio Puntaje} & \textbf{Menor Iteraciones} & \textbf{Mayor Iteraciones} & \textbf{Promedio Iteraciones} & \textbf{Menor Tiempo} & \textbf{Mayor Tiempo} & \textbf{Promedio Tiempo} & \textbf{Cantidad datos}\\
@@ -393,12 +432,14 @@ En las Figuras agrupadas \ref{fig:PLOT_MONTHS_1} y \ref{fig:PLOT_MONTHS_2} se ap
     \end{tabular}
     }   
 \end{table}
+\end{landscape}
 
+\begin{landscape}
 \begin{table}[ht!]
     %\centering
     \caption{Tabla de pruebas y repeticiones, PSO dirección del viento, Estrategia Fija}
     \label{table:repetitions_tests_direction_fijo}
-    \resizebox{\textwidth}{!}{
+    \resizebox{1.5\textwidth}{!}{
     \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
         \hline
         \textbf{Periodo de tiempo} & \textbf{Puntaje Inicial} & \textbf{Menor Puntaje} & \textbf{Mayor Puntaje} & \textbf{Promedio Puntaje} & \textbf{Menor Iteraciones} & \textbf{Mayor Iteraciones} & \textbf{Promedio Iteraciones} & \textbf{Menor Tiempo} & \textbf{Mayor Tiempo} & \textbf{Promedio Tiempo} & \textbf{Cantidad datos}\\
@@ -433,6 +474,7 @@ En las Figuras agrupadas \ref{fig:PLOT_MONTHS_1} y \ref{fig:PLOT_MONTHS_2} se ap
     \end{tabular}
     }   
 \end{table}
+\end{landscape}
 
 \begin{figure}[ht!]
     \centering
@@ -467,45 +509,10 @@ En las Figuras agrupadas \ref{fig:PLOT_MONTHS_1} y \ref{fig:PLOT_MONTHS_2} se ap
 \end{figure}
 
 
-Las tablas \ref{table:repetitions_tests_direction_variable} y \ref{table:repetitions_tests_direction_fijo} muestran un resumen de los resultados obtenidos al ajustar la distribución de probabilidad \emph{von Mises distribution} en diferentes subconjuntos de tiempo de los datos colectados en los años 2013, 2014 y 2015, siguiendo la estrategia Variable (propuesta en esta memoria) y la estrategia Fija (sin variación de parámetros). Las tablas están organizadas como sigue a continuación. La estrategia \textbf{Variable} hace referencia a la propuesta realizada en esta memoria para la variación de parámetros del PSO explicada en la sección \ref{subsec:parametros_new}, mientras que la estrategia \textbf{Fijo} es la seguida en el trabajo de Heckenbergerova et al. \cite{Heckenbergerova15}, la cual consta de la definición de parámetros fijos para el PSO.
-\begin{enumerate}
-    \item \emph{Periodo de tiempo}: Rango de tiempo donde se consideraron los datos para el ajuste.
-    \item \emph{Puntaje Inicial}: Puntaje solución inicial, es decir, el valor obtenido al evaluar la solución inicial en la función objetivo.
-    \item \emph{Menor Puntaje}: Equivale al mejor puntaje obtenido por las repeticiones.
-    \item \emph{Mayor Puntaje}: Equivale al peor puntaje obtenido por las repeticiones.
-    \item \emph{Promedio Puntaje}: Puntaje promedio de las repeticiones.
-    \item \emph{Menor Iteraciones}: Equivale a la mejor cantidad de iteraciones obtenidas por las repeticiones.
-    \item \emph{Mayor Iteraciones}: Equivale a la mejor cantidad de iteraciones obtenidas por las repeticiones. 
-    \item \emph{Promedio Iteraciones}: Iteraciones promedio de las repeticiones. 
-    \item \emph{Menor Tiempo}: Equivale al mejor tiempo obtenido por las repeticiones.
-    \item \emph{Mayor Tiempo}: Equivale al peor tiempo obtenido por las repeticiones.
-    \item \emph{Promedio Tiempo}: Tiempo promedio de las repeticiones.
-    \item \emph{Cantidad datos}: Cantidad de datos utilizados en el ajuste.
-\end{enumerate}
 
-\begin{figure}[ht!]
-    \centering
-    \captionsetup{justification=centering,margin=2cm}
-        \includegraphics[width=\textwidth]{figures/comp_v1_v2_iteraciones.png}
-        \includegraphics[width=\textwidth]{figures/comp_v1_v2_puntaje.png} 
-    \caption{Comparación de variaciones en el PSO.}
-    \caption*{Fuente: Elaboración propia.}
-    \label{fig:comparison_pso_1}
-\end{figure}
-
-\begin{figure}[ht!]
-    \centering
-    \captionsetup{justification=centering,margin=2cm}
-        \includegraphics[width=\textwidth]{figures/comp_v1_v2_tiempo.png}   
-    \caption{Comparación de variaciones en el PSO.}
-    \caption*{Fuente: Elaboración propia.}
-    \label{fig:comparison_pso_2}
-\end{figure}
-Los gráficos en \ref{fig:comparison_pso_1} y  \ref{fig:comparison_pso_2} muestran la comparación de los rendimientos de los algoritmos con parámetros fijos y variables para el PSO según la propuesta explicada en la sección \ref{subsec:parametros_new}. Es claro que en la mayoría de los experimentos, la propuesta realizada tiene mejor rendimiento y en el peor de los casos se comporta igual o levemente peor que la forma tradicional de parámetros fijos utilizada en el trabajo de Heckenbergerova et al. \cite{Heckenbergerova15}.\\
-En las Figuras en \ref{fig:BOXPLOTS_DIRECTION}, se pueden observar la distribución de resultados para los puntajes, iteraciones y tiempos obtenidos por las repeticiones de algunos de los experimentos. En general los valores alcanzados son similares independiente de la semilla generadora de números aleatorios, a excepción de algunos casos particulares en donde se observa una alta dispersión, sobre todo en los experimentos del PSO con estrategia Fija.
 \newpage
 \section{Conclusiones del capítulo}
 En este capítulo se ajustaron los parámetros de la función \emph{mixture of von Mises distribution} a datos de dirección del viento en Valparaíso. Basado en el trabajo de Heckenbergerova et al. \cite{Heckenbergerova15}, se implementó el \emph{Particle Swarm Optimization} con una modificación propuesta en esta memoria para mejorar los resultados del trabajo citado.\\
-Como se puede ver en la tabla \ref{table:stadistical_tests_direction}, la modificación propuesta y explicada en las ecuaciones \ref{eq:VariationParameters_new}, \ref{eq:VariationParameters_new_2} y \ref{eq:VariationParameters_new_3} para el control de los parámetros del PSO, permite obtener mejores tiempos de ejecución y soluciones de mejor calidad que los valores utilizados en el trabajo de Heckenbergerova et al. \cite{Heckenbergerova15}. Esto se debe al problema de convergencia prematura del PSO, el cual no fue considerado en dicho trabajo. \\
+Como se puede ver en la tabla \ref{table:repetitions_tests_direction_variable}, la modificación propuesta y explicada en las ecuaciones \ref{eq:VariationParameters_new}, \ref{eq:VariationParameters_new_2} y \ref{eq:VariationParameters_new_3} para el control de los parámetros del PSO, permite obtener mejores tiempos de ejecución y soluciones de mejor calidad que los valores utilizados en el trabajo de Heckenbergerova et al. \cite{Heckenbergerova15}. Esto se debe al problema de convergencia prematura del PSO, el cual no fue considerado en dicho trabajo. \\
 De las Figuras expuestas en \ref{fig:PLOT_MONTHS_ALL_1} y \ref{fig:PLOT_MONTHS_ALL_2} se puede observar que a pesar del buen puntaje conseguido por la solución, el gráfico difiere del histograma en varias pruebas más de lo deseado. Esto se debe a que la función objetivo definida en el PSO procura que las áreas bajo la curva de la función de densidad de probabilidad coincidan con las del histograma, sin embargo, más de una forma de la función de densidad puede cumplir dicho objetivo. Para evitar este problema se podría modificar la función objetivo añadiendo una penalización a la distancia de los puntos de la curva con respecto a la altura de la sección del histograma correspondiente.\\
 Finalmente, al variar la semilla de números aleatorios, se observa una mayor dispersión en los resultados obtenidos del PSO con la estrategia Fija (sin variar los parámetros del algoritmo durante la ejecución) en comparación con la propuesta realizada en esta memoria.
