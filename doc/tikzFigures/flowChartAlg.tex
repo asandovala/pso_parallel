@@ -1,0 +1,28 @@
+% Define block styles
+\tikzstyle{decision} = [diamond, draw, fill=blue!20, 
+    text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+    text width=15em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{blockALG} = [rectangle, draw, fill=green!20, 
+    text width=15em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=7cm,
+    minimum height=2em]
+    
+\begin{tikzpicture}[node distance = 3cm, auto]
+    % Place nodes
+    \node [block] (dataFormat) {1. Formateo de los datos};
+    \node [cloud, left of=dataFormat] (inputData) {Datos};
+    %\node [cloud, right of=init] (system) {system};
+    \node [blockALG, below of=dataFormat] (initAlg) {2. Cálculo de frecuencias};
+    \node [blockALG, below of=initAlg] (SolIni) {3. Estimación inicial};
+    \node [blockALG, below of=SolIni] (PSO) {4. PSO mejora la estimación inicial};
+    \node [block, below of=PSO, node distance=3cm] (grafico) {5. Visualización con histograma y la fdp};
+    % Draw edges
+  
+    \path [line] (dataFormat) -- node {\footnotesize{\emph{CSV con datos formateados}}}(initAlg);
+    \path [line] (initAlg) -- node {\footnotesize{\emph{Fecuencias calculadas, parámtros}}}(SolIni);
+    \path [line] (SolIni) -- node {\footnotesize{\emph{Estimación inicial}}}(PSO);
+    \path [line] (PSO) -- node {\footnotesize{\emph{Vector de parámetros}}}(grafico);
+    \path [line,dashed] (inputData) -- (dataFormat);
+\end{tikzpicture}

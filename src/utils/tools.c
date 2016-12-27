@@ -27,7 +27,9 @@ int randint(int n) {
 }
 
 double rand01() {
-    return (double)rand() / (double)RAND_MAX;
+    double random = (double)rand();
+    //printf("Random choice: %f\n", random);
+    return  random / (double)RAND_MAX;
 }
 
 double rangeDoubleInRange(double min, double max) {

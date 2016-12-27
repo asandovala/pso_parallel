@@ -1,0 +1,25 @@
+%!TEX root = main.tex
+\begin{algorithm}[h!]
+\caption{Aproximación inicial de los parámetros de la \emph{mixture von Mises distribution}}
+\label{alg:init_aprox_direction}
+\begin{algorithmic}
+\REQUIRE Datos de frecuencias de la dirección del viento.
+\REQUIRE K, Cantidad de \emph{simple von Mises distribution}.
+\REQUIRE T, clases de frecuencias.
+\REQUIRE D, Total de datos.
+\ENSURE Valores para los parámetros $\mu_j$, $k_j$ y $w_j$, para cada $j \in \{1,...,k\}$.
+\STATE sol = inicializarVectorSolución(3*K)
+\FOR{$j = 0$ to $K$}
+
+\STATE datos$_j$ = datosEnRango($j*D/K$)
+\STATE s$_j$ = obtenerSenoPromedio(datos$_j$)
+\STATE c$_j$ = obtenerCosenoPromedio(datos$_j$)
+\STATE u$_j$ = obtenerDirecciónPredominante(s$_j$,c$_j$)
+\STATE k$_j$ = obtenerConcentración(s$_j$, c$_j$)
+\STATE w$_j$ = obtenerPeso($j*(T/K)$, $(j + 1)*(T/K)$)
+\STATE addToSolution(sol, u$_j$, k$_j$, w$_j$)
+
+\ENDFOR
+\STATE retornarSoluciónInicial(sol).
+\end{algorithmic}
+\end{algorithm}

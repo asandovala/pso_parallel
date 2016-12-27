@@ -1,0 +1,21 @@
+%!TEX root = main.tex
+\begin{algorithm}[h!]
+\caption{PSO para el ajuste de los parámetros de la distribución de Weibull}
+\label{alg:pso}
+\begin{algorithmic}
+\REQUIRE Datos de frecuencias de velocidades del viento
+\ENSURE Valores para los parámetros $k$ y $c$
+\STATE enjambre = inicializar(w,c1,c2)
+\FOR{$i = 1$ to $Iter_{max}$}
+\FOR{\textbf{Each} partícula en enjambre}
+    \STATE actualizarVelocidadPartícula(partícula)
+    \STATE actualizarPosiciónPartícula(partítcula)
+    \STATE revisarLímitesPosición(partícula)
+    \STATE guardarMejorResultadoPartícula(partícula)
+\ENDFOR
+\STATE guardarMejorResultadoGlobal(enjambre)
+\STATE actualizarParámetros(enjambre)
+\ENDFOR
+\STATE retornarMejorResultadoGlobal(enjambre)
+\end{algorithmic}
+\end{algorithm}
