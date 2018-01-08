@@ -3,6 +3,7 @@
 
 #define MAX_ITER 5000
 #define LEN_SOL 2
+#define PARTICLES 50
 
 #define PARAM_W 9.0
 #define PARAM_C1 3.5

@@ -3,7 +3,7 @@
 #include "pso.h"
 #include <time.h>
 
-char *file_path[] = {
+char *filePath[] = {
     "../../data/2015/parse/freq_data_15.csv",
     "../../data/2014/parse/freq_data_14.csv",
     "../../data/2013/parse/freq_data_13.csv",
@@ -13,6 +13,9 @@ char *file_path[] = {
     "../../data/2015/parse/freq_data_15_jul-sep.csv",
     "../../data/2015/parse/freq_data_15_oct-dic.csv",
 };
+
+int filesToReview = 8;
+int repetitionExperiment = 10;
 
 double getMaxValue(double *values) {
     double max = -999999999;
@@ -77,17 +80,17 @@ int main() {
     double meanResultK; 
     double meanResultC; 
 
-    for (file = 0; file < 8; file++) {
+    for (file = 0; file < filesToReview; file++) {
         printf("\n ------ \n");
 
-        printf("\n File %s \n", file_path[file]);    
+        printf("\n File %s \n", filePath[file]);    
 
-        for (exp = 0; exp < 30; exp++) { //Repetition of experiment
+        for (exp = 0; exp < repetitionExperiment; exp++) { //Repetition of experiment
             srand(exp + 1); 
 
             start = clock();
 
-            s = initializeSwarm(50, PARAM_W, PARAM_C1, PARAM_C2, file_path[file]);
+            s = initializeSwarm(PARTICLES, PARAM_W, PARAM_C1, PARAM_C2, filePath[file]);
 
             for (i = 0; i < MAX_ITER; i++) {
                updateSwarm(s);
@@ -112,12 +115,14 @@ int main() {
 
         printf("\n Todos los K \n");
         showArrayResults(resultsK);
+	printf("\n -- \n");
 
         printf("\n Todos los C \n");
         showArrayResults(resultsC);
+	printf("\n -- \n");
 
-        printf(" Mean Result K  %lf \n", meanResultK);
-        printf(" Mean Result C  %lf \n", meanResultC);
+        printf("\n Mean Result K  %lf \n", meanResultK);
+        printf("\n Mean Result C  %lf \n", meanResultC);
 
         printf("\n ------ \n");
              

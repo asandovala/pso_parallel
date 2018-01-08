@@ -4,7 +4,7 @@
 #include "freq/freq.h"
 #include <time.h>
 
-char *file_path[] = {
+char *filePath[] = {
     "../../data/2015/parse/direction_freq_data_15.csv",
     "../../data/2014/parse/direction_freq_data_14.csv",
     "../../data/2013/parse/direction_freq_data_13.csv",
@@ -34,6 +34,9 @@ char *file_path[] = {
     "../../data/2014/parse/direction_freq_data_14_SEP.csv",
     "../../data/2013/parse/direction_freq_data_13_SEP.csv",
 };
+
+int repetitionExperiments = 10;	
+int amountFiles = 1; //can't exceed the length of filePath
 
 double getMaxValue(double *values) {
     double max = -999999999;
@@ -113,15 +116,15 @@ int main() {
     double worstTime;
     double meanTime;
 
-    for (file = 0; file < 1; file++) { //For All files
-        printf("Start! %d \n", file);
+    for (file = 0; file < amountFiles; file++) { //For All files
+        printf("\n Current file: %s \n", filePath[file]);
 
-        for (exp = 0; exp < 5; exp++) { //Repetition of experiment
+        for (exp = 0; exp < repetitionExperiments; exp++) { //Repetition of experiment
             srand(exp + 1); 
 
             start = clock();
 
-            s = initializeSwarm(10, file_path[file]);
+            s = initializeSwarm(PARTICLES, filePath[file]);
 
             /*
             printf("Initial \n");
@@ -169,11 +172,11 @@ int main() {
          //Review experiments
         printf("\n Resumen de experimentos \n");
 
-        printf("Results: \n");
+        printf("\n Results: \n");
         showArrayResults(results);
-        printf("Iterations: \n");
+        printf("\n Iterations: \n");
         showArrayResults(iterations);
-        printf("Times: \n");
+        printf("\n Times: \n");
         showArrayResults(times);
 
         bestResult = getMinValue(results);
@@ -188,15 +191,15 @@ int main() {
         worstTime = getMaxValue(times);
         meanTime = getMeanValue(times);
 
-        printf(" Best Fitness  %lf \n", bestResult);
+        printf("\nBest Fitness  %lf \n", bestResult);
         printf(" Worst Fitness  %lf \n", worstResult);
         printf(" Mean Fitness  %lf \n", meanResult);
 
-        printf(" Best Iteration  %lf \n", bestIteration);
+        printf("\nBest Iteration  %lf \n", bestIteration);
         printf(" Worst Iteration  %lf \n", worstIteration);
         printf(" Mean Iteration  %lf \n", meanIterations);
 
-        printf(" Best Time  %lf \n", bestTime);
+        printf("\nBest Time  %lf \n", bestTime);
         printf(" Worst Time  %lf \n", worstTime);
         printf(" Mean Time  %lf \n", meanTime);
 

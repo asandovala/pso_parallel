@@ -1,4 +1,7 @@
 # Proyecto memoria de titulación
+
+Para entender el contexto de este programa revisar en doc/ el pdf memoria.pdf
+
 # Guía de uso de los programas
 
 Para la utilización de los scripts de python se necesita:
@@ -25,3 +28,5 @@ Para utilzar el programa basta con usar el comando make y luego ejecutar el prog
 
 Para visualizar los resultados están los scripts de gráficos plot_scripts/ y boxplots_scripts/ . Para visualizar los resultados hay que copiar los valores obtenidos en la ejecución del pso y escribirlos en las variables que correspondan dentro del script relacionado. Por ejemplo, para ver la función de Weibull ajustada hay que copiar los parámetros K y C obtenidos del programa (el ejecutable llamado pso) para la velocidad del viento y setearlos como variables en el script plot_weibull.py. Luego sólo queda ejecutar el script (una vez instaladas las librerías solicitadas).
 
+# Modificación de parámetros
+En los archivos main.c, pso.c y pso.h, en ambos programas, se pueden modificar los parámetros del algoritmo y los archivos de datos a utilizar para obtener los valores requeridos.
