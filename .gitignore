@@ -1,8 +1,4 @@
 *.swp
 *.gch
 *.out
-data/All/csv*
-data/2015/csv*
-data/2014/csv*
-data/2013/csv*
 pso
